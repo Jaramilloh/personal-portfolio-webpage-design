@@ -1,6 +1,29 @@
+# Dependencies
 node_modules/
+
+# Logs
 *.log
-.DS_Store
+
+# Environment / secrets — never commit these
+.env
+.env.*
+!.env.example
+
+# Test output (Vitest / Playwright)
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Internal tooling / agent scratch
 .atl/
+.claude/worktrees/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
