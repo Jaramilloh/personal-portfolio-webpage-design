@@ -303,7 +303,7 @@ img{max-width:100%}
       <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0;color:#f4f6f7">Album</h2>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
-      <sc-if value="{{ photosLive }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a"></span>LIVE · GOOGLE PHOTOS · {{ photoCount }}</span></sc-if>
+      <sc-if value="{{ photosLive }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a"></span>LIVE · ALBUM · {{ photoCount }}</span></sc-if>
       <sc-if value="{{ photosEmpty }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.06em;color:#e0a23a;border:1px solid #3a2e15;background:#1a1408;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#e0a23a"></span>MEDIASOURCE · AWAITING</span></sc-if>
     </div>
   </div>
@@ -333,8 +333,8 @@ img{max-width:100%}
       </div>
     </div>
     <div style="margin-top:18px;border:1px solid #232831;background:#0d0f12;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
-      <span style="font-family:'IBM Plex Mono';font-size:11px;color:#45dcef;letter-spacing:.06em;white-space:nowrap;padding-top:2px">GooglePhotosAdapter</span>
-      <span style="font-family:'IBM Plex Sans';font-size:13.5px;color:#8b929c;line-height:1.6;flex:1;min-width:240px">Not connected yet. Deploy the function in <span style="color:#e8eaed">/serverless</span>, then set <span style="color:#e8eaed">PHOTOS_ENDPOINT</span> in this component to your function URL — the grid fills from your album automatically, nothing else changes.</span>
+      <span style="font-family:'IBM Plex Mono';font-size:11px;color:#45dcef;letter-spacing:.06em;white-space:nowrap;padding-top:2px">StaticManifestMediaAdapter</span>
+      <span style="font-family:'IBM Plex Sans';font-size:13.5px;color:#8b929c;line-height:1.6;flex:1;min-width:240px">No photos yet. Populate <span style="color:#e8eaed">assets/album/photos.json</span> with your image entries — the grid fills from your committed manifest automatically, nothing else changes.</span>
     </div>
   </sc-if>
 </section>
@@ -491,9 +491,9 @@ class Component extends DCLogic {
 
   CV_URL = 'cv/Juan-Felipe-Jaramillo-CV.pdf';
 
-  // ── Set this to your deployed serverless function URL to go live ──
-  // e.g. 'https://your-app.vercel.app/api/google-photos'  (see /serverless)
-  PHOTOS_ENDPOINT = '';
+  // ── Path to the committed album manifest (relative to the served page) ──
+  // Populate assets/album/photos.json with your images to go live.
+  PHOTOS_MANIFEST = './assets/album/photos.json';
 
   state = { repos: [], repoState: 'loading', cvState: null, contactState: null, photos: [], photosState: 'idle', year: 2026 };
 
@@ -501,7 +501,7 @@ class Component extends DCLogic {
     this.setState({ year: new Date().getFullYear() });
     try {
       const core = await import('./core.js');
-      this.core = core.buildPortfolioCore({ githubUser: 'Jaramilloh', curated: this.curated, photosEndpoint: this.PHOTOS_ENDPOINT });
+      this.core = core.buildPortfolioCore({ githubUser: 'Jaramilloh', curated: this.curated, photosManifest: this.PHOTOS_MANIFEST });
       const { items, source } = await this.core.repositories.list();
       this.setState({ repos: items.length ? items : this.curated, repoState: items.length ? source : 'fallback' });
     } catch (e) {
@@ -509,10 +509,20 @@ class Component extends DCLogic {
       this.core = this._inlineCore();
       this.setState({ repos: this.curated, repoState: 'fallback' });
     }
-    // MediaSource (Google Photos via your serverless adapter) — non-blocking
+    // MediaSource (static manifest) — non-blocking; shuffle once here, never in render
     try {
       const media = this.core.media ? await this.core.media.list() : { items: [], source: 'empty' };
-      this.setState({ photos: media.items || [], photosState: media.source });
+      const pool = media.items || [];
+      // Fisher-Yates shuffle on a copy — randomness lives here, not in the adapter or render
+      const shuffled = pool.slice();
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      // featured = shuffled[0]; grid = 2..4 photos (clamped to available pool)
+      const gridCount = 2 + Math.floor(Math.random() * 3); // 2, 3, or 4
+      const subset = shuffled.slice(0, 1 + Math.min(gridCount, Math.max(0, shuffled.length - 1)));
+      this.setState({ photos: subset, photosState: media.source });
     } catch (e) {
       this.setState({ photosState: 'error' });
     }
@@ -689,7 +699,7 @@ class Component extends DCLogic {
       photosLive: photos.length > 0,
       photosEmpty: photos.length === 0,
       featuredPhoto: photos[0] || { url: '', alt: '' },
-      restPhotos: photos.slice(1, 5),
+      restPhotos: photos.slice(1),
       photoCount: photos.length,
       year: st.year,
     };
