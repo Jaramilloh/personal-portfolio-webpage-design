@@ -6,6 +6,7 @@ import {
   optimizeImage,
   buildManifest,
   planCleanup,
+  computeBudget,
 } from '../tools/album-sync.mjs';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
@@ -159,6 +160,41 @@ describe('optimizeImage', () => {
       .toBuffer();
     const { data } = await optimizeImage(input, { maxEdge: 1600, maxBytes: 256000 });
     expect(data.length).toBeLessThanOrEqual(256000);
+  });
+});
+
+// ── computeBudget ─────────────────────────────────────────────────────────────
+
+describe('computeBudget', () => {
+  it('undefined megapixels → floor (256000)', () => {
+    expect(computeBudget(undefined)).toBe(256000);
+  });
+
+  it('small image below floor → clamped up to floor', () => {
+    // 1 MP * 60000 = 60000 < 256000 floor
+    expect(computeBudget(1)).toBe(256000);
+  });
+
+  it('16 MP camera source → budget scales above the floor', () => {
+    // 16 MP * 60000 = 960000
+    const budget = computeBudget(16);
+    expect(budget).toBe(16 * 60000);
+    expect(budget).toBeGreaterThan(256000);
+    expect(budget).toBeLessThan(1500000);
+  });
+
+  it('huge megapixel count → clamped down to ceiling (1500000)', () => {
+    // 40 MP * 60000 = 2.4 MB, capped
+    expect(computeBudget(40)).toBe(1500000);
+  });
+
+  it('custom floor / perMegapixel / ceiling respected', () => {
+    expect(
+      computeBudget(20, { floor: 100_000, perMegapixel: 60_000, ceiling: 900_000 })
+    ).toBe(900_000);
+    expect(
+      computeBudget(10, { floor: 100_000, perMegapixel: 60_000, ceiling: 900_000 })
+    ).toBe(600_000);
   });
 });
 

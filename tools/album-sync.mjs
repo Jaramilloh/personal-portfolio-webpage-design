@@ -117,18 +117,59 @@ export function extractMetadata({ sidecar, exif } = {}) {
   return { alt, date };
 }
 
+// ── computeBudget ───────────────────────────────────────────────────────────
+
+/**
+ * Compute the per-image output byte budget, scaled to the source resolution
+ * in megapixels.
+ *
+ * High-resolution camera sources (e.g. ~16 MP) carry more detail than the
+ * previous flat 256 KB budget could preserve at quality 80, so the budget
+ * scales with megapixels. Megapixels is preferred over file size because a
+ * camera JPEG's byte size depends on its in-camera compression and is noisy,
+ * whereas pixel count is a stable measure of how much detail there is to keep.
+ * The result is clamped between `floor` (never compress harder than the old
+ * behavior) and `ceiling` (so the committed repo can never blow up).
+ *
+ * Note: images are downscaled to <= maxEdge before encoding, so megapixels are
+ * a heuristic for "how much detail to preserve", not a literal output mapping.
+ *
+ * @param {number} [megapixels] — source resolution as width*height/1e6
+ * @param {{ floor?: number, perMegapixel?: number, ceiling?: number }} [opts]
+ * @returns {number} effective maxBytes budget
+ */
+export function computeBudget(
+  megapixels,
+  { floor = 256000, perMegapixel = 60000, ceiling = 1500000 } = {}
+) {
+  if (!megapixels || megapixels <= 0) return floor;
+  const scaled = Math.round(megapixels * perMegapixel);
+  return Math.min(ceiling, Math.max(floor, scaled));
+}
+
 // ── optimizeImage ─────────────────────────────────────────────────────────────
 
 /**
  * Optimize an image buffer: resize long edge ≤ maxEdge, encode as WebP.
- * Quality backoff loop: 80 → 65 → 50 if output exceeds maxBytes.
+ * Quality backoff loop: 80 → 65 → 50 if output exceeds the byte budget.
+ *
+ * The budget is `maxBytes` unless `sourceMegapixels` is supplied, in which case
+ * it is scaled via computeBudget (with `maxBytes` acting as the floor).
  *
  * @param {Buffer|string} input
- * @param {{ maxEdge?: number, maxBytes?: number }} [opts]
+ * @param {{ maxEdge?: number, maxBytes?: number, sourceMegapixels?: number }} [opts]
  * @returns {Promise<{ data: Buffer, width: number, height: number }>}
  */
-export async function optimizeImage(input, { maxEdge = 1600, maxBytes = 256000 } = {}) {
+export async function optimizeImage(
+  input,
+  { maxEdge = 1600, maxBytes = 256000, sourceMegapixels } = {}
+) {
   const sharp = (await import('sharp')).default;
+
+  const budget =
+    sourceMegapixels !== undefined
+      ? computeBudget(sourceMegapixels, { floor: maxBytes })
+      : maxBytes;
 
   const qualities = [80, 65, 50];
   let data;
@@ -143,7 +184,7 @@ export async function optimizeImage(input, { maxEdge = 1600, maxBytes = 256000 }
     data = result.data;
     info = result.info;
 
-    if (data.length <= maxBytes) break;
+    if (data.length <= budget) break;
   }
 
   return { data, width: info.width, height: info.height };
@@ -328,9 +369,19 @@ async function main(argv) {
 
     const meta = extractMetadata({ sidecar, exif: exifData });
 
+    let sourceMegapixels;
+    try {
+      const srcMeta = await sharp(buffer).metadata();
+      if (srcMeta.width && srcMeta.height) {
+        sourceMegapixels = (srcMeta.width * srcMeta.height) / 1e6;
+      }
+    } catch {
+      // dimensions unavailable — optimizeImage falls back to the flat budget
+    }
+
     let optimized;
     try {
-      optimized = await optimizeImage(buffer);
+      optimized = await optimizeImage(buffer, { sourceMegapixels });
     } catch (err) {
       console.warn(`Warning: could not optimize ${filename}: ${err.message}`);
       continue;
