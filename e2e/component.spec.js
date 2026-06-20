@@ -22,7 +22,7 @@ async function gotoBooted(page) {
 test.describe('Component — boot & render', () => {
   test('boots the dc-runtime and renders the hero and repo cards', async ({ page }) => {
     await gotoBooted(page);
-    await expect(page.locator('#top h1')).toContainText('Jaramillo');
+    await expect(page.locator('#top h1')).toContainText('REDPROOF_SHOULD_FAIL');
     expect(await page.locator(REPO_CARD).count()).toBeGreaterThan(0);
   });
 });
