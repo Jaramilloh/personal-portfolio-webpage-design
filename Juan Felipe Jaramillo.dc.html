@@ -152,8 +152,8 @@ img{max-width:100%}
         <div><div style="font-family:'Space Grotesk';font-weight:600;font-size:26px;color:#45dcef">+depth</div><div style="font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;color:#5c636e;text-transform:uppercase;margin-top:3px">per detection</div></div>
       </div>
       <div style="display:flex;gap:12px">
-        <a href="https://github.com/Jaramilloh/Depth-Object-Detector-DOD" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;background:#b8f24a;color:#0d0f12;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;transition:transform .2s" style-hover="transform:translateY(-2px)">Repository →</a>
-        <a href="https://doi.org/10.3390/s24030937" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono',monospace;font-size:12.5px;transition:border-color .2s" style-hover="border-color:#45dcef">Read the paper</a>
+        <a href="https://github.com/Jaramilloh/Depth-Object-Detector-DOD" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;background:#b8f24a;color:#0d0f12;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;transition:transform .2s" style-hover="transform:translateY(-2px)">Repository →</a>
+        <a href="https://doi.org/10.3390/s24030937" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono',monospace;font-size:12.5px;transition:border-color .2s" style-hover="border-color:#45dcef">Read the paper</a>
       </div>
     </div>
   </div>
@@ -170,13 +170,13 @@ img{max-width:100%}
       <sc-if value="{{ repoLoading }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c"><span style="color:#45dcef;animation:blink 1s infinite">●</span> querying api.github.com…</span></sc-if>
       <sc-if value="{{ repoLive }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a"></span>LIVE · github.com/Jaramilloh</span></sc-if>
       <sc-if value="{{ repoFallback }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:#e0a23a;border:1px solid #3a2e15;background:#1a1408;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#e0a23a"></span>CURATED · cached fallback</span></sc-if>
-      <a href="https://github.com/Jaramilloh" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c;border-bottom:1px solid #2b313b;padding-bottom:2px" style-hover="color:#e8eaed">all →</a>
+      <a href="https://github.com/Jaramilloh" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c;border-bottom:1px solid #2b313b;padding-bottom:2px" style-hover="color:#e8eaed">all →</a>
     </div>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:34px">
     <sc-for list="{{ repos }}" as="repo" hint-placeholder-count="6">
-      <a href="{{ repo.url }}" target="_blank" rel="noopener" data-reveal style="display:flex;flex-direction:column;gap:13px;background:#14171c;border:1px solid #232831;padding:22px;min-height:172px;transition:border-color .25s,transform .25s,background .25s" style-hover="border-color:#b8f24a;transform:translateY(-3px);background:#161a1f">
+      <a href="{{ repo.url }}" target="_blank" rel="noopener noreferrer" data-reveal style="display:flex;flex-direction:column;gap:13px;background:#14171c;border:1px solid #232831;padding:22px;min-height:172px;transition:border-color .25s,transform .25s,background .25s" style-hover="border-color:#b8f24a;transform:translateY(-3px);background:#161a1f">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
           <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#e8eaed;line-height:1.25;word-break:break-word">{{ repo.name }}</span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c;white-space:nowrap">★ {{ repo.starsLabel }}</span>
@@ -204,7 +204,7 @@ img{max-width:100%}
       <div style="font-family:'Space Grotesk';font-weight:500;font-size:20px;color:#e8eaed;line-height:1.3">Application of Machine Vision Techniques in Low-Cost Devices to Improve Efficiency in Precision Farming</div>
       <div style="color:#8b929c;font-size:13.5px;margin-top:8px;line-height:1.55">Jaramillo-Hernández, Julian, Rincón, Marco-Detchart — conceives and benchmarks the DOD for object detection with integrated depth estimation against state-of-the-art models.</div>
     </div>
-    <a href="https://doi.org/10.3390/s24030937" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono';font-size:12px;color:#e8eaed;border:1px solid #2b313b;padding:10px 15px;white-space:nowrap;transition:border-color .2s" style-hover="border-color:#45dcef">DOI ↗</a>
+    <a href="https://doi.org/10.3390/s24030937" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono';font-size:12px;color:#e8eaed;border:1px solid #2b313b;padding:10px 15px;white-space:nowrap;transition:border-color .2s" style-hover="border-color:#45dcef">DOI ↗</a>
   </div>
 
   <div data-reveal style="display:grid;grid-template-columns:88px 1fr auto;gap:24px;align-items:center;border-top:1px solid #232831;border-bottom:1px solid #232831;padding:26px 0">
@@ -214,7 +214,7 @@ img{max-width:100%}
       <div style="font-family:'Space Grotesk';font-weight:500;font-size:20px;color:#e8eaed;line-height:1.3">Efficient Depth Object Detection: Ablation-Driven Optimization for Lightweight YOLOv8 Architecture</div>
       <div style="color:#8b929c;font-size:13.5px;margin-top:8px;line-height:1.55">An ablation study streamlines the DOD by ≈61.46% (4.18 MB → 1.6 MB) while preserving precision on MinneApple — fit for microcontrollers in edge computing.</div>
     </div>
-    <a href="https://doi.org/10.1007/978-3-031-73058-0_13" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono';font-size:12px;color:#e8eaed;border:1px solid #2b313b;padding:10px 15px;white-space:nowrap;transition:border-color .2s" style-hover="border-color:#45dcef">DOI ↗</a>
+    <a href="https://doi.org/10.1007/978-3-031-73058-0_13" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono';font-size:12px;color:#e8eaed;border:1px solid #2b313b;padding:10px 15px;white-space:nowrap;transition:border-color .2s" style-hover="border-color:#45dcef">DOI ↗</a>
   </div>
 </section>
 
@@ -450,9 +450,9 @@ img{max-width:100%}
       <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 18px;color:#f4f6f7">Let's build<br>something that sees.</h2>
       <p style="color:#9aa0aa;font-size:15px;line-height:1.65;max-width:380px;margin:0 0 30px">Open to research collaboration, vision/edge-AI consulting, and engineering roles.</p>
       <div style="display:flex;flex-direction:column;gap:2px">
-        <a href="https://github.com/Jaramilloh" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>GitHub</span><span style="color:#5c636e">@Jaramilloh ↗</span></a>
-        <a href="https://www.linkedin.com/in/jaramilloh" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>LinkedIn</span><span style="color:#5c636e">in/jaramilloh ↗</span></a>
-        <a href="https://orcid.org/0000-0002-0992-1346" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;border-bottom:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>ORCID</span><span style="color:#5c636e">0000-0002-0992-1346 ↗</span></a>
+        <a href="https://github.com/Jaramilloh" target="_blank" rel="noopener noreferrer" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>GitHub</span><span style="color:#5c636e">@Jaramilloh ↗</span></a>
+        <a href="https://www.linkedin.com/in/jaramilloh" target="_blank" rel="noopener noreferrer" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>LinkedIn</span><span style="color:#5c636e">in/jaramilloh ↗</span></a>
+        <a href="https://orcid.org/0000-0002-0992-1346" target="_blank" rel="noopener noreferrer" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;border-bottom:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>ORCID</span><span style="color:#5c636e">0000-0002-0992-1346 ↗</span></a>
       </div>
     </div>
     <div>
@@ -546,9 +546,34 @@ class Component extends DCLogic {
         }
       },
       contact: { async send(m) { return { ok: true, ref: 'MSG-' + Math.random().toString(36).slice(2, 8).toUpperCase() }; } },
-      media: { async list() { return { items: [], source: 'empty' }; } }
+      media: { async list() { return { items: [], source: 'empty' }; } },
+      // Mirror of core.js pure hardening helpers so the fallback path caps and
+      // sanitizes input identically when the ES module can't be fetched.
+      limits: { name: 120, email: 254, message: 4000 },
+      sanitizeText(value, maxLength = 4000, opts = {}) {
+        const allowNewlines = !!opts.allowNewlines;
+        let s = value == null ? '' : String(value);
+        const re = allowNewlines ? /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g : /[\x00-\x1F\x7F-\x9F]/g;
+        s = s.replace(re, '').trim();
+        return s.length > maxLength ? s.slice(0, maxLength) : s;
+      },
+      safeHttpUrl(url) {
+        if (url == null) return '';
+        const raw = String(url).trim();
+        if (!raw) return '';
+        const cleaned = raw.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
+        const m = /^([a-zA-Z][a-zA-Z0-9+.-]*):/.exec(cleaned);
+        if (m) { const sc = m[1].toLowerCase(); return (sc === 'http' || sc === 'https') ? cleaned : ''; }
+        return cleaned;
+      }
     };
   }
+
+  // Safe accessors for the hardening helpers: work with the imported core, the
+  // inline fallback core, or before the core has loaded (degrade to identity).
+  _sanitize(value, max, opts) { return this.core && this.core.sanitizeText ? this.core.sanitizeText(value, max, opts) : (value == null ? '' : String(value)); }
+  _safeUrl(url) { return this.core && this.core.safeHttpUrl ? this.core.safeHttpUrl(url) : (url == null ? '' : String(url)); }
+  _limits() { return (this.core && this.core.limits) || { name: 120, email: 254, message: 4000 }; }
 
   _initReveal() {
     const els = Array.from(document.querySelectorAll('[data-reveal]'));
@@ -633,7 +658,7 @@ class Component extends DCLogic {
   }
 
   requestCv() {
-    const email = (this._cvEmail || '').trim();
+    const email = this._sanitize(this._cvEmail, this._limits().email);
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       this.setState({ cvState: { ok: false, msg: '✕ Enter a valid email address.' } });
       return;
@@ -654,7 +679,15 @@ class Component extends DCLogic {
   }
 
   sendContact() {
-    const c = this._c || {};
+    const src = this._c || {};
+    const lim = this._limits();
+    // Sanitize + length-cap before validation and storage. name/email are
+    // single-line (newlines stripped); message keeps newlines but is capped.
+    const c = {
+      name: this._sanitize(src.name, lim.name),
+      email: this._sanitize(src.email, lim.email),
+      message: this._sanitize(src.message, lim.message, { allowNewlines: true }),
+    };
     if (!c.name || !c.email || !c.message) {
       this.setState({ contactState: { ok: false, msg: '✕ Please complete all fields.' } });
       return;
@@ -670,11 +703,15 @@ class Component extends DCLogic {
 
   renderVals() {
     const st = this.state;
-    const photos = st.photos || [];
+    // Defense-in-depth: any URL bound into an href/src is forced to be a safe
+    // http(s)/relative URL. Third-party data (GitHub html_url, photos manifest)
+    // can never inject a javascript:/data: scheme even though the dc-runtime
+    // already React-escapes attribute values.
+    const photos = (st.photos || []).map((p) => ({ ...p, url: this._safeUrl(p.url) }));
     const repos = (st.repos || []).map((r) => ({
       name: r.name,
       desc: r.desc || 'No description provided.',
-      url: r.url,
+      url: this._safeUrl(r.url),
       language: r.language || '—',
       starsLabel: (r.stars === null || r.stars === undefined) ? '—' : String(r.stars),
       updatedLabel: r.updated ? new Date(r.updated).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '',
