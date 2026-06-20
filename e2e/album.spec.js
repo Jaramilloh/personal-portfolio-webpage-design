@@ -4,6 +4,11 @@
 
 import { test, expect } from '@playwright/test';
 
+// URL-encoded path to the single entry file. There is no index.html; the static
+// server lists the directory at `/`, so navigating to `/` would never render the
+// portfolio (and #album would never appear). Mirror e2e/component.spec.js.
+const ENTRY = '/Juan%20Felipe%20Jaramillo.dc.html';
+
 const SEEDED_MANIFEST = {
   items: [
     { url: 'assets/album/test-01.jpg', width: 800, height: 600, alt: 'Photo 1', date: '2025-01-01' },
@@ -23,7 +28,7 @@ test.describe('Album section — StaticManifestMediaAdapter', () => {
   });
 
   test('renders one featured photo and 2-4 grid photos from seeded manifest', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(ENTRY);
     await page.locator('#album').scrollIntoViewIfNeeded();
 
     // Featured photo: first image inside the featured slot (first child of the 2-column grid)
@@ -44,20 +49,25 @@ test.describe('Album section — StaticManifestMediaAdapter', () => {
   });
 
   test('subset is stable across non-album setState (shuffle does not re-run in render)', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(ENTRY);
     await page.locator('#album').scrollIntoViewIfNeeded();
 
-    // Capture initial featured src
-    const featuredSrcBefore = await page.locator('#album img').first().getAttribute('src');
+    // Wait for the live album to render before sampling, so the captured src is the
+    // post-shuffle value (not the empty initial featuredPhoto.url).
+    const featured = page.locator('#album img').first();
+    await expect(featured).toBeVisible();
+    const featuredSrcBefore = await featured.getAttribute('src');
 
-    // Trigger a non-album state update by scrolling (fires counter/reveal logic)
+    // Trigger non-album state updates (counter/reveal logic) by scrolling.
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await page.waitForTimeout(200);
 
-    // Featured photo must be unchanged after re-render
-    const featuredSrcAfter = await page.locator('#album img').first().getAttribute('src');
-    expect(featuredSrcAfter).toBe(featuredSrcBefore);
+    // The shuffle runs once in componentDidMount; re-renders must not re-pick. If a
+    // regression moved the shuffle into render, the src would change on these updates.
+    // Assert stability holds over a short window rather than a single sample.
+    await expect(async () => {
+      expect(await featured.getAttribute('src')).toBe(featuredSrcBefore);
+    }).toPass({ timeout: 1000 });
   });
 
   test('shows AWAITING empty state when manifest has no items', async ({ page }) => {
@@ -72,7 +82,7 @@ test.describe('Album section — StaticManifestMediaAdapter', () => {
       if (msg.type() === 'error') consoleErrors.push(msg.text());
     });
 
-    await page.goto('/');
+    await page.goto(ENTRY);
     await page.locator('#album').scrollIntoViewIfNeeded();
 
     // AWAITING badge must be visible
