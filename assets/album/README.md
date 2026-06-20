@@ -1,5 +1,49 @@
 # Album pool
 
+## Automated refresh (`npm run album:sync`)
+
+Use this when you have a Google Photos Takeout export and want to regenerate the
+image pool in one command. The tool samples, resizes, converts to WebP, writes the
+manifest, and stages the diff — leaving commit and push to you.
+
+### One-time setup
+
+1. Open Google Photos and create a dedicated album (e.g. "Portfolio").
+2. Export via **Google Takeout** — select only "Google Photos", choose your album.
+3. Unzip the Takeout archive. You will have a folder like:
+   `~/Downloads/Takeout/Google Photos/Portfolio/`
+4. That folder path is your `--src` argument.
+
+### Per-refresh command
+
+```bash
+npm run album:sync -- --src <path/to/Takeout/Google Photos/Album Name>
+```
+
+### Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--src <dir>` | required | Path to the unzipped Takeout album folder |
+| `--count <n>` | `8` | Number of images to sample (min 1, max min(pool, 30)) |
+| `--seed <n>` | none | Integer seed for reproducible selection |
+| `--commit` | off | Auto-commit after writing (still does NOT push) |
+
+### What the tool does
+
+1. **Sample** — picks `--count` images at random from `--src` (deterministic with `--seed`).
+2. **Optimize** — resizes each to long-edge ≤ 1600 px and encodes as WebP (≤ ~250 KB).
+3. **Extract metadata** — reads Google Takeout sidecar JSON for date and caption; falls back to EXIF.
+4. **Write** — saves `gp-01.webp`, `gp-02.webp`, … to this folder and writes `photos.json`.
+5. **Clean up** — removes any stale `gp-*.webp` files from a previous run.
+6. **Stage** — runs `git add` on all written files. You review, commit, and push.
+
+> The tool NEVER auto-commits or auto-pushes (unless `--commit` is passed, which still does not push).
+
+---
+
+
+
 The Album section (`#album`) on the site is fed by **`photos.json`** in this folder — a
 static manifest of images committed to the repo. On each page load the site shows **one
 featured photo + a random 2–4 grid**, picked client-side from the pool. No runtime API,
