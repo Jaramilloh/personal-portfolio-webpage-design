@@ -1,0 +1,4 @@
+{
+  "_note": "Populate items with your optimized images. Each entry must have: url (path relative to this manifest, e.g. assets/album/img-01.webp), width (px, optional), height (px, optional), alt (string, defaults to 'Photo'), date (ISO string, defaults to ''). Site degrades to AWAITING empty state until at least one entry is added.",
+  "items": []
+}
