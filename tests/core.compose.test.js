@@ -16,6 +16,16 @@ describe('buildPortfolioCore — port shape smoke', () => {
     expect(core).toHaveProperty('modules');
   });
 
+  it('exposes pure input-hardening helpers (sanitizeText, safeHttpUrl, limits)', () => {
+    expect(typeof core.sanitizeText).toBe('function');
+    expect(typeof core.safeHttpUrl).toBe('function');
+    expect(core.limits).toMatchObject({ name: 120, email: 254, message: 4000 });
+    // wired through to the real implementations
+    expect(core.sanitizeText('  hi\n ', 100)).toBe('hi');
+    expect(core.safeHttpUrl('javascript:alert(1)')).toBe('');
+    expect(core.safeHttpUrl('https://github.com/x')).toBe('https://github.com/x');
+  });
+
   it('repositories has a list function', () => {
     expect(typeof core.repositories.list).toBe('function');
   });
