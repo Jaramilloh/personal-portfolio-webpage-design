@@ -214,6 +214,51 @@ export class GooglePhotosAdapter {
   }
 }
 
+/**
+ * StaticManifestMediaAdapter — MediaSource port implementation backed by a
+ * committed JSON manifest file (`assets/album/photos.json`). Sibling of
+ * GooglePhotosAdapter; same constructor/fetch/timeout/error-swallow contract.
+ * PURE and DETERMINISTIC — returns the full item pool in stable order so the
+ * adapter is trivially unit-testable. Randomness lives in the view layer.
+ *
+ * Manifest schema: { items: [{ url, width, height, alt?, date? }] }
+ *   url    — path relative to the served page (e.g. assets/album/img-01.webp)
+ *   width  — optional, for forward-compat (intrinsic-size / CLS)
+ *   height — optional, same
+ *   alt    — defaults to 'Photo' when absent
+ *   date   — defaults to ''   when absent
+ */
+export class StaticManifestMediaAdapter {
+  constructor(manifestUrl, { timeoutMs = 7000 } = {}) {
+    this.manifestUrl = manifestUrl || '';
+    this.timeoutMs = timeoutMs;
+  }
+  async list() {
+    if (!this.manifestUrl) return { items: [], source: 'empty' };
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), this.timeoutMs);
+    try {
+      const res = await fetch(this.manifestUrl, { signal: ctrl.signal });
+      if (!res.ok) throw new Error('manifest ' + res.status);
+      const data = await res.json();
+      // Accept plain array or { items: [] } shape defensively
+      const raw = Array.isArray(data) ? data : (data.items || []);
+      const items = raw.map((p) => ({
+        url: p.url,
+        width: p.width,
+        height: p.height,
+        alt: p.alt || 'Photo',
+        date: p.date || '',
+      }));
+      return { items, source: items.length ? 'live' : 'empty' };
+    } catch (e) {
+      return { items: [], source: 'error', reason: String(e.message || e) };
+    } finally {
+      clearTimeout(t);
+    }
+  }
+}
+
 /* ============================ COMPOSITION ROOT ============================ */
 
 /**
@@ -225,7 +270,7 @@ export class GooglePhotosAdapter {
 export function buildPortfolioCore(cfg = {}) {
   const live = new GitHubRepositoryAdapter(cfg.githubUser || 'Jaramilloh');
   const curated = new CuratedRepositoryAdapter(cfg.curated || []);
-  const media = new GooglePhotosAdapter(cfg.photosEndpoint || '');
+  const media = new StaticManifestMediaAdapter(cfg.photosManifest || './assets/album/photos.json');
   return {
     repositories: new ResilientRepositoryService(live, curated),
     media,
