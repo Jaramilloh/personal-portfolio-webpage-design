@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0d0f12;color:#e8eaed;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:#b8f24a;color:#0d0f12}
+img{max-width:100%}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-thumb{background:#262b33}
+::-webkit-scrollbar-thumb:hover{background:#3a414c}
+::-webkit-scrollbar-track{background:#0d0f12}
+@keyframes scan{0%{top:0%;opacity:0}8%{opacity:.9}92%{opacity:.9}100%{top:100%;opacity:0}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes gridmove{from{background-position:0 0}to{background-position:0 40px}}
+</style>
+</helmet>
+
+<div style="position:relative;width:100%;background:#0d0f12;overflow:hidden">
+
+<!-- ===== ambient grid backdrop ===== -->
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(#161a20 1px,transparent 1px),linear-gradient(90deg,#161a20 1px,transparent 1px);background-size:44px 44px;opacity:.5;mask-image:radial-gradient(circle at 70% 8%,#000,transparent 70%);-webkit-mask-image:radial-gradient(circle at 70% 8%,#000,transparent 70%)"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0 26px;height:62px;background:rgba(13,15,18,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid #1c2128">
+  <a href="#top" style="display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#e8eaed">
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:1.5px solid #b8f24a;color:#b8f24a;font-weight:500;position:relative">JF
+      <span style="position:absolute;top:-3px;left:-3px;width:6px;height:6px;border-top:1.5px solid #b8f24a;border-left:1.5px solid #b8f24a"></span>
+      <span style="position:absolute;bottom:-3px;right:-3px;width:6px;height:6px;border-bottom:1.5px solid #b8f24a;border-right:1.5px solid #b8f24a"></span>
+    </span>
+    <span style="color:#8b929c">jaramillo<span style="color:#5c636e">.dev</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em">
+    <a href="#work" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">work</a>
+    <a href="#repos" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">repos</a>
+    <a href="#research" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">research</a>
+    <a href="#stack" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">stack</a>
+    <a href="#arch" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">system</a>
+    <a href="#contact" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">contact</a>
+    <a href="#cv" style="margin-left:8px;display:inline-flex;align-items:center;gap:7px;padding:8px 15px;background:#b8f24a;color:#0d0f12;font-weight:500;letter-spacing:.05em;transition:transform .2s" style-hover="transform:translateY(-1px)">▼ CV</a>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header id="top" style="position:relative;max-width:1180px;margin:0 auto;padding:148px 32px 70px;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center">
+  <div style="position:relative;z-index:2">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a">PORTFOLIO // 2026</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a;animation:blink 1.8s infinite"></span>AVAILABLE · VALENCIA, ES</span>
+    </div>
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:62px;line-height:1.02;letter-spacing:-.025em;margin:0;color:#f4f6f7">Juan&nbsp;Felipe<br>Jaramillo<span style="color:#5c636e">·</span>Hernández</h1>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:.02em;color:#45dcef;margin:22px 0 0">ML / Software / Electronics Engineer · Computer&nbsp;Vision&nbsp;Researcher</p>
+    <p style="max-width:480px;color:#9aa0aa;font-size:16px;line-height:1.65;margin:20px 0 0">I build vision systems that see <span style="color:#e8eaed">depth</span> — from YOLO-based detectors on microcontrollers to the anomaly-detection pipeline behind <span style="color:#b8f24a">Aimira</span>. PhD candidate at UPV, inventor of the Depth Object Detector.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:34px">
+      <a href="#work" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;background:#b8f24a;color:#0d0f12;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;font-weight:500;transition:transform .2s" style-hover="transform:translateY(-2px)">View work <span>→</span></a>
+      <a href="#cv" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;transition:border-color .2s" style-hover="border-color:#45dcef">Request CV</a>
+    </div>
+    <div style="display:flex;gap:30px;margin-top:42px;font-family:'IBM Plex Mono',monospace">
+      <div><div style="font-size:21px;color:#e8eaed;font-weight:500">PhD</div><div style="font-size:11px;letter-spacing:.1em;color:#5c636e;text-transform:uppercase;margin-top:3px">UPV · CS</div></div>
+      <div style="width:1px;background:#1c2128"></div>
+      <div><div style="font-size:21px;color:#e8eaed;font-weight:500">MSc</div><div style="font-size:11px;letter-spacing:.1em;color:#5c636e;text-transform:uppercase;margin-top:3px">AI · UPV</div></div>
+      <div style="width:1px;background:#1c2128"></div>
+      <div><div style="font-size:21px;color:#e8eaed;font-weight:500">Lead</div><div style="font-size:11px;letter-spacing:.1em;color:#5c636e;text-transform:uppercase;margin-top:3px">Aimira CV</div></div>
+    </div>
+  </div>
+
+  <!-- detection canvas -->
+  <div style="position:relative;justify-self:end;width:100%;max-width:420px;aspect-ratio:4/5;background:#0f1216;border:1px solid #2b313b">
+    <span style="position:absolute;top:-1px;left:-1px;width:20px;height:20px;border-top:2px solid #b8f24a;border-left:2px solid #b8f24a;z-index:5"></span>
+    <span style="position:absolute;top:-1px;right:-1px;width:20px;height:20px;border-top:2px solid #b8f24a;border-right:2px solid #b8f24a;z-index:5"></span>
+    <span style="position:absolute;bottom:-1px;left:-1px;width:20px;height:20px;border-bottom:2px solid #b8f24a;border-left:2px solid #b8f24a;z-index:5"></span>
+    <span style="position:absolute;bottom:-1px;right:-1px;width:20px;height:20px;border-bottom:2px solid #b8f24a;border-right:2px solid #b8f24a;z-index:5"></span>
+    <img src="assets/portrait.png" alt="Juan Felipe Jaramillo-Hernández" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"/>
+    <!-- overlays -->
+    <div style="position:absolute;inset:0;pointer-events:none;z-index:4">
+      <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#b8f24a,transparent);box-shadow:0 0 14px #b8f24a;animation:scan 3.8s ease-in-out infinite"></div>
+      <div style="position:absolute;top:10%;left:13%;right:13%;bottom:5%;border:1.5px solid #b8f24a;box-shadow:0 0 0 1px rgba(184,242,74,.15)">
+        <span style="position:absolute;top:-19px;left:-1.5px;background:#b8f24a;color:#0d0f12;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;padding:2px 6px;font-weight:500">PERSON · 0.99</span>
+      </div>
+      <div style="position:absolute;top:15%;left:33%;width:34%;height:23%;border:1.5px solid #45dcef">
+        <span style="position:absolute;top:-18px;right:-1.5px;background:#45dcef;color:#0d0f12;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.05em;padding:2px 5px;font-weight:500">VISION&nbsp;LEAD · 0.97</span>
+      </div>
+      <div style="position:absolute;top:11px;left:11px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:#8b929c;background:rgba(13,15,18,.55);padding:3px 7px">INPUT · 1920×1080 · 30FPS</div>
+      <div style="position:absolute;bottom:11px;left:11px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:#b8f24a;background:rgba(13,15,18,.55);padding:3px 7px">model: DOD-nano · conf≥0.25</div>
+      <!-- depth legend -->
+      <div style="position:absolute;bottom:34px;right:12px;display:flex;align-items:center;gap:7px">
+        <div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;height:140px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#8b929c"><span>0.4m</span><span style="writing-mode:vertical-rl;letter-spacing:.18em;color:#45dcef">DEPTH</span><span>∞</span></div>
+        <div style="width:9px;height:140px;background:linear-gradient(180deg,#45dcef,#1a6f7e 55%,#0f1216)"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== MARQUEE ===================== -->
+<div style="border-top:1px solid #1c2128;border-bottom:1px solid #1c2128;overflow:hidden;background:#0b0d10">
+  <div style="display:flex;width:max-content;animation:marquee 32s linear infinite;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#5c636e;padding:13px 0">
+    <span style="display:flex;gap:0">COMPUTER&nbsp;VISION<span style="color:#b8f24a;padding:0 20px">/</span>DEPTH&nbsp;ESTIMATION<span style="color:#b8f24a;padding:0 20px">/</span>YOLO&nbsp;ARCHITECTURES<span style="color:#b8f24a;padding:0 20px">/</span>EDGE&nbsp;AI<span style="color:#b8f24a;padding:0 20px">/</span>PYTORCH<span style="color:#b8f24a;padding:0 20px">/</span>IoT&nbsp;&amp;&nbsp;EMBEDDED<span style="color:#b8f24a;padding:0 20px">/</span>PRECISION&nbsp;FARMING<span style="color:#b8f24a;padding:0 20px">/</span>LIGHT&nbsp;FIELDS<span style="color:#b8f24a;padding:0 20px">/</span></span>
+    <span style="display:flex;gap:0" aria-hidden="true">COMPUTER&nbsp;VISION<span style="color:#b8f24a;padding:0 20px">/</span>DEPTH&nbsp;ESTIMATION<span style="color:#b8f24a;padding:0 20px">/</span>YOLO&nbsp;ARCHITECTURES<span style="color:#b8f24a;padding:0 20px">/</span>EDGE&nbsp;AI<span style="color:#b8f24a;padding:0 20px">/</span>PYTORCH<span style="color:#b8f24a;padding:0 20px">/</span>IoT&nbsp;&amp;&nbsp;EMBEDDED<span style="color:#b8f24a;padding:0 20px">/</span>PRECISION&nbsp;FARMING<span style="color:#b8f24a;padding:0 20px">/</span>LIGHT&nbsp;FIELDS<span style="color:#b8f24a;padding:0 20px">/</span></span>
+  </div>
+</div>
+
+<!-- ===================== STATS ===================== -->
+<section style="max-width:1180px;margin:0 auto;padding:70px 32px">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+    <div data-reveal style="border-left:1px solid #232831;padding-left:20px"><div data-count="61.46" data-dec="2" data-suffix="%" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;letter-spacing:-.02em;color:#b8f24a">61.46%</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#8b929c;margin-top:6px">DOD size reduction</div></div>
+    <div data-reveal style="border-left:1px solid #232831;padding-left:20px"><div data-count="1.6" data-dec="1" data-suffix=" MB" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;letter-spacing:-.02em;color:#e8eaed">1.6 MB</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#8b929c;margin-top:6px">on-device model</div></div>
+    <div data-reveal style="border-left:1px solid #232831;padding-left:20px"><div data-count="1.0" data-dec="1" data-suffix="M" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;letter-spacing:-.02em;color:#e8eaed">1.0M</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#8b929c;margin-top:6px">parameters</div></div>
+    <div data-reveal style="border-left:1px solid #232831;padding-left:20px"><div data-count="2" data-dec="0" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;letter-spacing:-.02em;color:#e8eaed">2</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#8b929c;margin-top:6px">peer-reviewed papers</div></div>
+  </div>
+</section>
+
+<!-- ===================== FEATURED WORK ===================== -->
+<section id="work" style="max-width:1180px;margin:0 auto;padding:60px 32px 40px;scroll-margin-top:84px">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 01 ] &nbsp;Featured work</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;line-height:1.04;letter-spacing:-.02em;margin:0;color:#f4f6f7;max-width:760px">Depth Object Detector <span style="color:#5c636e">— a detector that also regresses metric depth.</span></h2>
+
+  <div data-reveal style="display:grid;grid-template-columns:.95fr 1.05fr;gap:40px;align-items:center;margin-top:44px;border:1px solid #232831;background:#101317;padding:30px">
+    <!-- visual -->
+    <div style="position:relative;height:480px;background:#0c0f12;border:1px solid #232831;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <span style="position:absolute;top:-1px;left:-1px;width:18px;height:18px;border-top:2px solid #b8f24a;border-left:2px solid #b8f24a;z-index:3"></span>
+      <span style="position:absolute;top:-1px;right:-1px;width:18px;height:18px;border-top:2px solid #b8f24a;border-right:2px solid #b8f24a;z-index:3"></span>
+      <span style="position:absolute;bottom:-1px;left:-1px;width:18px;height:18px;border-bottom:2px solid #b8f24a;border-left:2px solid #b8f24a;z-index:3"></span>
+      <span style="position:absolute;bottom:-1px;right:-1px;width:18px;height:18px;border-bottom:2px solid #b8f24a;border-right:2px solid #b8f24a;z-index:3"></span>
+      <img src="assets/dod-demo.png" alt="DOD inference — apple detection with regressed depth" style="max-width:100%;max-height:100%;object-fit:contain;display:block"/>
+      <div style="position:absolute;top:10px;right:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8b929c;background:rgba(13,15,18,.7);padding:3px 7px;z-index:3">DOD inference</div>
+      <div style="position:absolute;bottom:10px;left:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#b8f24a;background:rgba(13,15,18,.7);padding:3px 7px;z-index:3">MinneApple · box + score + depth</div>
+    </div>
+    <!-- copy -->
+    <div>
+      <p style="color:#9aa0aa;font-size:16px;line-height:1.7;margin:0 0 18px">A lightweight, state-of-the-art convolutional detector (~1M params) that integrates <span style="color:#e8eaed">depth estimation directly inside the YOLO prediction heads</span>. Each detection tensor carries an extra output that regresses depth jointly with the bounding box and objectness — derived end-to-end through an augmented objective function. Built for fruit-harvesting and phenotyping on low-cost, resource-constrained edge devices.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:5px 10px">PyTorch</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:5px 10px">YOLOv8</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:5px 10px">COCO + MinneApple</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:5px 10px">Edge / IoT</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0;border-top:1px solid #232831;border-bottom:1px solid #232831;padding:18px 0">
+        <div><div style="font-family:'Space Grotesk';font-weight:600;font-size:26px;color:#e8eaed">4.18→1.6</div><div style="font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;color:#5c636e;text-transform:uppercase;margin-top:3px">MB, optimized</div></div>
+        <div><div style="font-family:'Space Grotesk';font-weight:600;font-size:26px;color:#e8eaed">~1.0M</div><div style="font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;color:#5c636e;text-transform:uppercase;margin-top:3px">parameters</div></div>
+        <div><div style="font-family:'Space Grotesk';font-weight:600;font-size:26px;color:#45dcef">+depth</div><div style="font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;color:#5c636e;text-transform:uppercase;margin-top:3px">per detection</div></div>
+      </div>
+      <div style="display:flex;gap:12px">
+        <a href="https://github.com/Jaramilloh/Depth-Object-Detector-DOD" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;background:#b8f24a;color:#0d0f12;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;transition:transform .2s" style-hover="transform:translateY(-2px)">Repository →</a>
+        <a href="https://doi.org/10.3390/s24030937" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono',monospace;font-size:12.5px;transition:border-color .2s" style-hover="border-color:#45dcef">Read the paper</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REPOSITORIES (LIVE) ===================== -->
+<section id="repos" style="max-width:1180px;margin:0 auto;padding:60px 32px;scroll-margin-top:84px">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 02 ] &nbsp;Open source</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0;color:#f4f6f7">Repositories</h2>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <sc-if value="{{ repoLoading }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c"><span style="color:#45dcef;animation:blink 1s infinite">●</span> querying api.github.com…</span></sc-if>
+      <sc-if value="{{ repoLive }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a"></span>LIVE · github.com/Jaramilloh</span></sc-if>
+      <sc-if value="{{ repoFallback }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:#e0a23a;border:1px solid #3a2e15;background:#1a1408;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#e0a23a"></span>CURATED · cached fallback</span></sc-if>
+      <a href="https://github.com/Jaramilloh" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c;border-bottom:1px solid #2b313b;padding-bottom:2px" style-hover="color:#e8eaed">all →</a>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:34px">
+    <sc-for list="{{ repos }}" as="repo" hint-placeholder-count="6">
+      <a href="{{ repo.url }}" target="_blank" rel="noopener" data-reveal style="display:flex;flex-direction:column;gap:13px;background:#14171c;border:1px solid #232831;padding:22px;min-height:172px;transition:border-color .25s,transform .25s,background .25s" style-hover="border-color:#b8f24a;transform:translateY(-3px);background:#161a1f">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#e8eaed;line-height:1.25;word-break:break-word">{{ repo.name }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c;white-space:nowrap">★ {{ repo.starsLabel }}</span>
+        </div>
+        <span style="color:#8b929c;font-size:13.5px;line-height:1.55;flex:1">{{ repo.desc }}</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:12px;border-top:1px solid #1c2128">
+          <span style="display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:#b8f24a;text-transform:uppercase"><span style="width:8px;height:8px;background:#b8f24a;border-radius:50%"></span>{{ repo.language }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5c636e">{{ repo.updatedLabel }}</span>
+        </div>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<!-- ===================== RESEARCH ===================== -->
+<section id="research" style="max-width:1180px;margin:0 auto;padding:60px 32px;scroll-margin-top:84px">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 03 ] &nbsp;Research</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 8px;color:#f4f6f7">Publications</h2>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#5c636e;margin:0 0 34px">ORCID 0000-0002-0992-1346 · VALGRAI / Universitat Politècnica de València</p>
+
+  <div data-reveal style="display:grid;grid-template-columns:88px 1fr auto;gap:24px;align-items:center;border-top:1px solid #232831;padding:26px 0">
+    <span style="font-family:'Space Grotesk';font-weight:600;font-size:30px;color:#45dcef">2024</span>
+    <div>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;color:#b8f24a;text-transform:uppercase;margin-bottom:7px">Sensors (MDPI) · Journal</div>
+      <div style="font-family:'Space Grotesk';font-weight:500;font-size:20px;color:#e8eaed;line-height:1.3">Application of Machine Vision Techniques in Low-Cost Devices to Improve Efficiency in Precision Farming</div>
+      <div style="color:#8b929c;font-size:13.5px;margin-top:8px;line-height:1.55">Jaramillo-Hernández, Julian, Rincón, Marco-Detchart — conceives and benchmarks the DOD for object detection with integrated depth estimation against state-of-the-art models.</div>
+    </div>
+    <a href="https://doi.org/10.3390/s24030937" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono';font-size:12px;color:#e8eaed;border:1px solid #2b313b;padding:10px 15px;white-space:nowrap;transition:border-color .2s" style-hover="border-color:#45dcef">DOI ↗</a>
+  </div>
+
+  <div data-reveal style="display:grid;grid-template-columns:88px 1fr auto;gap:24px;align-items:center;border-top:1px solid #232831;border-bottom:1px solid #232831;padding:26px 0">
+    <span style="font-family:'Space Grotesk';font-weight:600;font-size:30px;color:#45dcef">2024</span>
+    <div>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;color:#b8f24a;text-transform:uppercase;margin-bottom:7px">PAAMS · Springer · Chapter</div>
+      <div style="font-family:'Space Grotesk';font-weight:500;font-size:20px;color:#e8eaed;line-height:1.3">Efficient Depth Object Detection: Ablation-Driven Optimization for Lightweight YOLOv8 Architecture</div>
+      <div style="color:#8b929c;font-size:13.5px;margin-top:8px;line-height:1.55">An ablation study streamlines the DOD by ≈61.46% (4.18 MB → 1.6 MB) while preserving precision on MinneApple — fit for microcontrollers in edge computing.</div>
+    </div>
+    <a href="https://doi.org/10.1007/978-3-031-73058-0_13" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono';font-size:12px;color:#e8eaed;border:1px solid #2b313b;padding:10px 15px;white-space:nowrap;transition:border-color .2s" style-hover="border-color:#45dcef">DOI ↗</a>
+  </div>
+</section>
+
+<!-- ===================== STACK ===================== -->
+<section id="stack" style="max-width:1180px;margin:0 auto;padding:60px 32px;scroll-margin-top:84px">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 04 ] &nbsp;Capabilities</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 38px;color:#f4f6f7">Stack</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+    <div data-reveal>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#45dcef;margin-bottom:16px;border-bottom:1px solid #232831;padding-bottom:10px">Vision &amp; ML</div>
+      <div style="display:flex;flex-direction:column;gap:9px;font-family:'IBM Plex Sans';font-size:14px;color:#c4c9d0">
+        <span>Object detection · YOLO</span><span>Depth estimation</span><span>PyTorch · OpenCV</span><span>Model optimization · ONNX</span><span>Light-field / plenoptic</span>
+      </div>
+    </div>
+    <div data-reveal>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#45dcef;margin-bottom:16px;border-bottom:1px solid #232831;padding-bottom:10px">Languages</div>
+      <div style="display:flex;flex-direction:column;gap:9px;font-family:'IBM Plex Sans';font-size:14px;color:#c4c9d0">
+        <span>Python</span><span>C / C++</span><span>JavaScript / TS</span><span>MATLAB</span><span>SQL</span>
+      </div>
+    </div>
+    <div data-reveal>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#45dcef;margin-bottom:16px;border-bottom:1px solid #232831;padding-bottom:10px">Edge &amp; Systems</div>
+      <div style="display:flex;flex-direction:column;gap:9px;font-family:'IBM Plex Sans';font-size:14px;color:#c4c9d0">
+        <span>Microcontrollers · IoT</span><span>Embedded vision</span><span>Electronics design</span><span>Cameras &amp; sensors</span><span>Real-time pipelines</span>
+      </div>
+    </div>
+    <div data-reveal>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#45dcef;margin-bottom:16px;border-bottom:1px solid #232831;padding-bottom:10px">MLOps &amp; Dev</div>
+      <div style="display:flex;flex-direction:column;gap:9px;font-family:'IBM Plex Sans';font-size:14px;color:#c4c9d0">
+        <span>CI/CD · IaC</span><span>Docker</span><span>Backend + Frontend</span><span>Git workflows</span><span>Cloud deployment</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TIMELINE ===================== -->
+<section style="max-width:1180px;margin:0 auto;padding:60px 32px;scroll-margin-top:84px">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 05 ] &nbsp;Trajectory</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 38px;color:#f4f6f7">Path</h2>
+  <div style="position:relative;padding-left:30px">
+    <div style="position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:#232831"></div>
+
+    <div data-reveal style="position:relative;padding-bottom:30px">
+      <span style="position:absolute;left:-29px;top:5px;width:11px;height:11px;border-radius:50%;background:#b8f24a;box-shadow:0 0 0 4px #0d0f12,0 0 0 5px #232831"></span>
+      <div style="font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.06em;color:#b8f24a">PRESENT</div>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:20px;color:#e8eaed;margin-top:4px">Artificial Vision Lead — Aimira</div>
+      <div style="color:#8b929c;font-size:14px;margin-top:4px;line-height:1.55">Leading the computer-vision solution for anomaly detection · Spain. Pure development across backend, frontend, ML and electronics.</div>
+    </div>
+
+    <div data-reveal style="position:relative;padding-bottom:30px">
+      <span style="position:absolute;left:-29px;top:5px;width:11px;height:11px;border-radius:50%;background:#45dcef;box-shadow:0 0 0 4px #0d0f12,0 0 0 5px #232831"></span>
+      <div style="font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.06em;color:#45dcef">2024 — PRESENT</div>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:20px;color:#e8eaed;margin-top:4px">PhD Candidate, Computer Science — UPV</div>
+      <div style="color:#8b929c;font-size:14px;margin-top:4px;line-height:1.55">Resource-efficient computer vision: detection, depth and edge deployment for the IoT.</div>
+    </div>
+
+    <div data-reveal style="position:relative;padding-bottom:30px">
+      <span style="position:absolute;left:-29px;top:5px;width:11px;height:11px;border-radius:50%;background:#2b313b;box-shadow:0 0 0 4px #0d0f12,0 0 0 5px #232831"></span>
+      <div style="font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.06em;color:#8b929c">2024</div>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:20px;color:#e8eaed;margin-top:4px">DOD published — Sensors &amp; PAAMS</div>
+      <div style="color:#8b929c;font-size:14px;margin-top:4px;line-height:1.55">Invented and benchmarked the Depth Object Detector; ablation-optimized to 1.6 MB.</div>
+    </div>
+
+    <div data-reveal style="position:relative;padding-bottom:30px">
+      <span style="position:absolute;left:-29px;top:5px;width:11px;height:11px;border-radius:50%;background:#2b313b;box-shadow:0 0 0 4px #0d0f12,0 0 0 5px #232831"></span>
+      <div style="font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.06em;color:#8b929c">2022 — 2024</div>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:20px;color:#e8eaed;margin-top:4px">MSc — AI, Pattern Recognition &amp; Digital Imaging, UPV</div>
+      <div style="color:#8b929c;font-size:14px;margin-top:4px;line-height:1.55">Valencian Graduate School &amp; Research Network of Artificial Intelligence (VALGRAI).</div>
+    </div>
+
+    <div data-reveal style="position:relative">
+      <span style="position:absolute;left:-29px;top:5px;width:11px;height:11px;border-radius:50%;background:#2b313b;box-shadow:0 0 0 4px #0d0f12,0 0 0 5px #232831"></span>
+      <div style="font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.06em;color:#8b929c">FOUNDATIONS</div>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:20px;color:#e8eaed;margin-top:4px">BSc Electronic Engineering — P. U. Javeriana</div>
+      <div style="color:#8b929c;font-size:14px;margin-top:4px;line-height:1.55">Bogotá, Colombia · early work on light fields &amp; neural image sub-sampling.</div>
+    </div>
+  </div>
+  <div style="font-family:'IBM Plex Mono';font-size:11px;color:#3f4651;margin-top:24px">* dates are editable — adjust any entry to your exact record.</div>
+</section>
+
+<!-- ===================== ALBUM ===================== -->
+<section id="album" style="max-width:1180px;margin:0 auto;padding:60px 32px;scroll-margin-top:84px">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:34px">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 06 ] &nbsp;Off the clock</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0;color:#f4f6f7">Album</h2>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <sc-if value="{{ photosLive }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a"></span>LIVE · GOOGLE PHOTOS · {{ photoCount }}</span></sc-if>
+      <sc-if value="{{ photosEmpty }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.06em;color:#e0a23a;border:1px solid #3a2e15;background:#1a1408;padding:6px 11px"><span style="width:7px;height:7px;border-radius:50%;background:#e0a23a"></span>MEDIASOURCE · AWAITING</span></sc-if>
+    </div>
+  </div>
+  <sc-if value="{{ photosLive }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:18px">
+      <div style="position:relative">
+        <div style="position:absolute;top:12px;left:12px;z-index:3;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;color:#0d0f12;background:#b8f24a;padding:3px 8px">PHOTO OF THE MONTH</div>
+        <img src="{{ featuredPhoto.url }}" alt="{{ featuredPhoto.alt }}" loading="lazy" style="display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid #232831"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-content:start">
+        <sc-for list="{{ restPhotos }}" as="ph" hint-placeholder-count="4">
+          <img src="{{ ph.url }}" alt="{{ ph.alt }}" loading="lazy" style="display:block;width:100%;height:100%;min-height:155px;max-height:236px;object-fit:cover;border:1px solid #232831"/>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ photosEmpty }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:18px">
+      <div style="position:relative;aspect-ratio:3/2;border:1px solid #232831;background:repeating-linear-gradient(135deg,#12161b,#12161b 11px,#0f1216 11px,#0f1216 22px);display:flex;align-items:center;justify-content:center">
+        <span style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;color:#5c636e">PHOTO OF THE MONTH</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div style="min-height:155px;border:1px solid #232831;background:repeating-linear-gradient(135deg,#12161b,#12161b 11px,#0f1216 11px,#0f1216 22px)"></div>
+        <div style="min-height:155px;border:1px solid #232831;background:repeating-linear-gradient(135deg,#12161b,#12161b 11px,#0f1216 11px,#0f1216 22px)"></div>
+        <div style="min-height:155px;border:1px solid #232831;background:repeating-linear-gradient(135deg,#12161b,#12161b 11px,#0f1216 11px,#0f1216 22px)"></div>
+        <div style="min-height:155px;border:1px solid #232831;background:repeating-linear-gradient(135deg,#12161b,#12161b 11px,#0f1216 11px,#0f1216 22px)"></div>
+      </div>
+    </div>
+    <div style="margin-top:18px;border:1px solid #232831;background:#0d0f12;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
+      <span style="font-family:'IBM Plex Mono';font-size:11px;color:#45dcef;letter-spacing:.06em;white-space:nowrap;padding-top:2px">GooglePhotosAdapter</span>
+      <span style="font-family:'IBM Plex Sans';font-size:13.5px;color:#8b929c;line-height:1.6;flex:1;min-width:240px">Not connected yet. Deploy the function in <span style="color:#e8eaed">/serverless</span>, then set <span style="color:#e8eaed">PHOTOS_ENDPOINT</span> in this component to your function URL — the grid fills from your album automatically, nothing else changes.</span>
+    </div>
+  </sc-if>
+</section>
+
+<!-- ===================== ARCHITECTURE ===================== -->
+<section id="arch" style="border-top:1px solid #1c2128;border-bottom:1px solid #1c2128;background:#0a0c0f;scroll-margin-top:84px">
+  <div style="max-width:1180px;margin:0 auto;padding:72px 32px">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 07 ] &nbsp;Extensible by design</div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 10px;color:#f4f6f7">Hexagonal architecture</h2>
+    <p style="max-width:680px;color:#9aa0aa;font-size:15.5px;line-height:1.65;margin:0 0 44px">This page is the <span style="color:#e8eaed">domain core</span>. It depends only on <span style="color:#45dcef">ports</span> (contracts) — never on concrete IO. Each <span style="color:#b8f24a">adapter</span> implements a port and is swappable without touching anything else. Want a photo album, a CV gate, a blog? Write one adapter and register it. <span style="color:#5c636e">(see&nbsp;core.js)</span></p>
+
+    <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center">
+      <!-- diagram -->
+      <div data-reveal style="position:relative">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <!-- center hexagon spanning -->
+          <div style="grid-column:1 / -1;display:flex;justify-content:center;margin-bottom:6px">
+            <div style="width:190px;height:165px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(150deg,#161d12,#101317);border:1px solid #2b3a1d;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+              <span style="font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.16em;color:#b8f24a">DOMAIN</span>
+              <span style="font-family:'Space Grotesk';font-weight:600;font-size:17px;color:#e8eaed;margin-top:3px">Portfolio<br>shell</span>
+              <span style="font-family:'IBM Plex Mono';font-size:9px;color:#5c636e;margin-top:5px">depends on ports only</span>
+            </div>
+          </div>
+          <div style="border:1px solid #232831;background:#101317;padding:15px">
+            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · RepositorySource</div>
+            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">GitHubApiAdapter <span style="color:#5c636e">(live)</span><br>CuratedAdapter <span style="color:#5c636e">(fallback)</span></div>
+          </div>
+          <div style="border:1px solid #232831;background:#101317;padding:15px">
+            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · DownloadGate</div>
+            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">TokenBucketGate <span style="color:#5c636e">(client)</span><br>ServerGate <span style="color:#5c636e">→ your API</span></div>
+          </div>
+          <div style="border:1px solid #232831;background:#101317;padding:15px">
+            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · MessageChannel</div>
+            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">LocalOutbox <span style="color:#5c636e">(stub)</span><br>Smtp / Formspree <span style="color:#5c636e">→ plug</span></div>
+          </div>
+          <div style="border:1px solid #232831;background:#101317;padding:15px">
+            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · MediaSource</div>
+            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">ImageSlot <span style="color:#5c636e">(drop-in)</span><br>Cloudinary / S3 <span style="color:#5c636e">→ plug</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- SOLID + extend -->
+      <div data-reveal>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:26px">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">S</span><span style="color:#c4c9d0;font-size:14px">Single responsibility — one adapter, one reason to change.</span></div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">O</span><span style="color:#c4c9d0;font-size:14px">Open/closed — extend by adding modules, not editing them.</span></div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">L</span><span style="color:#c4c9d0;font-size:14px">Liskov — every adapter is a drop-in for its port.</span></div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">I</span><span style="color:#c4c9d0;font-size:14px">Interface segregation — small, focused contracts.</span></div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">D</span><span style="color:#c4c9d0;font-size:14px">Dependency inversion — core depends on abstractions.</span></div>
+        </div>
+        <div style="background:#0d0f12;border:1px solid #232831;padding:16px;font-family:'IBM Plex Mono';font-size:11.5px;line-height:1.75;color:#8b929c;overflow:auto">
+          <span style="color:#5c636e">// add a section in one place</span><br>core.modules.<span style="color:#45dcef">push</span>({<br>&nbsp;&nbsp;id:<span style="color:#b8f24a">'talks'</span>, label:<span style="color:#b8f24a">'Talks'</span>,<br>&nbsp;&nbsp;source:<span style="color:#b8f24a"> new</span> TalksAdapter()<br>});
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CV GATE ===================== -->
+<section id="cv" style="max-width:1180px;margin:0 auto;padding:72px 32px;scroll-margin-top:84px">
+  <div style="border:1px solid #232831;background:linear-gradient(160deg,#12160d,#101317);padding:46px;display:grid;grid-template-columns:1fr .9fr;gap:48px;align-items:center">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 08 ] &nbsp;Résumé</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:38px;letter-spacing:-.02em;margin:0 0 14px;color:#f4f6f7">Request my CV</h2>
+      <p style="color:#9aa0aa;font-size:15px;line-height:1.65;margin:0 0 8px;max-width:420px">Drop your email and the PDF downloads instantly. Requests are protected by a token-bucket <span style="color:#45dcef">DownloadGate</span> — <span style="color:#e8eaed">3 per hour</span> — so the endpoint can't be flooded.</p>
+      <p style="font-family:'IBM Plex Mono';font-size:11px;color:#3f4651;margin:0">client-side guard · enforce server-side via ServerGate (core.js)</p>
+    </div>
+    <div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <input type="email" placeholder="you@company.com" onInput="{{ onCvInput }}" style="background:#0a0c0f;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono';font-size:14px;padding:15px 16px;outline:none;width:100%" style-focus="border-color:#b8f24a"/>
+        <button type="button" onClick="{{ requestCv }}" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#b8f24a;color:#0d0f12;border:none;font-family:'IBM Plex Mono';font-size:13.5px;font-weight:500;letter-spacing:.04em;padding:15px;cursor:pointer;transition:transform .15s" style-hover="transform:translateY(-2px)">▼ &nbsp;Request &amp; download CV</button>
+      </div>
+      <sc-if value="{{ cvDone }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px;font-family:'IBM Plex Mono';font-size:12px;line-height:1.6;color:{{ cvMsgColor }};border-left:2px solid {{ cvMsgColor }};padding-left:12px">{{ cvMsg }}</div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WRITING / BLOG ===================== -->
+<section id="blog" style="max-width:1180px;margin:0 auto;padding:40px 32px 60px;scroll-margin-top:84px">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:32px">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 09 ] &nbsp;Notes</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0;color:#f4f6f7">Writing</h2>
+    </div>
+    <span style="font-family:'IBM Plex Mono';font-size:12px;color:#5c636e;max-width:330px;text-align:right">module: <span style="color:#45dcef">ContentModule</span> — plug a Markdown / CMS adapter to publish.</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+    <div data-reveal style="border:1px solid #232831;background:#14171c;padding:22px;min-height:160px;display:flex;flex-direction:column">
+      <span style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;color:#45dcef;text-transform:uppercase">Draft</span>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:18px;color:#e8eaed;margin-top:12px;line-height:1.3;flex:1">Regressing metric depth inside YOLO detection heads</div>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;color:#5c636e;margin-top:12px">soon ·  ~8 min read</div>
+    </div>
+    <div data-reveal style="border:1px solid #232831;background:#14171c;padding:22px;min-height:160px;display:flex;flex-direction:column">
+      <span style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;color:#45dcef;text-transform:uppercase">Draft</span>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:18px;color:#e8eaed;margin-top:12px;line-height:1.3;flex:1">Shrinking a detector 61% with ablation-driven design</div>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;color:#5c636e;margin-top:12px">soon ·  ~6 min read</div>
+    </div>
+    <div data-reveal style="border:1px solid #232831;background:#14171c;padding:22px;min-height:160px;display:flex;flex-direction:column">
+      <span style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;color:#45dcef;text-transform:uppercase">Draft</span>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:18px;color:#e8eaed;margin-top:12px;line-height:1.3;flex:1">From Lytro raw to sub-aperture light-field stacks</div>
+      <div style="font-family:'IBM Plex Mono';font-size:11px;color:#5c636e;margin-top:12px">soon ·  ~10 min read</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" style="border-top:1px solid #1c2128;background:#0a0c0f;scroll-margin-top:84px">
+  <div style="max-width:1180px;margin:0 auto;padding:72px 32px;display:grid;grid-template-columns:1fr 1fr;gap:56px">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 10 ] &nbsp;Get in touch</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 18px;color:#f4f6f7">Let's build<br>something that sees.</h2>
+      <p style="color:#9aa0aa;font-size:15px;line-height:1.65;max-width:380px;margin:0 0 30px">Open to research collaboration, vision/edge-AI consulting, and engineering roles.</p>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <a href="https://github.com/Jaramilloh" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>GitHub</span><span style="color:#5c636e">@Jaramilloh ↗</span></a>
+        <a href="https://www.linkedin.com/in/jaramilloh" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>LinkedIn</span><span style="color:#5c636e">in/jaramilloh ↗</span></a>
+        <a href="https://orcid.org/0000-0002-0992-1346" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #1c2128;border-bottom:1px solid #1c2128;font-family:'IBM Plex Mono';font-size:14px;color:#c4c9d0;transition:color .2s" style-hover="color:#b8f24a"><span>ORCID</span><span style="color:#5c636e">0000-0002-0992-1346 ↗</span></a>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <input type="text" placeholder="name" onInput="{{ onName }}" style="background:#0d0f12;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono';font-size:14px;padding:14px 16px;outline:none" style-focus="border-color:#45dcef"/>
+        <input type="email" placeholder="email" onInput="{{ onEmail }}" style="background:#0d0f12;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono';font-size:14px;padding:14px 16px;outline:none" style-focus="border-color:#45dcef"/>
+        <textarea placeholder="message" rows="5" onInput="{{ onMsg }}" style="background:#0d0f12;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono';font-size:14px;padding:14px 16px;outline:none;resize:vertical" style-focus="border-color:#45dcef"></textarea>
+        <button type="button" onClick="{{ sendContact }}" style="background:#e8eaed;color:#0d0f12;border:none;font-family:'IBM Plex Mono';font-size:13.5px;font-weight:500;letter-spacing:.04em;padding:15px;cursor:pointer;transition:transform .15s,background .2s" style-hover="transform:translateY(-2px);background:#b8f24a">Send message →</button>
+      </div>
+      <sc-if value="{{ contactDone }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px;font-family:'IBM Plex Mono';font-size:12px;line-height:1.6;color:{{ contactMsgColor }};border-left:2px solid {{ contactMsgColor }};padding-left:12px">{{ contactMsg }}</div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer style="border-top:1px solid #1c2128;background:#0d0f12">
+  <div style="max-width:1180px;margin:0 auto;padding:30px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+    <span style="font-family:'IBM Plex Mono';font-size:12px;color:#5c636e">© {{ year }} Juan Felipe Jaramillo-Hernández · built hexagonal &amp; extensible</span>
+    <span style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;color:#3f4651"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a;animation:blink 2s infinite"></span>SYSTEM NOMINAL</span>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // ----- composition config: real, impactful repos as resilient fallback -----
+  curated = [
+    { name: 'Depth-Object-Detector-DOD', desc: 'Novel object detector with depth regression integrated into the YOLOv8 prediction heads — a state-of-the-art CNN of ~1M parameters.', url: 'https://github.com/Jaramilloh/Depth-Object-Detector-DOD', language: 'Python', stars: null, topics: ['computer-vision', 'object-detection', 'depth-estimation'], updated: '2024-02-01' },
+    { name: 'DOD-ci-cd', desc: 'Ablation-driven optimized DOD (4.18 MB → 1.6 MB) shipped via Continuous Integration with Infrastructure as Code.', url: 'https://github.com/Jaramilloh/DOD-ci-cd', language: 'Python', stars: null, topics: ['mlops', 'ci-cd', 'edge-ai'], updated: '2024-06-01' },
+    { name: 'Process-Light-Fields-Captured-With-Lytro-Camera', desc: 'Sub-aperture image extraction with rectification and color correction from Lytro plenoptic captures.', url: 'https://github.com/Jaramilloh/Process-Light-Fields-Captured-With-Lytro-Camera', language: 'MATLAB', stars: null, topics: ['light-fields', 'plenoptic', 'image-processing'], updated: '2021-05-01' },
+    { name: 'Red-Neuronal-Sub-Muestreadora-de-Imagenes', desc: 'Single-hidden-layer regression neural network for spatial image sub-sampling.', url: 'https://github.com/Jaramilloh/Red-Neuronal-Sub-Muestreadora-de-Imagenes', language: 'Jupyter Notebook', stars: null, topics: ['neural-networks', 'image-processing'], updated: '2021-01-01' },
+  ];
+
+  CV_URL = 'cv/Juan-Felipe-Jaramillo-CV.pdf';
+
+  // ── Set this to your deployed serverless function URL to go live ──
+  // e.g. 'https://your-app.vercel.app/api/google-photos'  (see /serverless)
+  PHOTOS_ENDPOINT = '';
+
+  state = { repos: [], repoState: 'loading', cvState: null, contactState: null, photos: [], photosState: 'idle', year: 2026 };
+
+  async componentDidMount() {
+    this.setState({ year: new Date().getFullYear() });
+    try {
+      const core = await import('./core.js');
+      this.core = core.buildPortfolioCore({ githubUser: 'Jaramilloh', curated: this.curated, photosEndpoint: this.PHOTOS_ENDPOINT });
+      const { items, source } = await this.core.repositories.list();
+      this.setState({ repos: items.length ? items : this.curated, repoState: items.length ? source : 'fallback' });
+    } catch (e) {
+      // core module failed to load → degrade gracefully to curated set
+      this.core = this._inlineCore();
+      this.setState({ repos: this.curated, repoState: 'fallback' });
+    }
+    // MediaSource (Google Photos via your serverless adapter) — non-blocking
+    try {
+      const media = this.core.media ? await this.core.media.list() : { items: [], source: 'empty' };
+      this.setState({ photos: media.items || [], photosState: media.source });
+    } catch (e) {
+      this.setState({ photosState: 'error' });
+    }
+    // reveal + counters after paint; re-renders never trap content hidden (default = visible)
+    requestAnimationFrame(() => setTimeout(() => { this._initReveal(); this._initCounters(); }, 30));
+  }
+
+  // minimal fallback core if the ES module can't be fetched (keeps CV/contact working)
+  _inlineCore() {
+    const KEY = 'jfjh.cvGate.v1';
+    return {
+      cvGate: {
+        tryConsume() {
+          try {
+            const cap = 3, refill = 3600000, now = Date.now();
+            let s = JSON.parse(localStorage.getItem(KEY)) || { tokens: cap, updated: now };
+            s.tokens = Math.min(cap, s.tokens + ((now - s.updated) / refill) * cap); s.updated = now;
+            if (s.tokens >= 1) { s.tokens -= 1; localStorage.setItem(KEY, JSON.stringify(s)); return { allowed: true, remaining: Math.floor(s.tokens), retryInMs: 0 }; }
+            localStorage.setItem(KEY, JSON.stringify(s)); return { allowed: false, remaining: 0, retryInMs: Math.ceil((1 - s.tokens) / cap * refill) };
+          } catch { return { allowed: true, remaining: 2, retryInMs: 0 }; }
+        }
+      },
+      contact: { async send(m) { return { ok: true, ref: 'MSG-' + Math.random().toString(36).slice(2, 8).toUpperCase() }; } },
+      media: { async list() { return { items: [], source: 'empty' }; } }
+    };
+  }
+
+  _initReveal() {
+    const els = Array.from(document.querySelectorAll('[data-reveal]'));
+    const vh = () => window.innerHeight || document.documentElement.clientHeight;
+    const reveal = (el) => {
+      if (el.__rev) return;
+      el.__rev = true;
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    };
+    const pending = [];
+    els.forEach((el) => {
+      if (el.getBoundingClientRect().top < vh() * 0.9) { el.__rev = true; return; } // visible at load
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)';
+      pending.push(el);
+    });
+    const check = () => {
+      const h = vh();
+      for (let i = pending.length - 1; i >= 0; i--) {
+        if (pending[i].getBoundingClientRect().top < h * 0.92) { reveal(pending[i]); pending.splice(i, 1); }
+      }
+      if (!pending.length) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+    };
+    let ticking = false;
+    const onScroll = () => { if (ticking) return; ticking = true; requestAnimationFrame(() => { ticking = false; check(); }); };
+    // IntersectionObserver where it works; the scroll listener guarantees reveal even if IO never fires
+    try {
+      const io = new IntersectionObserver((ents) => {
+        ents.forEach((e) => { if (e.isIntersecting) { reveal(e.target); const i = pending.indexOf(e.target); if (i >= 0) pending.splice(i, 1); io.unobserve(e.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+      pending.forEach((el) => io.observe(el));
+    } catch (e) {}
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    check(); // reveal anything already in view
+    // ultimate safety net — content must never stay hidden
+    setTimeout(() => { while (pending.length) reveal(pending.pop()); }, 2500);
+  }
+
+  _initCounters() {
+    const els = Array.from(document.querySelectorAll('[data-count]'));
+    const vh = () => window.innerHeight || document.documentElement.clientHeight;
+    // final values already render in the template, so worst case they simply stay correct
+    const run = (el) => {
+      if (el.__cnt) return;
+      el.__cnt = true;
+      const to = parseFloat(el.getAttribute('data-count'));
+      const dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+      const suf = el.getAttribute('data-suffix') || '';
+      const dur = 1150, t0 = performance.now();
+      const tick = (t) => {
+        const p = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = (to * eased).toFixed(dec) + suf;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = to.toFixed(dec) + suf;
+      };
+      requestAnimationFrame(tick);
+    };
+    const pending = els.slice();
+    const check = () => {
+      const h = vh();
+      for (let i = pending.length - 1; i >= 0; i--) {
+        const r = pending[i].getBoundingClientRect();
+        if (r.top < h * 0.85 && r.bottom > 0) { run(pending[i]); pending.splice(i, 1); }
+      }
+      if (!pending.length) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+    };
+    let ticking = false;
+    const onScroll = () => { if (ticking) return; ticking = true; requestAnimationFrame(() => { ticking = false; check(); }); };
+    try {
+      const io = new IntersectionObserver((ents) => {
+        ents.forEach((e) => { if (e.isIntersecting) { run(e.target); const i = pending.indexOf(e.target); if (i >= 0) pending.splice(i, 1); io.unobserve(e.target); } });
+      }, { threshold: 0.5 });
+      pending.forEach((el) => io.observe(el));
+    } catch (e) {}
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    check();
+  }
+
+  requestCv() {
+    const email = (this._cvEmail || '').trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      this.setState({ cvState: { ok: false, msg: '✕ Enter a valid email address.' } });
+      return;
+    }
+    const r = this.core.cvGate.tryConsume();
+    if (!r.allowed) {
+      const min = Math.max(1, Math.ceil(r.retryInMs / 60000));
+      this.setState({ cvState: { ok: false, msg: '✕ Rate limit reached (3/hour). Try again in ~' + min + ' min.' } });
+      return;
+    }
+    if (this.core.contact) this.core.contact.send({ type: 'cv-request', email });
+    try {
+      const a = document.createElement('a');
+      a.href = this.CV_URL; a.download = 'Juan-Felipe-Jaramillo-CV.pdf';
+      document.body.appendChild(a); a.click(); a.remove();
+    } catch (e) {}
+    this.setState({ cvState: { ok: true, msg: '✓ Download started — ' + r.remaining + ' left this hour. (If nothing downloaded, drop your PDF at ' + this.CV_URL + '.)' } });
+  }
+
+  sendContact() {
+    const c = this._c || {};
+    if (!c.name || !c.email || !c.message) {
+      this.setState({ contactState: { ok: false, msg: '✕ Please complete all fields.' } });
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email)) {
+      this.setState({ contactState: { ok: false, msg: '✕ That email looks off.' } });
+      return;
+    }
+    Promise.resolve(this.core.contact.send({ type: 'contact', ...c })).then((r) => {
+      this.setState({ contactState: { ok: true, msg: '✓ Queued — ref ' + r.ref + '. Wire a MessageChannel adapter (core.js) to deliver for real.' } });
+    });
+  }
+
+  renderVals() {
+    const st = this.state;
+    const photos = st.photos || [];
+    const repos = (st.repos || []).map((r) => ({
+      name: r.name,
+      desc: r.desc || 'No description provided.',
+      url: r.url,
+      language: r.language || '—',
+      starsLabel: (r.stars === null || r.stars === undefined) ? '—' : String(r.stars),
+      updatedLabel: r.updated ? new Date(r.updated).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '',
+    }));
+    return {
+      repos,
+      repoLoading: st.repoState === 'loading',
+      repoLive: st.repoState === 'live',
+      repoFallback: st.repoState === 'fallback',
+      onCvInput: (e) => { this._cvEmail = e.target.value; },
+      requestCv: () => this.requestCv(),
+      cvDone: !!st.cvState,
+      cvMsg: st.cvState ? st.cvState.msg : '',
+      cvMsgColor: st.cvState && st.cvState.ok ? '#b8f24a' : '#e0573a',
+      onName: (e) => { this._c = this._c || {}; this._c.name = e.target.value; },
+      onEmail: (e) => { this._c = this._c || {}; this._c.email = e.target.value; },
+      onMsg: (e) => { this._c = this._c || {}; this._c.message = e.target.value; },
+      sendContact: () => this.sendContact(),
+      contactDone: !!st.contactState,
+      contactMsg: st.contactState ? st.contactState.msg : '',
+      contactMsgColor: st.contactState && st.contactState.ok ? '#b8f24a' : '#e0573a',
+      photosLive: photos.length > 0,
+      photosEmpty: photos.length === 0,
+      featuredPhoto: photos[0] || { url: '', alt: '' },
+      restPhotos: photos.slice(1, 5),
+      photoCount: photos.length,
+      year: st.year,
+    };
+  }
+}
+</script>
+</body>
+</html>
