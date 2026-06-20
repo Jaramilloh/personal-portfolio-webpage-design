@@ -6,9 +6,11 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "serve": "python3 -m http.server 8080"
   },
   "devDependencies": {
+    "@playwright/test": "1.61.0",
     "vitest": "4.1.9"
   }
 }
