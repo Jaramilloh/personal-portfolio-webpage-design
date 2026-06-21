@@ -29,6 +29,17 @@ export default defineConfig({
           : {},
       },
     },
+    // Cross-browser coverage: the dc-runtime uses ES modules, dynamic import() and
+    // IntersectionObserver — verify Gecko and WebKit render the page too, not just
+    // Blink. (No Chromium-specific sandbox args apply to these engines.)
+    {
+      name: 'firefox',
+      use: { browserName: 'firefox', viewport: { width: 1280, height: 900 } },
+    },
+    {
+      name: 'webkit',
+      use: { browserName: 'webkit', viewport: { width: 1280, height: 900 } },
+    },
   ],
   // Auto-start the same static server the project already ships (`npm run serve`).
   // The dc-runtime's ES module import() requires HTTP, so file:// will not work.
