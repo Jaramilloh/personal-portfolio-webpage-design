@@ -76,15 +76,23 @@ test.describe('Album section — StaticManifestMediaAdapter', () => {
     await page.route('**/assets/album/photos.json', (route) =>
       route.fulfill({ contentType: 'application/json', body: JSON.stringify({ items: [] }) })
     );
+    // Stub the only third-party call (the live GitHub repos fetch) so this console
+    // assertion is deterministic and browser-agnostic — it never flakes on CI
+    // rate-limits, and Chromium/Firefox/WebKit word resource errors differently.
+    // Returning an empty list makes ResilientRepositoryService fall back to the
+    // curated set without logging an error.
+    await page.route('**/api.github.com/**', (route) =>
+      route.fulfill({ contentType: 'application/json', body: JSON.stringify([]) })
+    );
 
+    // With the only external request stubbed, the console must be strictly clean.
+    // Any resource failure now — the self-hosted React bundles, core.js, the photos
+    // manifest, the self-hosted fonts — is a real defect and fails this test instead
+    // of being silently swallowed.
     const consoleErrors = [];
     page.on('console', (msg) => {
-      // Only fail on real JS errors. The page makes a live api.github.com call on
-      // load that can return 403 (rate limit) on CI runners; the browser logs that
-      // as "Failed to load resource", but ResilientRepositoryService handles it and
-      // falls back to curated repos. Network resource errors are not JS errors.
-      if (msg.type() === 'error' && !msg.text().includes('Failed to load resource')) {
-        consoleErrors.push(msg.text());
+      if (msg.type() === 'error') {
+        consoleErrors.push(`${msg.text()} @ ${(msg.location() && msg.location().url) || ''}`);
       }
     });
 
