@@ -804,5 +804,15 @@ class Component extends DCLogic {
   }
 }
 </script>
+
+<!-- QR share widget — floating SCAN button + HUD overlay with a scannable QR of
+     the page URL (Copy link / Share / Download PNG). Self-contained vanilla module;
+     the QR matrix lib is vendored under assets/vendor/, so there are no CDN calls.
+     It appends to <body>, decoupled from the dc-runtime / core.js (the page renders
+     into <x-dc>), so a React re-render never touches it. The src must keep the
+     "qr-share" stem — the widget self-detects its own <script> by it. -->
+<script src="./assets/qr-share.js"
+        data-name="Juan Felipe Jaramillo·Hernández"
+        data-role="ML / Vision Engineer · Computer Vision Researcher"></script>
 </body>
 </html>
