@@ -619,6 +619,12 @@ class Component extends DCLogic {
     try {
       const core = await import('./core.js');
       this.core = core.buildPortfolioCore({ githubUser: 'Jaramilloh', curated: this.curated, photosManifest: this.PHOTOS_MANIFEST });
+      try {
+        const { QrShareAdapter } = await import('./assets/qr-share-adapter.js');
+        if (this.core && Array.isArray(this.core.modules)) {
+          this.core.modules.push({ id: 'share', label: 'Share', source: new QrShareAdapter(), enabled: true });
+        }
+      } catch (_) { /* widget/adapter optional — never break boot */ }
       const { items, source } = await this.core.repositories.list();
       this.setState({ repos: items.length ? items : this.curated, repoState: items.length ? source : 'fallback' });
     } catch (e) {
@@ -804,5 +810,8 @@ class Component extends DCLogic {
   }
 }
 </script>
+<script src="./assets/qr-share.js"
+        data-name="Juan Felipe Jaramillo·Hernández"
+        data-role="ML / Vision Engineer · Computer Vision Researcher"></script>
 </body>
 </html>
