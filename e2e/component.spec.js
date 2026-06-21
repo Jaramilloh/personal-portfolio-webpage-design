@@ -34,10 +34,10 @@ test.describe('Component — v2 sections (launchpad + reading)', () => {
     await expect(page.locator('#reading a[href*="arxiv.org"]').first()).toBeAttached();
   });
 
-  test('#cv launchpad has CV download anchor and GitHub social link', async ({ page }) => {
+  test('#cv launchpad has CV page anchor and GitHub social link', async ({ page }) => {
     await gotoBooted(page);
-    // Direct CV download anchor (no email gate)
-    await expect(page.locator('#cv a[href$="CV.pdf"][download]')).toBeAttached();
+    // CV page link (opens in new tab, no download attribute)
+    await expect(page.locator('#cv a[href$="cv.html"]')).toBeAttached();
     // GitHub social card
     await expect(page.locator('#cv a[href*="github.com/Jaramilloh"]')).toBeAttached();
   });
