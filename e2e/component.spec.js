@@ -100,4 +100,78 @@ test.describe('Mobile viewport 390px', () => {
     );
     expect(columns).toBe(1);
   });
+
+  test('SPEC-08: .stack-grid collapses to 2 columns at 390px', async ({ page }) => {
+    const cols = await page.locator('.stack-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).not.toBe(4);
+    expect(cols).toBe(2);
+  });
+
+  test('SPEC-09: .arch-grid collapses to 1 column at 390px', async ({ page }) => {
+    const cols = await page.locator('.arch-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).toBe(1);
+  });
+
+  test('SPEC-10: .blog-grid collapses to 1 column at 390px', async ({ page }) => {
+    const cols = await page.locator('.blog-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).toBe(1);
+  });
+
+  test('SPEC-11: .reading-table rows collapse to 1 column and stay within viewport at 390px', async ({ page }) => {
+    const cols = await page.locator('.reading-table > a').first().evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).toBe(1);
+    const box = await page.locator('.reading-table > a').first().boundingBox();
+    expect(box.x + box.width).toBeLessThanOrEqual(390);
+  });
+});
+
+test.describe('Desktop viewport 1280px — section column invariance (SPEC-12)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(ENTRY);
+    await page.waitForLoadState('networkidle');
+  });
+
+  test('SPEC-12a: .stack-grid retains 4 columns on desktop', async ({ page }) => {
+    const cols = await page.locator('.stack-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).toBe(4);
+  });
+
+  test('SPEC-12b: .arch-grid retains 2 columns on desktop', async ({ page }) => {
+    const cols = await page.locator('.arch-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).toBe(2);
+  });
+
+  test('SPEC-12c: .blog-grid retains 3 columns on desktop', async ({ page }) => {
+    const cols = await page.locator('.blog-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).toBe(3);
+  });
+
+  test('SPEC-12d: .reading-table rows retain 4 columns on desktop', async ({ page }) => {
+    const cols = await page.locator('.reading-table > a').first().evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(cols).toBe(4);
+  });
+
+  test('SPEC-12e: .reading-table header is visible on desktop', async ({ page }) => {
+    const display = await page.locator('.reading-table > div').first().evaluate(
+      el => getComputedStyle(el).display
+    );
+    expect(display).not.toBe('none');
+  });
 });
