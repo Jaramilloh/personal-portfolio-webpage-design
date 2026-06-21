@@ -63,6 +63,13 @@ jobs:
           mkdir -p _site/cv
           cp cv-src/cv.pdf "_site/cv/Juan-Felipe-Jaramillo-CV.pdf"
 
+          # Publish the standalone "writing/" guides: self-contained HTML served
+          # as-is (like the entry). This assembler is an allowlist — files not
+          # copied here are NOT deployed, so new writing/ assets must be added.
+          # The editable .dc.html source (writing/Protocolo.dc.html) stays unpublished.
+          mkdir -p _site/writing
+          cp writing/protocolo.html "_site/writing/protocolo.html"
+
           # Pages serves index.html at the subpath root; the repo's canonical
           # entry keeps its original name, so mirror it as index.html here.
           cp "$ENTRY" _site/index.html
