@@ -12,8 +12,10 @@
 //   GP_CLIENT_ID       OAuth 2.0 client id
 //   GP_CLIENT_SECRET   OAuth 2.0 client secret
 //   GP_REFRESH_TOKEN   refresh token authorized for photoslibrary.readonly
-//   GP_ALBUM_ID        id of the album to publish (use ?albums=1 to find it)
-//   ALLOW_ORIGIN       your site origin, e.g. https://jaramilloh.github.io  (default '*')
+//   GP_ALBUM_ID        id of the album to publish (use ?albums=1&token=… to find it)
+//   ALLOW_ORIGIN       REQUIRED. your site origin, e.g. https://jaramilloh.github.io
+//                      (no CORS header is sent if unset — cross-origin reads fail closed)
+//   GP_SETUP_TOKEN     optional secret that unlocks the ?albums=1 setup helper
 //
 // Caching: a burst of visitors must not drain your Google API quota — the
 // server-side echo of the site's DownloadGate idea. Results are cached in
@@ -24,17 +26,27 @@ const TTL_MS = 10 * 60 * 1000;
 let CACHE = { at: 0, body: null };
 
 export default async function handler(req, res) {
-  const origin = process.env.ALLOW_ORIGIN || '*';
-  res.setHeader('Access-Control-Allow-Origin', origin);
-  res.setHeader('Vary', 'Origin');
+  // CORS: never default to '*'. Only emit Access-Control-Allow-Origin when
+  // ALLOW_ORIGIN is explicitly set to your site origin; otherwise the browser
+  // blocks cross-origin reads (fail closed) while same-origin requests still work.
+  const origin = process.env.ALLOW_ORIGIN;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
   res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=86400');
   if (req.method === 'OPTIONS') return res.status(204).end();
 
   try {
     const token = await getAccessToken();
 
-    // setup helper: list albums so you can copy GP_ALBUM_ID
+    // setup helper: list albums so you can copy GP_ALBUM_ID. Gated behind a secret
+    // token so the album inventory is not publicly enumerable — set GP_SETUP_TOKEN
+    // and call ?albums=1&token=<GP_SETUP_TOKEN>. Returns 404 otherwise.
     if (req.query && req.query.albums) {
+      if (!process.env.GP_SETUP_TOKEN || req.query.token !== process.env.GP_SETUP_TOKEN) {
+        return res.status(404).json({ error: 'not found' });
+      }
       return res.status(200).json({ albums: await listAlbums(token) });
     }
 
