@@ -42,3 +42,62 @@ test.describe('Component — v2 sections (launchpad + reading)', () => {
     await expect(page.locator('#cv a[href*="github.com/Jaramilloh"]')).toBeAttached();
   });
 });
+
+test.describe('Mobile viewport 390px', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoBooted(page);
+  });
+
+  test('no horizontal overflow at 390px (SPEC-07)', async ({ page }) => {
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    const innerWidth = await page.evaluate(() => window.innerWidth);
+    expect(scrollWidth).toBeLessThanOrEqual(innerWidth);
+  });
+
+  test('H1 name fully in-viewport — right edge within 390px (SPEC-01)', async ({ page }) => {
+    const box = await page.locator('#top h1').boundingBox();
+    expect(box).not.toBeNull();
+    expect(box.x + box.width).toBeLessThanOrEqual(390);
+    // Full name text present in the h1 (Jaramillo is the identifying word in the file)
+    await expect(page.locator('#top h1')).toContainText('Jaramillo');
+  });
+
+  test('H1 font-size reduced below 62px on mobile (SPEC-01)', async ({ page }) => {
+    const fontSize = await page.locator('#top h1').evaluate(
+      el => parseFloat(getComputedStyle(el).fontSize)
+    );
+    expect(fontSize).toBeLessThan(62);
+  });
+
+  test('portrait bounding box within viewport — no right overflow (SPEC-02)', async ({ page }) => {
+    const box = await page.locator('#top .hero-portrait').boundingBox();
+    expect(box).not.toBeNull();
+    expect(box.x + box.width).toBeLessThanOrEqual(390);
+    expect(box.x).toBeGreaterThanOrEqual(0);
+  });
+
+  test('all nav links within viewport — none clipped (SPEC-04)', async ({ page }) => {
+    const links = await page.locator('.nav-links a').all();
+    expect(links.length).toBeGreaterThan(0);
+    for (const link of links) {
+      const box = await link.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box.x + box.width).toBeLessThanOrEqual(390);
+    }
+  });
+
+  test('stats grid does NOT render 4 columns at 390px (SPEC-05)', async ({ page }) => {
+    const columns = await page.locator('.stats-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(columns).not.toBe(4);
+  });
+
+  test('work grid renders 1 column at 390px (SPEC-06)', async ({ page }) => {
+    const columns = await page.locator('.work-grid').evaluate(
+      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
+    );
+    expect(columns).toBe(1);
+  });
+});
