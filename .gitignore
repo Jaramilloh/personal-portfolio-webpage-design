@@ -21,6 +21,9 @@ playwright/.cache/
 .atl/
 .claude/worktrees/
 
+# Local image scratch (source dupes / album-sync inputs — never part of the deploy)
+uploads/
+
 # OS / editor cruft
 .DS_Store
 Thumbs.db

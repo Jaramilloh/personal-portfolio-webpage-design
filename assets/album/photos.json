@@ -1,4 +1,60 @@
 {
-  "_note": "Populate items with your optimized images. Each entry must have: url (path relative to this manifest, e.g. assets/album/img-01.webp), width (px, optional), height (px, optional), alt (string, defaults to 'Photo'), date (ISO string, defaults to ''). Site degrades to AWAITING empty state until at least one entry is added.",
-  "items": []
+  "items": [
+    {
+      "url": "assets/album/gp-01.webp",
+      "width": 1600,
+      "height": 1200,
+      "alt": "Photo",
+      "date": "2026-06-04"
+    },
+    {
+      "url": "assets/album/gp-02.webp",
+      "width": 1600,
+      "height": 1200,
+      "alt": "Photo",
+      "date": "2026-05-30"
+    },
+    {
+      "url": "assets/album/gp-03.webp",
+      "width": 1200,
+      "height": 1600,
+      "alt": "Photo",
+      "date": "2026-06-07"
+    },
+    {
+      "url": "assets/album/gp-04.webp",
+      "width": 1200,
+      "height": 1600,
+      "alt": "Photo",
+      "date": "2026-06-04"
+    },
+    {
+      "url": "assets/album/gp-05.webp",
+      "width": 1200,
+      "height": 1600,
+      "alt": "Photo",
+      "date": "2026-06-14"
+    },
+    {
+      "url": "assets/album/gp-06.webp",
+      "width": 1200,
+      "height": 1600,
+      "alt": "Photo",
+      "date": "2026-06-07"
+    },
+    {
+      "url": "assets/album/gp-07.webp",
+      "width": 1200,
+      "height": 1600,
+      "alt": "Photo",
+      "date": "2026-06-07"
+    },
+    {
+      "url": "assets/album/gp-08.webp",
+      "width": 1600,
+      "height": 1200,
+      "alt": "Photo",
+      "date": "2026-05-31"
+    }
+  ]
 }

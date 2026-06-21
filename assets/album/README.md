@@ -32,7 +32,12 @@ npm run album:sync -- --src <path/to/Takeout/Google Photos/Album Name>
 ### What the tool does
 
 1. **Sample** — picks `--count` images at random from `--src` (deterministic with `--seed`).
-2. **Optimize** — resizes each to long-edge ≤ 1600 px and encodes as WebP (≤ ~250 KB).
+2. **Optimize** — resizes each to long-edge ≤ 1600 px and encodes as WebP. The byte
+   budget scales with the source **resolution** (≈60 KB per megapixel), clamped to a
+   **256 KB floor** and a **1.5 MB ceiling**, so high-resolution camera originals keep
+   their detail at quality 80 instead of being over-compressed, while the committed repo
+   stays bounded. Megapixels (not file size) drives the budget because a JPEG's byte size
+   depends on in-camera compression and is a noisy proxy for actual detail.
 3. **Extract metadata** — reads Google Takeout sidecar JSON for date and caption; falls back to EXIF.
 4. **Write** — saves `gp-01.webp`, `gp-02.webp`, … to this folder and writes `photos.json`.
 5. **Clean up** — removes any stale `gp-*.webp` files from a previous run.

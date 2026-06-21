@@ -60,13 +60,17 @@ The front-end is identical either way — only the adapter swaps.
 | `GP_CLIENT_ID` | your OAuth client id |
 | `GP_CLIENT_SECRET` | your OAuth client secret |
 | `GP_REFRESH_TOKEN` | the refresh token from step 2 |
-| `ALLOW_ORIGIN` | your site origin, e.g. `https://jaramilloh.github.io` |
+| `ALLOW_ORIGIN` | **required** — your site origin, e.g. `https://jaramilloh.github.io`. If unset, no CORS header is sent and cross-origin reads fail closed (never `*`). |
+| `GP_SETUP_TOKEN` | optional — secret that unlocks the `?albums=1` setup helper (step 5) |
 
 Deploy.
 
 ### 5. Find your album id
-Visit `https://your-app.vercel.app/api/google-photos?albums=1`, find the album
-you want in the JSON, copy its `id`, add env var **`GP_ALBUM_ID`**, redeploy.
+Set a temporary **`GP_SETUP_TOKEN`** env var, then visit
+`https://your-app.vercel.app/api/google-photos?albums=1&token=<GP_SETUP_TOKEN>`,
+find the album you want in the JSON, copy its `id`, add env var **`GP_ALBUM_ID`**,
+redeploy. Without the token the helper returns 404, so the album list is never
+publicly enumerable — you can remove `GP_SETUP_TOKEN` once setup is done.
 
 ### 6. Connect the site
 In **`Juan Felipe Jaramillo.dc.html`** set:

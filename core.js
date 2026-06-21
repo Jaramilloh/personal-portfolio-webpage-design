@@ -25,6 +25,80 @@
  * never changes — it only knows the port.
  */
 
+/* ============================ PURE INPUT HARDENING ============================ */
+
+/**
+ * Length caps for user-supplied form input. Keeping these here (not in the UI)
+ * makes them a single, unit-testable source of truth. They bound localStorage
+ * writes and reject pathological paste-bombs before anything is stored.
+ */
+export const INPUT_LIMITS = Object.freeze({
+  name: 120,
+  email: 254, // RFC 5321 max length of an email address
+  message: 4000,
+});
+
+/**
+ * Normalize an arbitrary free-text field into something safe to STORE and to
+ * echo back: collapse to a string, strip control characters (incl. newlines
+ * for single-line fields), trim, and hard-cap the length.
+ *
+ * This is NOT an HTML escaper — rendering safety is already guaranteed by the
+ * dc-runtime, which binds every value through React (text nodes / props), so
+ * there is no HTML sink to escape. This guards against unbounded / control-char
+ * input reaching localStorage, not against XSS.
+ *
+ * @param {unknown} value      raw input
+ * @param {number}  maxLength  hard cap (defaults to a generous message limit)
+ * @param {{ allowNewlines?: boolean }} [opts]
+ * @returns {string}
+ */
+export function sanitizeText(value, maxLength = INPUT_LIMITS.message, opts = {}) {
+  const { allowNewlines = false } = opts;
+  let s = value == null ? '' : String(value);
+  // Strip C0/C1 control chars. Keep \n (\x0A) and \t (\x09) only when
+  // newlines are allowed (multiline message); strip them for single-line fields.
+  // eslint-disable-next-line no-control-regex
+  const controlRe = allowNewlines
+    ? /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g
+    : /[\x00-\x1F\x7F-\x9F]/g;
+  s = s.replace(controlRe, '');
+  s = s.trim();
+  if (s.length > maxLength) s = s.slice(0, maxLength);
+  return s;
+}
+
+/**
+ * Return `url` only if it is a SAFE, navigable HTTP(S) or relative URL;
+ * otherwise return the empty string. Defends any anchor `href` / image `src`
+ * built from third-party data (GitHub API `html_url`, the photos manifest)
+ * against `javascript:`, `data:`, `vbscript:`, etc. scheme injection.
+ *
+ * Allowed: absolute http/https URLs, protocol-relative (`//host`), and
+ * relative paths (`./`, `/`, `foo/bar`, `#anchor`). Everything with an
+ * explicit non-http(s) scheme is rejected.
+ *
+ * @param {unknown} url
+ * @returns {string} the original url if safe, else ''
+ */
+export function safeHttpUrl(url) {
+  if (url == null) return '';
+  const raw = String(url).trim();
+  if (!raw) return '';
+  // Reject embedded control chars that browsers strip when resolving schemes
+  // (e.g. "java\tscript:alert(1)" → "javascript:alert(1)").
+  // eslint-disable-next-line no-control-regex
+  const cleaned = raw.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
+  // Does it start with an explicit scheme? scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
+  const schemeMatch = /^([a-zA-Z][a-zA-Z0-9+.-]*):/.exec(cleaned);
+  if (schemeMatch) {
+    const scheme = schemeMatch[1].toLowerCase();
+    return scheme === 'http' || scheme === 'https' ? cleaned : '';
+  }
+  // No explicit scheme → relative/protocol-relative/anchor: safe to render.
+  return cleaned;
+}
+
 /* ============================ PORTS (RepositorySource) ============================ */
 
 /** Live adapter — talks to the public GitHub REST API. */
@@ -280,6 +354,12 @@ export function buildPortfolioCore(cfg = {}) {
       storageKey: 'jfjh.cvGate.v1',
     }),
     contact: new LocalOutboxChannel('jfjh.contactOutbox.v1'),
+    // Pure input-hardening helpers exposed on the core so the domain/UI calls
+    // them through the same boundary as every other capability. The inline
+    // fallback core (_inlineCore in the page) mirrors these.
+    sanitizeText,
+    safeHttpUrl,
+    limits: INPUT_LIMITS,
     /**
      * Module registry (Open/Closed). Register a section once; the shell
      * renders whatever is registered. Add "Talks", "Patents", "Datasets"…

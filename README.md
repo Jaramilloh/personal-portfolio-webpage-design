@@ -334,6 +334,6 @@ read it, fork it, reuse it. Just keep the copyright notice.
 
 **Personal content is not covered by MIT and remains © Juan Felipe Jaramillo,
 all rights reserved.** This includes the name and branding, the portrait and
-photos (`assets/portrait.png`, `assets/album/*`, `uploads/*`), the résumé/CV,
+photos (`assets/portrait.png`, `assets/album/*`), the résumé/CV,
 and the written bio and copy. If you build on the code, swap in your own
 content — please don't republish this portfolio as your own.
