@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;0,16..72,600;1,16..72,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#08090b}
+  ::selection{background:rgba(166,226,46,.28);color:#fff}
+  [data-doc] ::-webkit-scrollbar{height:8px;width:8px}
+  [data-doc] ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:4px}
+  /* language toggle: ES shown by default (no JS / streaming) */
+  [data-l="en"]{display:none}
+  [data-lang="en"] [data-l="en"]{display:revert}
+  [data-lang="en"] [data-l="es"]{display:none}
+  [data-langbtn]{background:transparent;color:#7d8085;padding:5px 13px;border:0;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;transition:color .15s}
+  [data-langbtn]:hover{color:#cfd1d3}
+  [data-lang="es"] [data-langbtn="es"],[data-lang="en"] [data-langbtn="en"]{background:var(--ac,#a6e22e);color:#08090b;font-weight:600}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  [data-doc] a{color:inherit}
+  [data-doc] h2,[data-doc] h3{text-wrap:balance}
+  [data-doc] p,[data-doc] li{text-wrap:pretty}
+</style>
+</helmet>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#08090b"/>
+    <rect x="30" y="30" width="40" height="40" rx="8" fill="none" stroke="#a6e22e" stroke-width="3"/>
+    <text x="50" y="58" font-family="monospace" font-size="20" font-weight="700" fill="#a6e22e" text-anchor="middle">&gt;_</text>
+  </svg>
+</template>
+<div data-doc data-lang="{{ lang }}" style="--ac: {{ accent }}; --bf: {{ bodyFont }}; background:#08090b;color:#cfd1d3;font-family:var(--bf,'Newsreader',Georgia,serif);font-size:19px;line-height:1.78;min-height:100vh;-webkit-font-smoothing:antialiased">
+
+  <sc-if value="{{ showProgress }}" hint-placeholder-val="{{ true }}">
+    <div ref="{{ progressRef }}" style="position:fixed;top:0;left:0;height:2px;width:0%;background:var(--ac,#a6e22e);z-index:70;box-shadow:0 0 12px var(--ac,#a6e22e)"></div>
+  </sc-if>
+
+  <header style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 22px;background:rgba(8,9,11,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace">
+    <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" style="display:flex;align-items:center;gap:9px;text-decoration:none;font-size:12.5px;letter-spacing:.02em">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--ac,#a6e22e);color:var(--ac,#a6e22e);border-radius:5px;font-weight:700;font-size:10px">JF</span>
+      <span style="color:#e6e6e6">jaramillo.dev</span>
+      <span style="color:#56585d">/ protocol</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div role="group" aria-label="language" style="display:inline-flex;border:1px solid rgba(255,255,255,.16);border-radius:7px;overflow:hidden">
+        <button data-langbtn="es" onClick="{{ setES }}">ES</button>
+        <button data-langbtn="en" onClick="{{ setEN }}">EN</button>
+      </div>
+      <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" style="text-decoration:none;color:#7d8085;font-size:12px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:5px">portfolio <span style="color:var(--ac,#a6e22e)">↗</span></a>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section style="max-width:940px;margin:0 auto;padding:72px 24px 0">
+    <div style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#7d8085;margin-bottom:30px">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--ac,#a6e22e);animation:blink 2.4s infinite"></span>
+      <span data-l="es">GUÍA // ENTORNO DE DESARROLLO · WINDOWS + WSL2</span>
+      <span data-l="en">GUIDE // DEVELOPMENT ENVIRONMENT · WINDOWS + WSL2</span>
+    </div>
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(38px,6vw,64px);line-height:1.04;letter-spacing:-.02em;color:#fafafa;margin:0 0 26px">
+      <span data-l="es">Guía para armar tu<br>entorno de desarrollo</span>
+      <span data-l="en">A guide to building your<br>development environment</span>
+    </h1>
+    <p style="font-family:var(--bf);font-size:clamp(19px,2.4vw,23px);line-height:1.55;color:#b6b8bb;max-width:680px;margin:0 0 38px">
+      <span data-l="es">De cero a <em style="font-style:italic;color:#fafafa">crear, pedir y mejorar</em> software real con asistentes de IA —Claude Code y Gentle AI— con criterio de arquitecto. Sin atajos. Vos dirigís.</span>
+      <span data-l="en">From zero to <em style="font-style:italic;color:#fafafa">building, prompting and improving</em> real software with AI assistants —Claude Code and Gentle AI— with an architect's judgment. No shortcuts. You direct.</span>
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.06em;white-space:nowrap">
+      <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#9a9da1"><span style="color:var(--ac,#a6e22e)">●</span> <span data-l="es">9 ETAPAS</span><span data-l="en">9 STAGES</span></span>
+      <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#9a9da1"><span data-l="es">~30 MIN DE LECTURA</span><span data-l="en">~30 MIN READ</span></span>
+      <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#9a9da1">ES / EN</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid rgba(166,226,46,.3);background:rgba(166,226,46,.06);border-radius:999px;color:var(--ac,#a6e22e)">SETUP · 1.00</span>
+    </div>
+    <div style="margin-top:46px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.16),transparent)"></div>
+  </section>
+
+  <!-- ===================== INTRO CARDS ===================== -->
+  <section style="max-width:940px;margin:0 auto;padding:44px 24px 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px;background:#0d0e11">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--ac,#a6e22e);margin-bottom:12px">// PARA QUIÉN</div>
+        <p data-l="es" style="margin:0;font-size:16.5px;line-height:1.6;color:#c4c6c9">Para vos, que arrancás de cero en Windows y querés el mismo entorno profesional que usamos para programar con asistentes de IA.</p>
+        <p data-l="en" style="margin:0;font-size:16.5px;line-height:1.6;color:#c4c6c9">For you — starting from zero on Windows and wanting the same professional setup we use to build software with AI assistants.</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px;background:#0d0e11">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--ac,#a6e22e);margin-bottom:12px">// QUÉ VAS A LOGRAR</div>
+        <p data-l="es" style="margin:0;font-size:16.5px;line-height:1.6;color:#c4c6c9">Una computadora lista para crear proyectos de software reales, pedirle ideas a una IA, y mejorarlas con criterio de arquitecto.</p>
+        <p data-l="en" style="margin:0;font-size:16.5px;line-height:1.6;color:#c4c6c9">A computer ready to build real software projects, ask an AI for ideas, and improve them with an architect's judgment.</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px;background:#0d0e11">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--ac,#a6e22e);margin-bottom:12px">// CÓMO LEERLA</div>
+        <p data-l="es" style="margin:0;font-size:16.5px;line-height:1.6;color:#c4c6c9">De arriba hacia abajo, sin saltarte pasos. Cada parte termina con un <strong style="color:#fafafa;font-weight:600">✅ Cómo sé que funcionó</strong>. Si algo falla, mirá <em>Problemas comunes</em>.</p>
+        <p data-l="en" style="margin:0;font-size:16.5px;line-height:1.6;color:#c4c6c9">Top to bottom, without skipping steps. Each part ends with a <strong style="color:#fafafa;font-weight:600">✅ How I know it worked</strong>. If something breaks, see <em>Common problems</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MINDSET ===================== -->
+  <section id="mentalidad" style="max-width:768px;margin:0 auto;padding:66px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 00 ]</span>
+      <span style="color:#7d8085"><span data-l="es">LA MENTALIDAD</span><span data-l="en">THE MINDSET</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 18px">
+      <span data-l="es">Antes de tocar una sola tecla</span>
+      <span data-l="en">Before you touch a single key</span>
+    </h2>
+    <p data-l="es" style="margin:0 0 26px;color:#c4c6c9">No te saltees esto. Son 60 segundos y te cambia la forma de trabajar.</p>
+    <p data-l="en" style="margin:0 0 26px;color:#c4c6c9">Don't skip this. It's 60 seconds and it changes how you work.</p>
+
+    <ol style="list-style:none;counter-reset:m;margin:0 0 28px;padding:0">
+      <li style="counter-increment:m;position:relative;padding:0 0 22px 52px;border-left:1px solid rgba(255,255,255,.1);margin-left:14px">
+        <span style="position:absolute;left:-14px;top:0;width:28px;height:28px;border-radius:50%;background:#0d0e11;border:1px solid var(--ac,#a6e22e);color:var(--ac,#a6e22e);font-family:'JetBrains Mono',monospace;font-size:12px;display:flex;align-items:center;justify-content:center">1</span>
+        <strong style="display:block;color:#fafafa;font-weight:600;font-size:18px;margin-bottom:4px"><span data-l="es">Conceptos antes que código.</span><span data-l="en">Concepts before code.</span></strong>
+        <span data-l="es">No copies y pegues comandos sin entender qué hacen. Esta guía te explica el <em>porqué</em> de cada paso, no solo el <em>qué</em>.</span>
+        <span data-l="en">Don't copy-paste commands without understanding what they do. This guide explains the <em>why</em> of each step, not just the <em>what</em>.</span>
+      </li>
+      <li style="counter-increment:m;position:relative;padding:0 0 22px 52px;border-left:1px solid rgba(255,255,255,.1);margin-left:14px">
+        <span style="position:absolute;left:-14px;top:0;width:28px;height:28px;border-radius:50%;background:#0d0e11;border:1px solid var(--ac,#a6e22e);color:var(--ac,#a6e22e);font-family:'JetBrains Mono',monospace;font-size:12px;display:flex;align-items:center;justify-content:center">2</span>
+        <strong style="display:block;color:#fafafa;font-weight:600;font-size:18px;margin-bottom:4px"><span data-l="es">La IA es una herramienta. Vos dirigís, ella ejecuta.</span><span data-l="en">AI is a tool. You direct, it executes.</span></strong>
+        <span data-l="es">El humano siempre lidera. La IA es rapidísima escribiendo, pero vos tenés que saber <em>qué pedir</em> y <em>por qué lo que te responde puede estar mal</em>.</span>
+        <span data-l="en">The human always leads. AI is lightning-fast at writing, but you have to know <em>what to ask for</em> and <em>why its answer might be wrong</em>.</span>
+      </li>
+      <li style="counter-increment:m;position:relative;padding:0 0 4px 52px;margin-left:14px">
+        <span style="position:absolute;left:-14px;top:0;width:28px;height:28px;border-radius:50%;background:#0d0e11;border:1px solid var(--ac,#a6e22e);color:var(--ac,#a6e22e);font-family:'JetBrains Mono',monospace;font-size:12px;display:flex;align-items:center;justify-content:center">3</span>
+        <strong style="display:block;color:#fafafa;font-weight:600;font-size:18px;margin-bottom:4px"><span data-l="es">Nada de atajos.</span><span data-l="en">No shortcuts.</span></strong>
+        <span data-l="es">Aprender lleva tiempo. Esto no es "programá en 2 horas". Es construir una base sólida para que dentro de unos meses vueles solo.</span>
+        <span data-l="en">Learning takes time. This isn't "code in 2 hours." It's building a solid foundation so that in a few months you fly on your own.</span>
+      </li>
+    </ol>
+
+    <blockquote style="margin:0;padding:18px 22px;border-left:3px solid var(--ac,#a6e22e);background:#0d0e11;border-radius:0 10px 10px 0;font-style:italic;color:#c4c6c9">
+      <span data-l="es">Pensalo como construir una casa: primero los <strong style="font-style:normal;color:#fafafa">cimientos</strong> (este entorno), después los <strong style="font-style:normal;color:#fafafa">planos</strong> (la arquitectura), y recién al final las <strong style="font-style:normal;color:#fafafa">paredes</strong> (el código).</span>
+      <span data-l="en">Think of it like building a house: first the <strong style="font-style:normal;color:#fafafa">foundations</strong> (this setup), then the <strong style="font-style:normal;color:#fafafa">blueprints</strong> (the architecture), and only at the end the <strong style="font-style:normal;color:#fafafa">walls</strong> (the code).</span>
+    </blockquote>
+  </section>
+
+  <!-- ===================== ROAD MAP ===================== -->
+  <section id="mapa" style="max-width:940px;margin:0 auto;padding:66px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ ▤ ]</span>
+      <span style="color:#7d8085"><span data-l="es">EL MAPA DEL CAMINO</span><span data-l="en">THE ROAD MAP</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 14px">
+      <span data-l="es">Nueve etapas</span><span data-l="en">Nine stages</span>
+    </h2>
+    <p data-l="es" style="margin:0 0 26px;color:#c4c6c9;max-width:640px">No hace falta hacerlas todas el mismo día. Tocá cualquier etapa para saltar a ella.</p>
+    <p data-l="en" style="margin:0 0 26px;color:#c4c6c9;max-width:640px">You don't have to do them all in one day. Tap any stage to jump to it.</p>
+
+    <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;background:#0d0e11;font-family:'JetBrains Mono',monospace">
+      <div data-rowmap style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:11px 18px;border-bottom:1px solid rgba(255,255,255,.08);font-size:10.5px;letter-spacing:.12em;color:#6e7176">
+        <span>#</span><span><span data-l="es">QUÉ HACÉS</span><span data-l="en">WHAT YOU DO</span></span><span><span data-l="es">DÓNDE</span><span data-l="en">WHERE</span></span>
+      </div>
+      <a data-rowmap href="#etapa1" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">01</span><span style="color:#d8dadd"><span data-l="es">Instalar WSL2 y Docker</span><span data-l="en">Install WSL2 and Docker</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">En Windows</span><span data-l="en">On Windows</span></span></a>
+      <a data-rowmap href="#etapa2" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">02</span><span style="color:#d8dadd"><span data-l="es">Preparar Ubuntu (actualizar + Homebrew)</span><span data-l="en">Prepare Ubuntu (update + Homebrew)</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">Dentro de WSL</span><span data-l="en">Inside WSL</span></span></a>
+      <a data-rowmap href="#etapa3" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">03</span><span style="color:#d8dadd"><span data-l="es">Instalar las herramientas de desarrollo</span><span data-l="en">Install the development tools</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">Dentro de WSL</span><span data-l="en">Inside WSL</span></span></a>
+      <a data-rowmap href="#etapa4" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">04</span><span style="color:#d8dadd"><span data-l="es">Instalar Claude Code</span><span data-l="en">Install Claude Code</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">Dentro de WSL</span><span data-l="en">Inside WSL</span></span></a>
+      <a data-rowmap href="#etapa5" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">05</span><span style="color:#d8dadd"><span data-l="es">Instalar Gentle AI (el arnés)</span><span data-l="en">Install Gentle AI (the harness)</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">Dentro de WSL</span><span data-l="en">Inside WSL</span></span></a>
+      <a data-rowmap href="#etapa6" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">06</span><span style="color:#d8dadd"><span data-l="es">Crear y asegurar tu cuenta de GitHub</span><span data-l="en">Create and secure your GitHub account</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">En el navegador</span><span data-l="en">In the browser</span></span></a>
+      <a data-rowmap href="#etapa7" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">07</span><span style="color:#d8dadd"><span data-l="es">Crear tu primera idea con Claude y descargarla</span><span data-l="en">Create your first idea with Claude and download it</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">En el navegador</span><span data-l="en">In the browser</span></span></a>
+      <a data-rowmap href="#etapa8" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">08</span><span style="color:#d8dadd"><span data-l="es">Traer el proyecto a tu máquina</span><span data-l="en">Bring the project to your machine</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">Dentro de WSL</span><span data-l="en">Inside WSL</span></span></a>
+      <a data-rowmap href="#etapa9" style="display:grid;grid-template-columns:54px 1fr 150px;gap:14px;padding:13px 18px;text-decoration:none;font-size:13.5px;align-items:center;transition:background .15s" style-hover="background:rgba(255,255,255,.03)"><span style="color:var(--ac,#a6e22e)">09</span><span style="color:#d8dadd"><span data-l="es">Mejorarlo con arquitectura (SDD)</span><span data-l="en">Improve it with architecture (SDD)</span></span><span style="color:#7d8085;font-size:11.5px"><span data-l="es">Dentro de WSL</span><span data-l="en">Inside WSL</span></span></a>
+    </div>
+    <p style="margin:18px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6e7176;line-height:1.7">
+      <span data-l="es">Conceptos que vas a ver repetidos (los explico al final en el <a href="#glosario" style="color:var(--ac,#a6e22e);text-decoration:none">Glosario</a>): <span style="color:#9a9da1">terminal · WSL · repositorio · commit · clonar</span>.</span>
+      <span data-l="en">Concepts you'll see repeated (explained at the end in the <a href="#glosario" style="color:var(--ac,#a6e22e);text-decoration:none">Glossary</a>): <span style="color:#9a9da1">terminal · WSL · repository · commit · clone</span>.</span>
+    </p>
+  </section>
+
+  <!-- ===================== ETAPA 1 ===================== -->
+  <section id="etapa1" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 01 ]</span>
+      <span style="color:#7d8085"><span data-l="es">EN WINDOWS</span><span data-l="en">ON WINDOWS</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Preparar Windows — WSL2 + Docker</span><span data-l="en">Prepare Windows — WSL2 + Docker</span></h2>
+    <p data-l="es" style="margin:0 0 22px;color:#c4c6c9">WSL significa <em>Windows Subsystem for Linux</em>. Es una forma de correr Linux <strong style="color:#fafafa;font-weight:600">dentro</strong> de Windows, sin máquinas virtuales pesadas ni borrar tu Windows. ¿Por qué Linux? Porque casi todo el mundo del desarrollo profesional vive ahí, y las herramientas funcionan mejor y más rápido.</p>
+    <p data-l="en" style="margin:0 0 22px;color:#c4c6c9">WSL stands for <em>Windows Subsystem for Linux</em>. It's a way to run Linux <strong style="color:#fafafa;font-weight:600">inside</strong> Windows, without heavy virtual machines or erasing your Windows. Why Linux? Because almost the entire professional development world lives there, and the tools work better and faster.</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:36px 0 14px"><span data-l="es">1.1 — Instalar WSL2</span><span data-l="en">1.1 — Install WSL2</span></h3>
+    <ol style="margin:0 0 18px;padding-left:22px;color:#c4c6c9">
+      <li data-l="es" style="margin-bottom:8px">Hacé clic en el menú <strong style="color:#fafafa;font-weight:600">Inicio</strong>, escribí <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">PowerShell</code>.</li>
+      <li data-l="en" style="margin-bottom:8px">Click the <strong style="color:#fafafa;font-weight:600">Start</strong> menu and type <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">PowerShell</code>.</li>
+      <li data-l="es" style="margin-bottom:8px">Clic derecho sobre <strong style="color:#fafafa;font-weight:600">Windows PowerShell</strong> → <strong style="color:#fafafa;font-weight:600">Ejecutar como administrador</strong>.</li>
+      <li data-l="en" style="margin-bottom:8px">Right-click <strong style="color:#fafafa;font-weight:600">Windows PowerShell</strong> → <strong style="color:#fafafa;font-weight:600">Run as administrator</strong>.</li>
+      <li data-l="es" style="margin-bottom:8px">En la ventana azul, escribí este comando y apretá Enter:</li>
+      <li data-l="en" style="margin-bottom:8px">In the blue window, type this command and press Enter:</li>
+    </ol>
+
+    <div data-code style="position:relative;margin:0 0 22px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">powershell <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;color:#e6e6e6">wsl --install</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 22px;color:#c4c6c9">Esto instala WSL2 <strong style="color:#fafafa;font-weight:600">y</strong> Ubuntu automáticamente. Cuando termine, <strong style="color:#fafafa;font-weight:600">reiniciá la computadora</strong>. Al volver a encender, se abre sola una ventana de Ubuntu que te pide crear un <strong style="color:#fafafa;font-weight:600">usuario</strong> y una <strong style="color:#fafafa;font-weight:600">contraseña</strong> de Linux. Elegí un nombre simple en minúsculas (ej: <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">papa</code>). La contraseña no se ve mientras la escribís (es normal). Anotala.</p>
+    <p data-l="en" style="margin:0 0 22px;color:#c4c6c9">This installs WSL2 <strong style="color:#fafafa;font-weight:600">and</strong> Ubuntu automatically. When it finishes, <strong style="color:#fafafa;font-weight:600">restart the computer</strong>. On startup, an Ubuntu window opens on its own and asks you to create a Linux <strong style="color:#fafafa;font-weight:600">username</strong> and <strong style="color:#fafafa;font-weight:600">password</strong>. Pick a simple lowercase name (e.g. <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">papa</code>). The password stays invisible as you type (that's normal). Write it down.</p>
+
+    <div style="margin:24px 0;border:1px solid rgba(255,176,72,.26);background:rgba(255,176,72,.06);border-radius:10px;padding:16px 20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#ffb048;margin-bottom:8px">! <span data-l="es">IMPORTANTE</span><span data-l="en">IMPORTANT</span></div>
+      <p data-l="es" style="margin:0;color:#d8c9ad;font-size:16.5px;line-height:1.6">Este usuario/contraseña de Ubuntu es <strong style="color:#fff;font-weight:600">distinto</strong> al de Windows. Es solo para Linux.</p>
+      <p data-l="en" style="margin:0;color:#d8c9ad;font-size:16.5px;line-height:1.6">This Ubuntu username/password is <strong style="color:#fff;font-weight:600">different</strong> from your Windows one. It's only for Linux.</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:36px 0 14px"><span data-l="es">1.2 — Confirmar que es la versión 2</span><span data-l="en">1.2 — Confirm it's version 2</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Abrí PowerShell normal (sin administrador) y escribí:</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Open regular PowerShell (no admin needed) and type:</p>
+    <div data-code style="position:relative;margin:0 0 18px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">powershell <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;color:#e6e6e6">wsl -l -v</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Tenés que ver tu Ubuntu con un <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">2</code> en la columna <strong style="color:#fafafa;font-weight:600">VERSION</strong>. Si dijera <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">1</code>, corré esto:</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">You should see your Ubuntu with a <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">2</code> in the <strong style="color:#fafafa;font-weight:600">VERSION</strong> column. If it says <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">1</code>, run this:</p>
+    <div data-code style="position:relative;margin:0 0 22px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">powershell <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;color:#e6e6e6">wsl --set-version Ubuntu 2
+wsl --set-default-version 2</code></pre>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:36px 0 14px"><span data-l="es">1.3 — Windows Terminal (recomendado)</span><span data-l="en">1.3 — Windows Terminal (recommended)</span></h3>
+    <p data-l="es" style="margin:0 0 22px;color:#c4c6c9">Es una terminal mucho más linda y cómoda que la ventana negra básica. Abrí la <strong style="color:#fafafa;font-weight:600">Microsoft Store</strong>, buscá <strong style="color:#fafafa;font-weight:600">Windows Terminal</strong> e instalala. A partir de ahora, para entrar a Linux: abrí <strong style="color:#fafafa;font-weight:600">Windows Terminal</strong> y elegí <strong style="color:#fafafa;font-weight:600">Ubuntu</strong> en la pestaña.</p>
+    <p data-l="en" style="margin:0 0 22px;color:#c4c6c9">It's a much nicer, more comfortable terminal than the basic black window. Open the <strong style="color:#fafafa;font-weight:600">Microsoft Store</strong>, search for <strong style="color:#fafafa;font-weight:600">Windows Terminal</strong> and install it. From now on, to enter Linux: open <strong style="color:#fafafa;font-weight:600">Windows Terminal</strong> and pick <strong style="color:#fafafa;font-weight:600">Ubuntu</strong> in the tab.</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:36px 0 14px"><span data-l="es">1.4 — Instalar Docker Desktop</span><span data-l="en">1.4 — Install Docker Desktop</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Docker te permite correr aplicaciones "empaquetadas" sin ensuciar tu sistema. No lo vas a usar el primer día, pero conviene tenerlo desde ya.</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Docker lets you run "packaged" applications without cluttering your system. You won't use it on day one, but it's good to have it ready.</p>
+    <ol style="margin:0 0 22px;padding-left:22px;color:#c4c6c9">
+      <li data-l="es" style="margin-bottom:8px">Entrá a <a href="https://www.docker.com/products/docker-desktop/" style="color:var(--ac,#a6e22e);text-decoration:none">docker.com/products/docker-desktop</a> y descargá <strong style="color:#fafafa;font-weight:600">Docker Desktop for Windows</strong>.</li>
+      <li data-l="en" style="margin-bottom:8px">Go to <a href="https://www.docker.com/products/docker-desktop/" style="color:var(--ac,#a6e22e);text-decoration:none">docker.com/products/docker-desktop</a> and download <strong style="color:#fafafa;font-weight:600">Docker Desktop for Windows</strong>.</li>
+      <li data-l="es" style="margin-bottom:8px">Instalalo (siguiente, siguiente, finalizar). Dejá marcada <strong style="color:#fafafa;font-weight:600">Use WSL 2 instead of Hyper-V</strong> si te la ofrece.</li>
+      <li data-l="en" style="margin-bottom:8px">Install it (next, next, finish). Keep <strong style="color:#fafafa;font-weight:600">Use WSL 2 instead of Hyper-V</strong> checked if offered.</li>
+      <li data-l="es" style="margin-bottom:8px">Abrí Docker Desktop → ⚙️ <strong style="color:#fafafa;font-weight:600">Settings</strong> → <strong style="color:#fafafa;font-weight:600">Resources</strong> → <strong style="color:#fafafa;font-weight:600">WSL Integration</strong> → activá el interruptor de <strong style="color:#fafafa;font-weight:600">Ubuntu</strong>. Dale <strong style="color:#fafafa;font-weight:600">Apply &amp; Restart</strong>.</li>
+      <li data-l="en" style="margin-bottom:8px">Open Docker Desktop → ⚙️ <strong style="color:#fafafa;font-weight:600">Settings</strong> → <strong style="color:#fafafa;font-weight:600">Resources</strong> → <strong style="color:#fafafa;font-weight:600">WSL Integration</strong> → turn on the <strong style="color:#fafafa;font-weight:600">Ubuntu</strong> switch. Hit <strong style="color:#fafafa;font-weight:600">Apply &amp; Restart</strong>.</li>
+    </ol>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 1</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 1</span></div>
+      <p data-l="es" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">Abrí <strong style="color:#fafafa;font-weight:600">Ubuntu</strong> (en Windows Terminal) y escribí cada línea:</p>
+      <p data-l="en" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">Open <strong style="color:#fafafa;font-weight:600">Ubuntu</strong> (in Windows Terminal) and type each line:</p>
+      <div data-code style="position:relative;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:flex-end;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:13px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">uname -a          <span style="color:#6e7176"># dice "...microsoft-standard-WSL2..."</span>
+docker --version  <span style="color:#6e7176"># muestra una versión de Docker</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 2 ===================== -->
+  <section id="etapa2" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 02 ]</span>
+      <span style="color:#7d8085"><span data-l="es">DENTRO DE WSL</span><span data-l="en">INSIDE WSL</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Preparar Ubuntu</span><span data-l="en">Prepare Ubuntu</span></h2>
+    <div style="margin:0 0 24px;border-left:3px solid var(--ac,#a6e22e);background:#0d0e11;border-radius:0 10px 10px 0;padding:14px 20px">
+      <p data-l="es" style="margin:0;color:#d8dadd;font-size:16.5px;line-height:1.6">A partir de acá, <strong style="color:#fff;font-weight:600">todo lo escribís dentro de Ubuntu</strong> (la terminal de Linux), no en PowerShell. Es la diferencia más importante de toda la guía.</p>
+      <p data-l="en" style="margin:0;color:#d8dadd;font-size:16.5px;line-height:1.6">From here on, <strong style="color:#fff;font-weight:600">type everything inside Ubuntu</strong> (the Linux terminal), not in PowerShell. It's the single most important distinction in this whole guide.</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">2.1 — Actualizar el sistema</span><span data-l="en">2.1 — Update the system</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Linux trae un "gestor de paquetes" llamado <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">apt</code>. Primero ponemos todo al día:</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Linux comes with a "package manager" called <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">apt</code>. First we bring everything up to date:</p>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;color:#e6e6e6">sudo apt update &amp;&amp; sudo apt upgrade -y</code></pre>
+    </div>
+    <div style="margin:0 0 20px;border:1px solid rgba(255,255,255,.1);background:#0d0e11;border-radius:10px;padding:14px 20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#7d8085;margin-bottom:8px">// <span data-l="es">CONCEPTO</span><span data-l="en">CONCEPT</span></div>
+      <p data-l="es" style="margin:0;color:#c4c6c9;font-size:16.5px;line-height:1.6"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">sudo</code> significa "hacelo con permisos de administrador". Te va a pedir la contraseña de Ubuntu que creaste en la Etapa 1.</p>
+      <p data-l="en" style="margin:0;color:#c4c6c9;font-size:16.5px;line-height:1.6"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">sudo</code> means "do it with administrator permissions." It'll ask for the Ubuntu password you created in Stage 1.</p>
+    </div>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Ahora instalamos unas piezas básicas que Homebrew necesita:</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Now we install some basic pieces that Homebrew needs:</p>
+    <div data-code style="position:relative;margin:0 0 24px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;color:#e6e6e6">sudo apt install -y build-essential procps curl file git</code></pre>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">2.2 — Instalar Homebrew</span><span data-l="en">2.2 — Install Homebrew</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Homebrew es un instalador de programas. En vez de buscar cada herramienta por internet, le decís <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">brew install loquesea</code> y él se encarga. Es la pieza central de todo este setup.</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Homebrew is a program installer. Instead of hunting each tool down online, you say <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">brew install whatever</code> and it handles it. It's the centerpiece of this whole setup.</p>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6;color:#e6e6e6">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Al terminar, te pide que lo "conectes" a tu terminal. Copiá y pegá estas dos líneas (dejan a <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">brew</code> disponible para siempre):</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">When it finishes, it asks you to "connect" it to your terminal. Copy and paste these two lines (they keep <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">brew</code> available forever):</p>
+    <div data-code style="position:relative;margin:0 0 24px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6;color:#e6e6e6">echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' &gt;&gt; ~/.bashrc
+source ~/.bashrc</code></pre>
+    </div>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 2</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 2</span></div>
+      <div data-code style="position:relative;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:flex-end;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:13px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">brew --version    <span style="color:#6e7176"># muestra una versión de Homebrew</span>
+brew doctor       <span style="color:#6e7176"># ideal: "Your system is ready to brew."</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 3 ===================== -->
+  <section id="etapa3" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 03 ]</span>
+      <span style="color:#7d8085"><span data-l="es">DENTRO DE WSL</span><span data-l="en">INSIDE WSL</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Las herramientas de desarrollo</span><span data-l="en">The development tools</span></h2>
+    <p data-l="es" style="margin:0 0 24px;color:#c4c6c9">Acá instalamos el corazón del entorno. Esta tabla te dice <strong style="color:#fafafa;font-weight:600">qué es cada cosa</strong> para que no instales a ciegas:</p>
+    <p data-l="en" style="margin:0 0 24px;color:#c4c6c9">Here we install the heart of the environment. This table tells you <strong style="color:#fafafa;font-weight:600">what each thing is</strong> so you don't install blindly:</p>
+
+    <div style="border:1px solid rgba(255,255,255,.1);border-radius:11px;overflow:hidden;margin:0 0 28px">
+      <div style="display:grid;grid-template-columns:140px 1fr;gap:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:#6e7176;background:#0d0e11;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.08)"><span><span data-l="es">HERRAMIENTA</span><span data-l="en">TOOL</span></span><span><span data-l="es">PARA QUÉ SIRVE</span><span data-l="en">WHAT IT'S FOR</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">git</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Guardar el historial de tu código y subirlo a GitHub</span><span data-l="en">Save your code's history and push it to GitHub</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">Node (fnm)</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Correr JavaScript / páginas web modernas</span><span data-l="en">Run JavaScript / modern web pages</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">go</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Lenguaje Go (varias herramientas profesionales lo usan)</span><span data-l="en">The Go language (several pro tools use it)</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">Python</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Ideal para automatizar y para IA</span><span data-l="en">Ideal for automation and for AI</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">ripgrep (rg)</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Buscar texto dentro de tus proyectos, rapidísimo</span><span data-l="en">Search text inside your projects, blazing fast</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">fd</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Buscar archivos, versión moderna de find</span><span data-l="en">Find files — a modern version of find</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">jq</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Leer y filtrar datos en formato JSON</span><span data-l="en">Read and filter data in JSON format</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">gh</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Manejar GitHub desde la terminal</span><span data-l="en">Manage GitHub from the terminal</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">shellcheck</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Revisar errores en scripts de terminal</span><span data-l="en">Check errors in terminal scripts</span></span></div>
+      <div data-trow style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:11px 16px;align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e)">black</code><span style="font-size:15.5px;color:#c4c6c9"><span data-l="es">Ordenar y formatear código Python</span><span data-l="en">Tidy and format Python code</span></span></div>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">3.1 — Configurar Git (tu identidad)</span><span data-l="en">3.1 — Configure Git (your identity)</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Git necesita saber quién sos para firmar tus cambios. Poné tu nombre y el <strong style="color:#fafafa;font-weight:600">mismo email que vas a usar en GitHub</strong> (Etapa 6):</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Git needs to know who you are to sign your changes. Put your name and the <strong style="color:#fafafa;font-weight:600">same email you'll use on GitHub</strong> (Stage 6):</p>
+    <div data-code style="position:relative;margin:0 0 24px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">git config --global user.name "Tu Nombre"
+git config --global user.email "tu-email@ejemplo.com"
+git config --global init.defaultBranch main</code></pre>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">3.2 — Node.js con fnm</span><span data-l="en">3.2 — Node.js with fnm</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Detalle de profesional: <strong style="color:#fafafa;font-weight:600">no se instala Node directamente</strong>. Se instala con un <em>administrador de versiones</em>, porque distintos proyectos pueden necesitar distintas versiones. Usamos <strong style="color:#fafafa;font-weight:600">fnm</strong> (<em>Fast Node Manager</em>), el más rápido y moderno.</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">A pro detail: <strong style="color:#fafafa;font-weight:600">you don't install Node directly</strong>. You install it through a <em>version manager</em>, because different projects may need different versions. We use <strong style="color:#fafafa;font-weight:600">fnm</strong> (<em>Fast Node Manager</em>), the fastest and most modern one.</p>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">brew install fnm
+echo 'eval "$(fnm env --use-on-cd)"' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+fnm install --lts
+fnm default lts-latest</code></pre>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">3.3 — Go, Python y el resto</span><span data-l="en">3.3 — Go, Python and the rest</span></h3>
+    <div data-code style="position:relative;margin:0 0 24px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">brew install go
+brew install python black
+brew install ripgrep fd jq gh shellcheck actionlint</code></pre>
+    </div>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 3</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 3</span></div>
+      <p data-l="es" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">Si todos responden con un número de versión, Etapa 3 completa. 💪</p>
+      <p data-l="en" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">If they all answer with a version number, Stage 3 is complete. 💪</p>
+      <div data-code style="position:relative;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:flex-end;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:13px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">git --version
+node --version    <span style="color:#6e7176"># algo como v24.x</span>
+npm --version
+go version
+python3 --version
+rg --version
+gh --version</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 4 ===================== -->
+  <section id="etapa4" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 04 ]</span>
+      <span style="color:#7d8085"><span data-l="es">DENTRO DE WSL</span><span data-l="en">INSIDE WSL</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Instalar Claude Code</span><span data-l="en">Install Claude Code</span></h2>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Claude Code es el asistente de IA que vive en tu terminal. Es con el que vas a programar conversando.</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Claude Code is the AI assistant that lives in your terminal. It's the one you'll program with, by conversation.</p>
+    <div style="margin:0 0 26px;border:1px solid rgba(255,176,72,.32);background:rgba(255,176,72,.07);border-radius:12px;padding:20px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#ffb048;margin-bottom:10px">⚠ <span data-l="es">NECESITÁS UN PLAN PAGO DE CLAUDE</span><span data-l="en">YOU NEED A PAID CLAUDE PLAN</span></div>
+      <p data-l="es" style="margin:0 0 12px;color:#e0d2b8;font-size:16.5px;line-height:1.6">Claude Code <strong style="color:#fff;font-weight:600">no funciona con una cuenta gratuita.</strong> Necesitás un plan <strong style="color:#fff;font-weight:600">Pro</strong> o <strong style="color:#fff;font-weight:600">Max</strong> activo (para lo que vas a hacer, con <strong style="color:#fff;font-weight:600">Pro</strong> alcanza y sobra). Hacé esto <strong style="color:#fff;font-weight:600">primero</strong>, antes de instalar:</p>
+      <p data-l="en" style="margin:0 0 12px;color:#e0d2b8;font-size:16.5px;line-height:1.6">Claude Code <strong style="color:#fff;font-weight:600">does not work with a free account.</strong> You need an active <strong style="color:#fff;font-weight:600">Pro</strong> or <strong style="color:#fff;font-weight:600">Max</strong> plan (for what you'll be doing, <strong style="color:#fff;font-weight:600">Pro</strong> is more than enough). Do this <strong style="color:#fff;font-weight:600">first</strong>, before installing:</p>
+      <ol style="margin:0 0 12px;padding-left:20px;color:#d8c9ad">
+        <li data-l="es" style="margin-bottom:6px">Entrá a <a href="https://claude.ai" style="color:#ffb048;text-decoration:none">claude.ai</a> y creá tu cuenta (o iniciá sesión si ya tenés).</li>
+        <li data-l="en" style="margin-bottom:6px">Go to <a href="https://claude.ai" style="color:#ffb048;text-decoration:none">claude.ai</a> and create your account (or sign in if you have one).</li>
+        <li data-l="es" style="margin-bottom:6px">Andá a <strong style="color:#fff;font-weight:600">Settings → Billing</strong> (o el botón <strong style="color:#fff;font-weight:600">Upgrade</strong>) y <strong style="color:#fff;font-weight:600">contratá y pagá el plan Pro.</strong> Verificá que figure como <strong style="color:#fff;font-weight:600">activo</strong> antes de continuar.</li>
+        <li data-l="en" style="margin-bottom:6px">Go to <strong style="color:#fff;font-weight:600">Settings → Billing</strong> (or the <strong style="color:#fff;font-weight:600">Upgrade</strong> button) and <strong style="color:#fff;font-weight:600">subscribe to and pay for the Pro plan.</strong> Make sure it shows as <strong style="color:#fff;font-weight:600">active</strong> before continuing.</li>
+        <li data-l="es" style="margin-bottom:6px">Anotá el <strong style="color:#fff;font-weight:600">email y la contraseña</strong>: son los mismos que vas a usar para iniciar sesión desde la terminal en el paso 4.2.</li>
+        <li data-l="en" style="margin-bottom:6px">Write down the <strong style="color:#fff;font-weight:600">email and password</strong>: they're the same ones you'll use to sign in from the terminal in step 4.2.</li>
+      </ol>
+      <p data-l="es" style="margin:0;color:#b9ad93;font-size:14.5px;line-height:1.55">Sin la suscripción paga y activa, el login del paso 4.2 te deja entrar igual, pero <strong style="color:#e0d2b8;font-weight:600">no vas a poder trabajar.</strong> Primero el plan, después lo demás.</p>
+      <p data-l="en" style="margin:0;color:#b9ad93;font-size:14.5px;line-height:1.55">Without the active paid subscription, the login in step 4.2 will let you in, but <strong style="color:#e0d2b8;font-weight:600">you won't be able to work.</strong> Plan first, everything else after.</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 14px"><span data-l="es">4.1 — Instalar el programa</span><span data-l="en">4.1 — Install the program</span></h3>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Cerrá y volvé a abrir la terminal (o corré <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">source ~/.bashrc</code>) para que el sistema "vea" el comando nuevo.</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Close and reopen the terminal (or run <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">source ~/.bashrc</code>) so the system "sees" the new command.</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">4.2 — Iniciar sesión (la primera vez)</span><span data-l="en">4.2 — Sign in (the first time)</span></h3>
+    <p data-l="es" style="margin:0 0 14px;color:#c4c6c9">Esto se hace <strong style="color:#fafafa;font-weight:600">una sola vez</strong>. Arrancá Claude Code:</p>
+    <p data-l="en" style="margin:0 0 14px;color:#c4c6c9">You do this <strong style="color:#fafafa;font-weight:600">just once</strong>. Start Claude Code:</p>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">claude</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 14px;color:#c4c6c9">La primera vez te guía para conectar tu cuenta. Andá despacio y seguí el orden:</p>
+    <p data-l="en" style="margin:0 0 14px;color:#c4c6c9">The first time, it guides you to connect your account. Go slowly and follow the order:</p>
+    <ol style="margin:0 0 20px;padding-left:22px;color:#c4c6c9">
+      <li data-l="es" style="margin-bottom:9px">Te pregunta <strong style="color:#fafafa;font-weight:600">cómo querés iniciar sesión.</strong> Elegí la opción de tu <strong style="color:#fafafa;font-weight:600">cuenta de Claude</strong> (la del plan que pagaste), <strong style="color:#fafafa;font-weight:600">NO</strong> la de "Anthropic Console / API" (esa es la vía de desarrollador, no es la tuya).</li>
+      <li data-l="en" style="margin-bottom:9px">It asks <strong style="color:#fafafa;font-weight:600">how you want to sign in.</strong> Choose the <strong style="color:#fafafa;font-weight:600">Claude account</strong> option (the one with the plan you paid for), <strong style="color:#fafafa;font-weight:600">NOT</strong> "Anthropic Console / API" (that's the developer route, not yours).</li>
+      <li data-l="es" style="margin-bottom:9px">Se abre <strong style="color:#fafafa;font-weight:600">solo el navegador</strong> con la pantalla de Claude. Iniciá sesión con el <strong style="color:#fafafa;font-weight:600">mismo email y contraseña</strong> del plan Pro.</li>
+      <li data-l="en" style="margin-bottom:9px">The <strong style="color:#fafafa;font-weight:600">browser opens on its own</strong> with the Claude screen. Sign in with the <strong style="color:#fafafa;font-weight:600">same email and password</strong> from your Pro plan.</li>
+      <li data-l="es" style="margin-bottom:9px">Te pide que <strong style="color:#fafafa;font-weight:600">autorices</strong> a Claude Code. Hacé clic en <strong style="color:#fafafa;font-weight:600">Authorize / Autorizar</strong>.</li>
+      <li data-l="en" style="margin-bottom:9px">It asks you to <strong style="color:#fafafa;font-weight:600">authorize</strong> Claude Code. Click <strong style="color:#fafafa;font-weight:600">Authorize</strong>.</li>
+      <li data-l="es" style="margin-bottom:9px">Si te muestra un <strong style="color:#fafafa;font-weight:600">código</strong>, copialo y pegalo en la terminal donde corre <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude</code>. Si no, simplemente volvé a la terminal: ya quedó conectado.</li>
+      <li data-l="en" style="margin-bottom:9px">If it shows a <strong style="color:#fafafa;font-weight:600">code</strong>, copy it and paste it into the terminal where <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude</code> is running. If not, just go back to the terminal: it's already connected.</li>
+    </ol>
+    <div style="margin:0 0 8px;border:1px solid rgba(255,255,255,.1);background:#0d0e11;border-radius:10px;padding:14px 20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#7d8085;margin-bottom:8px">// <span data-l="es">¿POR QUÉ SE ABRE EL NAVEGADOR?</span><span data-l="en">WHY DOES THE BROWSER OPEN?</span></div>
+      <p data-l="es" style="margin:0 0 10px;color:#c4c6c9;font-size:16px;line-height:1.62">Porque tu sesión y tu pago viven en tu cuenta de Claude (en la nube), no en la terminal. Este paso es el "apretón de manos" que le da permiso a la terminal para usar tu cuenta. Por eso lo hacés una sola vez: después, Claude Code ya te reconoce.</p>
+      <p data-l="en" style="margin:0 0 10px;color:#c4c6c9;font-size:16px;line-height:1.62">Because your session and your payment live in your Claude account (in the cloud), not in the terminal. This step is the "handshake" that gives the terminal permission to use your account. That's why you do it once: afterward, Claude Code already recognizes you.</p>
+      <p data-l="es" style="margin:0;color:#9a9da1;font-size:15px;line-height:1.55">La documentación oficial está en <a href="https://docs.claude.com" style="color:var(--ac,#a6e22e);text-decoration:none">docs.claude.com</a> — tenela como fuente de verdad si algún comando cambia con el tiempo.</p>
+      <p data-l="en" style="margin:0;color:#9a9da1;font-size:15px;line-height:1.55">The official docs live at <a href="https://docs.claude.com" style="color:var(--ac,#a6e22e);text-decoration:none">docs.claude.com</a> — treat them as the source of truth if a command changes over time.</p>
+    </div>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 4</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 4</span></div>
+      <p data-l="es" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">Al escribir <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude</code> se abre el chat dentro de la terminal <strong style="color:#fafafa;font-weight:600">sin volver a pedirte que inicies sesión</strong> (porque ya quedás autenticado). Para salir, escribí <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">/exit</code>.</p>
+      <p data-l="en" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">Typing <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude</code> opens the chat inside the terminal <strong style="color:#fafafa;font-weight:600">without asking you to sign in again</strong> (because you're already authenticated). To leave, type <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">/exit</code>.</p>
+      <div data-code style="position:relative;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:flex-end;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:13px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">claude --version    <span style="color:#6e7176"># muestra una versión (ej: 2.1.x)</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MODEL PICKER ===================== -->
+  <section id="modelos" style="max-width:940px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ ◆ ]</span>
+      <span style="color:#7d8085"><span data-l="es">EL CRITERIO</span><span data-l="en">THE JUDGMENT</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 18px"><span data-l="es">Elegir el modelo y el razonamiento</span><span data-l="en">Choosing the model &amp; reasoning</span></h2>
+    <p data-l="es" style="margin:0 0 28px;color:#c4c6c9;max-width:680px">Claude Code puede usar distintos "cerebros" (modelos), y podés pedirle que piense más o menos antes de actuar. Elegir bien es como elegir la herramienta justa: no usás un mazo para clavar un alfiler.</p>
+    <p data-l="en" style="margin:0 0 28px;color:#c4c6c9;max-width:680px">Claude Code can use different "brains" (models), and you can ask it to think more or less before acting. Choosing well is like picking the right tool: you don't use a sledgehammer to pin a needle.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:0 0 30px">
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9a9da1;margin-bottom:6px">Haiku 4.5</div>
+        <p data-l="es" style="margin:0;font-size:14.5px;line-height:1.55;color:#a9abae">Tareas simples y veloces (renombrar, cambios chicos). El más económico.</p>
+        <p data-l="en" style="margin:0;font-size:14.5px;line-height:1.55;color:#a9abae">Simple, fast tasks (renaming, small edits). The most economical.</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9a9da1;margin-bottom:6px">Sonnet 4.6</div>
+        <p data-l="es" style="margin:0;font-size:14.5px;line-height:1.55;color:#a9abae">El día a día: rápido e inteligente. Para tareas comunes donde querés velocidad.</p>
+        <p data-l="en" style="margin:0;font-size:14.5px;line-height:1.55;color:#a9abae">The daily driver: fast and smart. For common tasks where you want speed.</p>
+      </div>
+      <div style="border:1px solid rgba(166,226,46,.4);border-radius:12px;padding:18px;background:rgba(166,226,46,.05);position:relative">
+        <div style="position:absolute;top:-9px;left:16px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;background:var(--ac,#a6e22e);color:#08090b;padding:2px 8px;border-radius:4px;font-weight:600"><span data-l="es">POR DEFECTO</span><span data-l="en">DEFAULT</span></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac,#a6e22e);margin-bottom:6px">Opus 4.8</div>
+        <p data-l="es" style="margin:0;font-size:14.5px;line-height:1.55;color:#cdd0c2">Lo más capaz para arquitectura, seguridad, refactors y bugs difíciles.</p>
+        <p data-l="en" style="margin:0;font-size:14.5px;line-height:1.55;color:#cdd0c2">The most capable for architecture, security, refactors and hard bugs.</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9a9da1;margin-bottom:6px">Fable 5</div>
+        <p data-l="es" style="margin:0;font-size:14.5px;line-height:1.55;color:#a9abae">El más potente, para problemas MUY difíciles y largos. Premium: usalo solo cuando de verdad lo necesites.</p>
+        <p data-l="en" style="margin:0;font-size:14.5px;line-height:1.55;color:#a9abae">The most powerful, for VERY hard, long problems. Premium: use it only when you truly need it.</p>
+      </div>
+    </div>
+
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9;max-width:680px">Para ver y cambiar de modelo dentro de Claude Code, escribí <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">/model</code>.</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9;max-width:680px">To see and switch models inside Claude Code, type <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">/model</code>.</p>
+
+    <div style="margin:8px 0 28px;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px;max-width:680px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">★ <span data-l="es">LA REGLA DE ORO</span><span data-l="en">THE GOLDEN RULE</span></div>
+      <p data-l="es" style="margin:0;color:#cdd0c2;font-size:17px;line-height:1.6"><strong style="color:#fff;font-weight:600">Pensar y decidir → Opus 4.8. Ejecutar y programar → Sonnet 4.6.</strong> Cuando la tarea VALE la pena (arquitectura, seguridad), Opus vale oro; cuando es escribir código siguiendo un plan, Sonnet te da velocidad sin perder calidad. No arranques con el más barato solo "para ahorrar".</p>
+      <p data-l="en" style="margin:0;color:#cdd0c2;font-size:17px;line-height:1.6"><strong style="color:#fff;font-weight:600">Think and decide → Opus 4.8. Execute and code → Sonnet 4.6.</strong> When the task is WORTH it (architecture, security), Opus is worth gold; when it's writing code from a plan, Sonnet gives you speed without losing quality. Don't start with the cheapest just "to save."</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#fafafa;margin:8px 0 14px"><span data-l="es">El nivel de razonamiento</span><span data-l="en">The reasoning level</span></h3>
+    <p data-l="es" style="margin:0 0 14px;color:#c4c6c9;max-width:680px">Con Opus 4.8, Claude Code ya razona ALTO por defecto, así que no tenés que tocar nada para el trabajo normal. Para problemas difíciles, pedile explícitamente que piense más a fondo: agregá a tu pedido algo como <em>"pensá esto con cuidado antes de tocar el código"</em>. En inglés, <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">think hard</code> o <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">ultrathink</code> son señales que reconoce para razonar todavía más profundo.</p>
+    <p data-l="en" style="margin:0 0 14px;color:#c4c6c9;max-width:680px">With Opus 4.8, Claude Code already reasons at a HIGH level by default, so you don't need to touch anything for normal work. For hard problems, explicitly ask it to think more deeply: add something like <em>"think this through carefully before touching the code"</em> to your request. The words <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">think hard</code> or <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">ultrathink</code> are signals it recognizes to reason even deeper.</p>
+    <div style="margin:8px 0 0;border:1px solid rgba(255,255,255,.1);background:#0d0e11;border-radius:10px;padding:14px 20px;max-width:680px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#7d8085;margin-bottom:8px">★ <span data-l="es">BONUS</span><span data-l="en">BONUS</span></div>
+      <p data-l="es" style="margin:0;color:#c4c6c9;font-size:16px;line-height:1.6">El comando <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">/fast</code> activa un modo más veloz de Opus (misma inteligencia, respuesta más rápida).</p>
+      <p data-l="en" style="margin:0;color:#c4c6c9;font-size:16px;line-height:1.6">The <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">/fast</code> command turns on a quicker Opus mode (same intelligence, faster response).</p>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 5 ===================== -->
+  <section id="etapa5" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 05 ]</span>
+      <span style="color:#7d8085"><span data-l="es">DENTRO DE WSL</span><span data-l="en">INSIDE WSL</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Instalar Gentle AI — el arnés</span><span data-l="en">Install Gentle AI — the harness</span></h2>
+    <p data-l="es" style="margin:0 0 24px;color:#c4c6c9">Gentle AI es un "arnés": un conjunto de flujos de trabajo, habilidades y memoria que potencian a Claude Code para que trabaje con criterio de arquitecto (esto es lo que hace que la IA no programe "a lo loco").</p>
+    <p data-l="en" style="margin:0 0 24px;color:#c4c6c9">Gentle AI is a "harness": a set of workflows, skills and memory that supercharge Claude Code to work with an architect's judgment (this is what keeps the AI from coding "wildly").</p>
+
+    <div style="margin:0 0 28px;border:1px solid rgba(166,226,46,.22);background:rgba(166,226,46,.045);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">♥ <span data-l="es">HECHO POR GENTLEMAN</span><span data-l="en">MADE BY GENTLEMAN</span></div>
+      <p data-l="es" style="margin:0;color:#cdd0c2;font-size:16px;line-height:1.62">Gentle AI es creación de <strong style="color:#fff;font-weight:600">Alan Buscaglia</strong>, el creador de <strong style="color:#fff;font-weight:600">Gentleman Programming.</strong> El tap que vas a instalar (<code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#cdd0c2">gentleman-programming/tap</code>) y todo el flujo SDD de la Etapa 9 salen de su trabajo. El repo está en <a href="https://github.com/Gentleman-Programming/gentle-ai" style="color:var(--ac,#a6e22e);text-decoration:none">github.com/Gentleman-Programming/gentle-ai</a>. Crédito donde corresponde. 🙌</p>
+      <p data-l="en" style="margin:0;color:#cdd0c2;font-size:16px;line-height:1.62">Gentle AI is the work of <strong style="color:#fff;font-weight:600">Alan Buscaglia</strong>, creator of <strong style="color:#fff;font-weight:600">Gentleman Programming.</strong> The tap you'll install (<code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#cdd0c2">gentleman-programming/tap</code>) and the whole SDD flow in Stage 9 come from his work. The repo is at <a href="https://github.com/Gentleman-Programming/gentle-ai" style="color:var(--ac,#a6e22e);text-decoration:none">github.com/Gentleman-Programming/gentle-ai</a>. Credit where it's due. 🙌</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 14px"><span data-l="es">5.1 — Agregar el tap y los programas</span><span data-l="en">5.1 — Add the tap and the programs</span></h3>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">brew tap gentleman-programming/tap
+brew install gentle-ai gga engram</code></pre>
+    </div>
+    <ul style="margin:0 0 24px;padding-left:20px;color:#c4c6c9">
+      <li data-l="es" style="margin-bottom:7px"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">gentle-ai</code> → el ecosistema y los flujos de trabajo (incluido SDD, Etapa 9).</li>
+      <li data-l="en" style="margin-bottom:7px"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">gentle-ai</code> → the ecosystem and workflows (including SDD, Stage 9).</li>
+      <li data-l="es" style="margin-bottom:7px"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">gga</code> → <em>Gentleman Guardian Angel</em>, un revisor de código con IA.</li>
+      <li data-l="en" style="margin-bottom:7px"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">gga</code> → <em>Gentleman Guardian Angel</em>, an AI code reviewer.</li>
+      <li data-l="es" style="margin-bottom:7px"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">engram</code> → memoria persistente: hace que la IA recuerde decisiones entre sesiones.</li>
+      <li data-l="en" style="margin-bottom:7px"><code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">engram</code> → persistent memory: makes the AI remember decisions between sessions.</li>
+    </ul>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">5.2 — Conectarlo a Claude Code (¡y activar el TDD!)</span><span data-l="en">5.2 — Connect it to Claude Code (and turn on TDD!)</span></h3>
+    <div style="margin:0 0 16px;border:1px solid rgba(255,176,72,.26);background:rgba(255,176,72,.06);border-radius:10px;padding:14px 20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#ffb048;margin-bottom:8px">! <span data-l="es">ANTES DE SEGUIR</span><span data-l="en">BEFORE YOU GO ON</span></div>
+      <p data-l="es" style="margin:0;color:#d8c9ad;font-size:16px;line-height:1.6">Claude Code tiene que estar instalado (Etapa 4). Este paso CONFIGURA Claude Code con todo el arnés. Verificá con <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude --version</code>.</p>
+      <p data-l="en" style="margin:0;color:#d8c9ad;font-size:16px;line-height:1.6">Claude Code must already be installed (Stage 4). This step CONFIGURES Claude Code with the whole harness. Verify with <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude --version</code>.</p>
+    </div>
+    <p data-l="es" style="margin:0 0 14px;color:#c4c6c9">Este es el paso mágico. Configura Claude Code con todo el arnés:</p>
+    <p data-l="en" style="margin:0 0 14px;color:#c4c6c9">This is the magic step. It configures Claude Code with the whole harness:</p>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">gentle-ai install</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">El instalador es interactivo (te va haciendo preguntas). Cuando llegues a las opciones, <strong style="color:#fafafa;font-weight:600">activá / habilitá el TDD</strong> (<em>Test-Driven Development</em>). Esto es IMPORTANTE: no lo dejes apagado.</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">The installer is interactive (it asks you questions). When you reach the options, <strong style="color:#fafafa;font-weight:600">enable TDD</strong> (<em>Test-Driven Development</em>). This is IMPORTANT: don't leave it off.</p>
+    <div style="margin:0 0 8px;border:1px solid rgba(255,255,255,.1);background:#0d0e11;border-radius:10px;padding:14px 20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#7d8085;margin-bottom:8px">// <span data-l="es">¿QUÉ ES EL TDD Y POR QUÉ IMPORTA?</span><span data-l="en">WHAT IS TDD AND WHY IT MATTERS</span></div>
+      <p data-l="es" style="margin:0;color:#c4c6c9;font-size:16px;line-height:1.62"><em>Test-Driven Development</em> = "desarrollo guiado por pruebas": primero se escribe una prueba que define qué tiene que hacer el código, y RECIÉN DESPUÉS se escribe el código que la hace pasar. Te obliga a pensar QUÉ querés antes del cómo, y te deja una red de seguridad: si algo se rompe, las pruebas te avisan al instante. Es una de las mejores costumbres que podés agarrar desde el día uno.</p>
+      <p data-l="en" style="margin:0;color:#c4c6c9;font-size:16px;line-height:1.62"><em>Test-Driven Development</em> means: first you write a test that defines what the code must do, and ONLY THEN you write the code that makes it pass. It forces you to think about WHAT you want before the how, and leaves you a safety net: if something breaks, the tests warn you instantly. It's one of the best habits you can pick up from day one.</p>
+    </div>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 5</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 5</span></div>
+      <div data-code style="position:relative;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:flex-end;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:13px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">gentle-ai --version
+gentle-ai doctor      <span style="color:#6e7176"># todo en verde / OK</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 6 ===================== -->
+  <section id="etapa6" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 06 ]</span>
+      <span style="color:#7d8085"><span data-l="es">EN EL NAVEGADOR</span><span data-l="en">IN THE BROWSER</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Crear y asegurar tu GitHub</span><span data-l="en">Create &amp; secure your GitHub</span></h2>
+    <p data-l="es" style="margin:0 0 24px;color:#c4c6c9">GitHub es donde vive tu código "en la nube". Es tu portafolio y tu copia de seguridad.</p>
+    <p data-l="en" style="margin:0 0 24px;color:#c4c6c9">GitHub is where your code lives "in the cloud." It's your portfolio and your backup.</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 14px"><span data-l="es">6.1 — Crear la cuenta</span><span data-l="en">6.1 — Create the account</span></h3>
+    <ol style="margin:0 0 24px;padding-left:22px;color:#c4c6c9">
+      <li data-l="es" style="margin-bottom:8px">Entrá a <a href="https://github.com" style="color:var(--ac,#a6e22e);text-decoration:none">github.com</a> → <strong style="color:#fafafa;font-weight:600">Sign up</strong>.</li>
+      <li data-l="en" style="margin-bottom:8px">Go to <a href="https://github.com" style="color:var(--ac,#a6e22e);text-decoration:none">github.com</a> → <strong style="color:#fafafa;font-weight:600">Sign up</strong>.</li>
+      <li data-l="es" style="margin-bottom:8px">Usá el <strong style="color:#fafafa;font-weight:600">mismo email</strong> que pusiste en Git (Etapa 3.1).</li>
+      <li data-l="en" style="margin-bottom:8px">Use the <strong style="color:#fafafa;font-weight:600">same email</strong> you put in Git (Stage 3.1).</li>
+      <li data-l="es" style="margin-bottom:8px">Elegí un nombre de usuario prolijo (lo va a ver gente).</li>
+      <li data-l="en" style="margin-bottom:8px">Pick a clean username (people will see it).</li>
+    </ol>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">6.2 — Asegurarla bien</span><span data-l="en">6.2 — Secure it properly</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">La seguridad no es opcional. Hacé las tres cosas:</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Security isn't optional. Do all three:</p>
+    <div style="margin:0 0 24px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.1);background:#0d0e11;border-radius:10px;padding:14px 16px">
+        <span style="flex:none;width:20px;height:20px;border:1px solid var(--ac,#a6e22e);border-radius:5px;color:var(--ac,#a6e22e);display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:2px">✓</span>
+        <span style="font-size:16px;color:#c4c6c9"><strong style="color:#fafafa;font-weight:600"><span data-l="es">Contraseña fuerte:</span><span data-l="en">Strong password:</span></strong> <span data-l="es">larga, única, que no uses en ningún otro lado. Usá un gestor de contraseñas si podés.</span><span data-l="en">long, unique, used nowhere else. Use a password manager if you can.</span></span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.1);background:#0d0e11;border-radius:10px;padding:14px 16px">
+        <span style="flex:none;width:20px;height:20px;border:1px solid var(--ac,#a6e22e);border-radius:5px;color:var(--ac,#a6e22e);display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:2px">✓</span>
+        <span style="font-size:16px;color:#c4c6c9"><strong style="color:#fafafa;font-weight:600"><span data-l="es">Doble factor (2FA):</span><span data-l="en">Two-factor (2FA):</span></strong> <span data-l="es">Settings → Password and authentication → Two-factor authentication. Activalo con una app tipo Google Authenticator o Authy (no por SMS).</span><span data-l="en">Settings → Password and authentication → Two-factor authentication. Turn it on with an app like Google Authenticator or Authy (not SMS).</span></span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.1);background:#0d0e11;border-radius:10px;padding:14px 16px">
+        <span style="flex:none;width:20px;height:20px;border:1px solid var(--ac,#a6e22e);border-radius:5px;color:var(--ac,#a6e22e);display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:2px">✓</span>
+        <span style="font-size:16px;color:#c4c6c9"><strong style="color:#fafafa;font-weight:600"><span data-l="es">Códigos de recuperación:</span><span data-l="en">Recovery codes:</span></strong> <span data-l="es">guardalos en un lugar seguro (si perdés el teléfono, son tu única forma de entrar).</span><span data-l="en">save them somewhere safe (if you lose your phone, they're your only way back in).</span></span>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">6.3 — Crear un repositorio privado y vacío</span><span data-l="en">6.3 — Create a private, empty repository</span></h3>
+    <ol style="margin:0 0 24px;padding-left:22px;color:#c4c6c9">
+      <li data-l="es" style="margin-bottom:8px">Arriba a la derecha: <strong style="color:#fafafa;font-weight:600">+</strong> → <strong style="color:#fafafa;font-weight:600">New repository</strong>.</li>
+      <li data-l="en" style="margin-bottom:8px">Top right: <strong style="color:#fafafa;font-weight:600">+</strong> → <strong style="color:#fafafa;font-weight:600">New repository</strong>.</li>
+      <li data-l="es" style="margin-bottom:8px">Nombre: algo como <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">mi-primera-pagina</code>.</li>
+      <li data-l="en" style="margin-bottom:8px">Name: something like <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">my-first-page</code>.</li>
+      <li data-l="es" style="margin-bottom:8px">Marcá <strong style="color:#fafafa;font-weight:600">Private</strong>. No marques nada más (ni README, ni .gitignore). Lo queremos vacío.</li>
+      <li data-l="en" style="margin-bottom:8px">Check <strong style="color:#fafafa;font-weight:600">Private</strong>. Don't check anything else (no README, no .gitignore). We want it empty.</li>
+      <li data-l="es" style="margin-bottom:8px"><strong style="color:#fafafa;font-weight:600">Create repository</strong>.</li>
+      <li data-l="en" style="margin-bottom:8px"><strong style="color:#fafafa;font-weight:600">Create repository</strong>.</li>
+    </ol>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">6.4 — Conectar tu terminal con GitHub</span><span data-l="en">6.4 — Connect your terminal to GitHub</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Para subir y bajar código sin escribir la contraseña cada vez:</p>
+    <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">So you can push and pull code without typing your password every time:</p>
+    <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">gh auth login</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 8px;color:#c4c6c9">Respondé: <strong style="color:#fafafa;font-weight:600">GitHub.com</strong> → <strong style="color:#fafafa;font-weight:600">HTTPS</strong> → <strong style="color:#fafafa;font-weight:600">Login with a web browser</strong>. Copiá el código que te muestra y pegalo en el navegador.</p>
+    <p data-l="en" style="margin:0 0 8px;color:#c4c6c9">Answer: <strong style="color:#fafafa;font-weight:600">GitHub.com</strong> → <strong style="color:#fafafa;font-weight:600">HTTPS</strong> → <strong style="color:#fafafa;font-weight:600">Login with a web browser</strong>. Copy the code it shows and paste it in the browser.</p>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 6</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 6</span></div>
+      <div data-code style="position:relative;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:flex-end;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:13px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">gh auth status    <span style="color:#6e7176"># "Logged in to github.com as TU_USUARIO"</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 7 ===================== -->
+  <section id="etapa7" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 07 ]</span>
+      <span style="color:#7d8085"><span data-l="es">EN EL NAVEGADOR</span><span data-l="en">IN THE BROWSER</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Tu primera idea con Claude</span><span data-l="en">Your first idea with Claude</span></h2>
+    <p data-l="es" style="margin:0 0 18px;color:#c4c6c9">Acá empieza lo divertido. Vamos a pedirle a Claude que diseñe una página para vos, y después te la traés a tu máquina.</p>
+    <p data-l="en" style="margin:0 0 18px;color:#c4c6c9">Here's where the fun starts. We'll ask Claude to design a page for you, then bring it back to your machine.</p>
+    <div style="margin:0 0 24px;border-left:3px solid var(--ac,#a6e22e);background:#0d0e11;border-radius:0 10px 10px 0;padding:14px 20px">
+      <p data-l="es" style="margin:0;color:#d8dadd;font-size:16px;line-height:1.6"><strong style="color:#fff;font-weight:600">Dónde:</strong> entrá a <a href="https://claude.ai/design" style="color:var(--ac,#a6e22e);text-decoration:none">claude.ai/design</a> y hacé clic en <strong style="color:#fff;font-weight:600">"Nuevo proyecto"</strong>. El flujo es siempre el mismo: describir lo que querés → ver el prototipo → ir ajustando → descargar el proyecto.</p>
+      <p data-l="en" style="margin:0;color:#d8dadd;font-size:16px;line-height:1.6"><strong style="color:#fff;font-weight:600">Where:</strong> go to <a href="https://claude.ai/design" style="color:var(--ac,#a6e22e);text-decoration:none">claude.ai/design</a> and click <strong style="color:#fff;font-weight:600">"New project."</strong> The flow is always the same: describe what you want → see the prototype → keep adjusting → download the project.</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 14px"><span data-l="es">7.1 — Pedí una idea concreta</span><span data-l="en">7.1 — Ask for a concrete idea</span></h3>
+    <p data-l="es" style="margin:0 0 14px;color:#c4c6c9">Pedile algo claro. Un ejemplo que podés copiar:</p>
+    <p data-l="en" style="margin:0 0 14px;color:#c4c6c9">Ask for something clear. An example you can copy:</p>
+    <blockquote style="margin:0 0 22px;padding:16px 20px;border-left:3px solid rgba(255,255,255,.18);background:#0d0e11;border-radius:0 10px 10px 0;font-style:italic;color:#c4c6c9;font-size:16.5px">
+      <span data-l="es">"Quiero una página personal para mostrar mi fotografía: una galería con mis fotos, una sección 'Sobre mí' y un formulario de contacto. Estilo limpio y elegante. Mostrame un prototipo."</span>
+      <span data-l="en">"I want a personal page to show my photography: a gallery with my photos, an 'About me' section and a contact form. Clean, elegant style. Show me a prototype."</span>
+    </blockquote>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:8px 0 14px"><span data-l="es">7.2 — Iterá hasta que te guste</span><span data-l="en">7.2 — Iterate until you like it</span></h3>
+    <p data-l="es" style="margin:0 0 22px;color:#c4c6c9">No aceptes la primera versión sin más. Pedile cambios: <em>"hacelo más oscuro", "agregá una sección de testimonios", "que la galería tenga 3 columnas"</em>. <strong style="color:#fafafa;font-weight:600">Vos dirigís, la IA ejecuta.</strong></p>
+    <p data-l="en" style="margin:0 0 22px;color:#c4c6c9">Don't just accept the first version. Ask for changes: <em>"make it darker," "add a testimonials section," "give the gallery 3 columns."</em> <strong style="color:#fafafa;font-weight:600">You direct, the AI executes.</strong></p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:8px 0 14px"><span data-l="es">7.3 — Descargá el proyecto</span><span data-l="en">7.3 — Download the project</span></h3>
+    <p data-l="es" style="margin:0 0 22px;color:#c4c6c9">Cuando estés conforme, pedile el proyecto completo: <em>"Dame todo el proyecto en un archivo .zip para descargarlo."</em> Guardá ese <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">.zip</code> y <strong style="color:#fafafa;font-weight:600">descomprimilo</strong> (clic derecho → Extraer).</p>
+    <p data-l="en" style="margin:0 0 22px;color:#c4c6c9">When you're happy, ask for the full project: <em>"Give me the whole project as a .zip to download."</em> Save that <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">.zip</code> and <strong style="color:#fafafa;font-weight:600">unzip it</strong> (right-click → Extract).</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:8px 0 14px"><span data-l="es">7.4 — Subilo a tu repositorio</span><span data-l="en">7.4 — Upload it to your repository</span></h3>
+    <ol style="margin:0 0 16px;padding-left:22px;color:#c4c6c9">
+      <li data-l="es" style="margin-bottom:8px">Entrá a tu repositorio privado en GitHub.</li>
+      <li data-l="en" style="margin-bottom:8px">Open your private repository on GitHub.</li>
+      <li data-l="es" style="margin-bottom:8px">Clic en <strong style="color:#fafafa;font-weight:600">uploading an existing file</strong> (o <strong style="color:#fafafa;font-weight:600">Add file → Upload files</strong>).</li>
+      <li data-l="en" style="margin-bottom:8px">Click <strong style="color:#fafafa;font-weight:600">uploading an existing file</strong> (or <strong style="color:#fafafa;font-weight:600">Add file → Upload files</strong>).</li>
+      <li data-l="es" style="margin-bottom:8px">Arrastrá <strong style="color:#fafafa;font-weight:600">todos los archivos</strong> de la carpeta descomprimida.</li>
+      <li data-l="en" style="margin-bottom:8px">Drag <strong style="color:#fafafa;font-weight:600">all the files</strong> from the unzipped folder.</li>
+      <li data-l="es" style="margin-bottom:8px">Escribí un mensaje (ej: <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">primera version del proyecto</code>) y dale <strong style="color:#fafafa;font-weight:600">Commit changes</strong>.</li>
+      <li data-l="en" style="margin-bottom:8px">Write a message (e.g. <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">first version of the project</code>) and hit <strong style="color:#fafafa;font-weight:600">Commit changes</strong>.</li>
+    </ol>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:8px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 7</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 7</span></div>
+      <p data-l="es" style="margin:0;color:#c4c6c9;font-size:16.5px;line-height:1.6">Entrás a tu repositorio en GitHub y <strong style="color:#fafafa;font-weight:600">ves los archivos del proyecto ahí</strong>. ✅</p>
+      <p data-l="en" style="margin:0;color:#c4c6c9;font-size:16.5px;line-height:1.6">You open your repository on GitHub and <strong style="color:#fafafa;font-weight:600">see the project files there</strong>. ✅</p>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 8 ===================== -->
+  <section id="etapa8" style="max-width:768px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 08 ]</span>
+      <span style="color:#7d8085"><span data-l="es">DENTRO DE WSL</span><span data-l="en">INSIDE WSL</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px"><span data-l="es">Traer el proyecto a tu máquina</span><span data-l="en">Bring the project to your machine</span></h2>
+    <p data-l="es" style="margin:0 0 24px;color:#c4c6c9">Ahora bajamos ese código a Ubuntu para trabajarlo con Claude Code.</p>
+    <p data-l="en" style="margin:0 0 24px;color:#c4c6c9">Now we pull that code down to Ubuntu to work on it with Claude Code.</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 14px"><span data-l="es">8.1 — Clonar el repositorio</span><span data-l="en">8.1 — Clone the repository</span></h3>
+    <p data-l="es" style="margin:0 0 14px;color:#c4c6c9"><em>Clonar</em> = bajar una copia del repositorio a tu máquina. En GitHub: botón verde <strong style="color:#fafafa;font-weight:600">Code</strong> → pestaña <strong style="color:#fafafa;font-weight:600">HTTPS</strong> → copiá la URL (termina en <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">.git</code>). En Ubuntu:</p>
+    <p data-l="en" style="margin:0 0 14px;color:#c4c6c9"><em>Cloning</em> = downloading a copy of the repository to your machine. On GitHub: green <strong style="color:#fafafa;font-weight:600">Code</strong> button → <strong style="color:#fafafa;font-weight:600">HTTPS</strong> tab → copy the URL (it ends in <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">.git</code>). In Ubuntu:</p>
+    <div data-code style="position:relative;margin:0 0 24px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">mkdir -p ~/dev &amp;&amp; cd ~/dev
+git clone https://github.com/TU_USUARIO/TU_REPO.git
+cd TU_REPO</code></pre>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:32px 0 14px"><span data-l="es">8.2 — Abrir en un editor (recomendado)</span><span data-l="en">8.2 — Open in an editor (recommended)</span></h3>
+    <p data-l="es" style="margin:0 0 14px;color:#c4c6c9">Instalá <strong style="color:#fafafa;font-weight:600">Visual Studio Code</strong> en Windows (<a href="https://code.visualstudio.com" style="color:var(--ac,#a6e22e);text-decoration:none">code.visualstudio.com</a>) y su extensión <strong style="color:#fafafa;font-weight:600">WSL</strong>. Después, desde la carpeta del proyecto en Ubuntu:</p>
+    <p data-l="en" style="margin:0 0 14px;color:#c4c6c9">Install <strong style="color:#fafafa;font-weight:600">Visual Studio Code</strong> on Windows (<a href="https://code.visualstudio.com" style="color:var(--ac,#a6e22e);text-decoration:none">code.visualstudio.com</a>) and its <strong style="color:#fafafa;font-weight:600">WSL</strong> extension. Then, from the project folder in Ubuntu:</p>
+    <div data-code style="position:relative;margin:0 0 8px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">code .</code></pre>
+    </div>
+    <p data-l="es" style="margin:0 0 8px;color:#9a9da1;font-size:15px">Eso abre el proyecto en VS Code conectado a tu Linux. Mágico.</p>
+    <p data-l="en" style="margin:0 0 8px;color:#9a9da1;font-size:15px">That opens the project in VS Code connected to your Linux. Magic.</p>
+
+    <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 8</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 8</span></div>
+      <p data-l="es" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">Estás <em>dentro</em> de la carpeta del proyecto y ves los archivos:</p>
+      <p data-l="en" style="margin:0 0 12px;color:#c4c6c9;font-size:16.5px;line-height:1.6">You're <em>inside</em> the project folder and you see the files:</p>
+      <div data-code style="position:relative;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:flex-end;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:13px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">ls    <span style="color:#6e7176"># lista los archivos que subiste a GitHub</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ETAPA 9 ===================== -->
+  <section id="etapa9" style="max-width:940px;margin:0 auto;padding:80px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ 09 ]</span>
+      <span style="color:#7d8085"><span data-l="es">DENTRO DE WSL · EL SALTO DE CALIDAD</span><span data-l="en">INSIDE WSL · THE QUALITY LEAP</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,38px);line-height:1.12;letter-spacing:-.01em;color:#fafafa;margin:0 0 20px;max-width:760px"><span data-l="es">Mejorar el proyecto con arquitectura (SDD)</span><span data-l="en">Improve the project with architecture (SDD)</span></h2>
+    <p data-l="es" style="margin:0 0 28px;color:#c4c6c9;max-width:720px">Tenés el proyecto. Ahora viene lo que separa a un aficionado de alguien que construye software de verdad: <strong style="color:#fafafa;font-weight:600">mejorarlo con criterio</strong>, no a la deriva.</p>
+    <p data-l="en" style="margin:0 0 28px;color:#c4c6c9;max-width:720px">You've got the project. Now comes what separates a hobbyist from someone who builds real software: <strong style="color:#fafafa;font-weight:600">improving it with judgment</strong>, not adrift.</p>
+
+    <div style="max-width:768px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 14px"><span data-l="es">9.1 / 9.2 — Arrancá y dejá que Claude entienda el proyecto</span><span data-l="en">9.1 / 9.2 — Start, and let Claude understand the project</span></h3>
+      <p data-l="es" style="margin:0 0 14px;color:#c4c6c9">Asegurate de estar en la carpeta del proyecto, escribí <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude</code>, y antes de cambiar nada dejá que la IA conozca el terreno:</p>
+      <p data-l="en" style="margin:0 0 14px;color:#c4c6c9">Make sure you're in the project folder, type <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:#e6e6e6">claude</code>, and before changing anything let the AI learn the terrain:</p>
+      <div data-code style="position:relative;margin:0 0 16px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">claude <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#e6e6e6">/sdd-onboard</code></pre>
+      </div>
+      <p data-l="es" style="margin:0 0 28px;color:#c4c6c9">Esto te lleva de la mano por <strong style="color:#fafafa;font-weight:600">SDD (Spec-Driven Development)</strong>: en vez de pedir cambios sueltos, primero se <em>explora</em>, se <em>propone</em>, se <em>especifica</em>, se <em>diseña</em> y recién después se <em>implementa</em>. Es la diferencia entre construir con planos y construir improvisando.</p>
+      <p data-l="en" style="margin:0 0 28px;color:#c4c6c9">This walks you through <strong style="color:#fafafa;font-weight:600">SDD (Spec-Driven Development)</strong>: instead of asking for loose changes, first you <em>explore</em>, <em>propose</em>, <em>spec</em>, <em>design</em>, and only then <em>implement</em>. It's the difference between building with blueprints and improvising.</p>
+
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 8px"><span data-l="es">9.3 — El ciclo SDD, fase por fase</span><span data-l="en">9.3 — The SDD cycle, phase by phase</span></h3>
+      <p data-l="es" style="margin:0 0 22px;color:#c4c6c9">Cada fase tiene su mejor modelo y su nivel de razonamiento. Pensalo como levantar una casa: primero se PIENSA, después se CONSTRUYE, al final se VERIFICA.</p>
+      <p data-l="en" style="margin:0 0 22px;color:#c4c6c9">Each phase has its best model and reasoning level. Think of it as building a house: first you THINK, then you BUILD, finally you VERIFY.</p>
+    </div>
+
+    <!-- SDD phases table -->
+    <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;margin:0 0 22px;background:#0d0e11">
+      <div style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#6e7176;padding:11px 18px;border-bottom:1px solid rgba(255,255,255,.08)"><span><span data-l="es">FASE</span><span data-l="en">PHASE</span></span><span><span data-l="es">QUÉ HACE (LA CASA)</span><span data-l="en">WHAT IT DOES (THE HOUSE)</span></span><span><span data-l="es">MODELO</span><span data-l="en">MODEL</span></span><span><span data-l="es">RAZONA.</span><span data-l="en">REASON.</span></span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">explore</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">Estudiar el terreno: leer el código y comparar opciones</span><span data-l="en">Study the ground: read the code, compare options</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9da1">Sonnet 4.6</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">max</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">propose</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">El anteproyecto: qué se va a hacer y por qué</span><span data-l="en">The draft plan: what will be done and why</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ac,#a6e22e)">Opus 4.8</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">max</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">spec</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">El pliego de requisitos: qué debe cumplir</span><span data-l="en">The requirements brief: what it must satisfy</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9da1">Sonnet 4.6</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">max</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">design</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">Los planos técnicos: cómo se va a construir</span><span data-l="en">The technical blueprints: how it'll be built</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ac,#a6e22e)">Opus 4.8</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">max</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">tasks</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">La lista de tareas de obra</span><span data-l="en">The construction task list</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9da1">Sonnet 4.6</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">max</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">apply</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">La construcción: escribir el código</span><span data-l="en">The build: writing the code</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9da1">Sonnet 4.6</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">max</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">verify</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">La inspección: ¿quedó como decía el plano?</span><span data-l="en">The inspection: does it match the blueprint?</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ac,#a6e22e)">Opus 4.8</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">max</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">archive</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">Entregar las llaves y cerrar el expediente</span><span data-l="en">Hand over the keys and close the file</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9da1">Haiku 4.5</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">default</span></div>
+      <div data-srow style="display:grid;grid-template-columns:120px 1fr 110px 110px;gap:10px;padding:12px 18px;align-items:baseline"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e)">onboard</code><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">El recorrido guiado de toda la obra, con un maestro al lado</span><span data-l="en">The guided tour of the whole build, with a master beside you</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9da1">Haiku 4.5</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7d8085">default</span></div>
+    </div>
+    <p data-l="es" style="margin:0 0 34px;color:#9a9da1;font-size:14.5px;max-width:768px;font-style:italic">El patrón: donde hay que PENSAR y DECIDIR (propose, design, verify) → <span style="color:var(--ac,#a6e22e);font-style:normal">Opus 4.8</span>. Donde hay que EJECUTAR → <span style="color:#cfd1d3;font-style:normal">Sonnet 4.6</span>. Lo simple → <span style="color:#cfd1d3;font-style:normal">Haiku 4.5</span>.</p>
+    <p data-l="en" style="margin:0 0 34px;color:#9a9da1;font-size:14.5px;max-width:768px;font-style:italic">The pattern: where you must THINK and DECIDE (propose, design, verify) → <span style="color:var(--ac,#a6e22e);font-style:normal">Opus 4.8</span>. Where you EXECUTE → <span style="color:#cfd1d3;font-style:normal">Sonnet 4.6</span>. The simple stuff → <span style="color:#cfd1d3;font-style:normal">Haiku 4.5</span>.</p>
+
+    <div style="max-width:768px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;color:#fafafa;margin:0 0 8px"><span data-l="es">Judgment Day: revisión a ciegas</span><span data-l="en">Judgment Day: blind review</span></h3>
+      <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Gentle AI tiene tres roles extra. Lo más interesante: <strong style="color:#fafafa;font-weight:600">dos jueces revisan tu código por separado y a ciegas</strong> (no se ven entre ellos), como dos inspectores que no se ponen de acuerdo de antemano. Solo lo que AMBOS marcan como problema real se corrige.</p>
+      <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Gentle AI has three extra roles. The most interesting: <strong style="color:#fafafa;font-weight:600">two judges review your code separately and blind</strong> (they don't see each other), like two inspectors who never agree in advance. Only what BOTH flag as a real problem gets fixed.</p>
+    </div>
+    <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;margin:0 0 22px;background:#0d0e11">
+      <div style="display:grid;grid-template-columns:150px 1fr 110px;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#6e7176;padding:11px 18px;border-bottom:1px solid rgba(255,255,255,.08)"><span><span data-l="es">ROL</span><span data-l="en">ROLE</span></span><span><span data-l="es">PARA QUÉ SIRVE</span><span data-l="en">WHAT IT'S FOR</span></span><span><span data-l="es">MODELO</span><span data-l="en">MODEL</span></span></div>
+      <div data-srow style="display:grid;grid-template-columns:150px 1fr 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd1d3">JD Judge A</span><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">Un juez independiente busca errores en el código</span><span data-l="en">An independent judge hunts for errors</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ac,#a6e22e)">Opus 4.8</span></div>
+      <div data-srow style="display:grid;grid-template-columns:150px 1fr 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd1d3">JD Judge B</span><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">Un segundo juez, a ciegas, revisa lo mismo por separado</span><span data-l="en">A second judge reviews the same, blind and separately</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ac,#a6e22e)">Opus 4.8</span></div>
+      <div data-srow style="display:grid;grid-template-columns:150px 1fr 110px;gap:10px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd1d3">JD Fix Agent</span><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">Aplica solo las correcciones que AMBOS confirmaron</span><span data-l="en">Applies only the fixes BOTH confirmed</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ac,#a6e22e)">Opus 4.8</span></div>
+      <div data-srow style="display:grid;grid-template-columns:150px 1fr 110px;gap:10px;padding:12px 18px;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd1d3"><span data-l="es">Delegación</span><span data-l="en">Delegation</span></span><span style="font-size:14.5px;color:#c4c6c9"><span data-l="es">El modelo por defecto para tareas sueltas que no son SDD</span><span data-l="en">The default model for one-off, non-SDD tasks</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9da1">Sonnet 4.6</span></div>
+    </div>
+
+    <div style="max-width:768px">
+      <div style="margin:0 0 28px;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">★ <span data-l="es">LO MEJOR DE TODO</span><span data-l="en">THE BEST PART</span></div>
+        <p data-l="es" style="margin:0;color:#cdd0c2;font-size:16.5px;line-height:1.6">Gentle AI ya elige el modelo correcto en cada fase y cada rol, <strong style="color:#fff;font-weight:600">automáticamente</strong>. No tenés que cambiar nada a mano. Estas tablas están acá para que ENTIENDAS el porqué.</p>
+        <p data-l="en" style="margin:0;color:#cdd0c2;font-size:16.5px;line-height:1.6">Gentle AI already picks the right model for each phase and role, <strong style="color:#fff;font-weight:600">automatically</strong>. You don't change anything by hand. These tables are here so you UNDERSTAND the why.</p>
+      </div>
+
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;color:#fafafa;margin:0 0 14px"><span data-l="es">Los comandos del ciclo</span><span data-l="en">The cycle's commands</span></h3>
+      <div data-code style="position:relative;margin:0 0 20px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#0b0c0e;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">claude <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+        <pre style="margin:0;padding:14px 16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.75;color:#e6e6e6">/sdd-init       <span style="color:#6e7176"># preparar SDD (una sola vez)</span>
+/sdd-new        <span style="color:#6e7176"># arrancar un cambio (explora + propone)</span>
+/sdd-continue   <span style="color:#6e7176"># avanzar a la siguiente fase</span>
+/sdd-status     <span style="color:#6e7176"># ver en qué fase vas</span>
+/sdd-onboard    <span style="color:#6e7176"># recorrido guiado (ideal para aprender)</span></code></pre>
+      </div>
+      <p data-l="es" style="margin:0 0 34px;color:#c4c6c9">Para tu primer proyecto NO hace falta aprenderlos todos. Con <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">/sdd-onboard</code> Claude te lleva de la mano por el ciclo completo, sobre tu propio código. Esa es la mejor forma de afianzar SDD.</p>
+      <p data-l="en" style="margin:0 0 34px;color:#c4c6c9">For your first project you do NOT need to learn them all. With <code style="font-family:'JetBrains Mono',monospace;font-size:.85em;background:#15171b;padding:2px 6px;border-radius:4px;color:var(--ac,#a6e22e)">/sdd-onboard</code> Claude walks you through the full cycle, on your own code. That's the best way to make SDD stick.</p>
+
+      <div style="margin:0 0 34px;border:1px solid rgba(166,226,46,.22);background:rgba(166,226,46,.045);border-radius:11px;padding:18px 22px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:10px">♥ <span data-l="es">CRÉDITOS — ¿DE DÓNDE SALE EL SDD?</span><span data-l="en">CREDITS — WHERE DOES SDD COME FROM?</span></div>
+        <p data-l="es" style="margin:0;color:#cdd0c2;font-size:16px;line-height:1.62">Todo este método (SDD) y el arnés <strong style="color:#fff;font-weight:600">Gentle AI</strong> que lo hace posible son obra de <strong style="color:#fff;font-weight:600">Alan Buscaglia</strong>, el creador de <strong style="color:#fff;font-weight:600">Gentleman Programming</strong> — la misma comunidad de la que instalaste el tap en la Etapa 5. El criterio de arquitectura, los modelos por fase y la disciplina de TDD salen de su trabajo. El proyecto vive en <a href="https://github.com/Gentleman-Programming/gentle-ai" style="color:var(--ac,#a6e22e);text-decoration:none">github.com/Gentleman-Programming/gentle-ai</a>; si esto te suma, date una vuelta y agradecé el laburo. 🙌</p>
+        <p data-l="en" style="margin:0;color:#cdd0c2;font-size:16px;line-height:1.62">This whole method (SDD) and the <strong style="color:#fff;font-weight:600">Gentle AI</strong> harness that makes it possible are the work of <strong style="color:#fff;font-weight:600">Alan Buscaglia</strong>, creator of <strong style="color:#fff;font-weight:600">Gentleman Programming</strong> — the same community whose tap you installed in Stage 5. The architectural judgment, the per-phase models and the TDD discipline come from his work. The project lives at <a href="https://github.com/Gentleman-Programming/gentle-ai" style="color:var(--ac,#a6e22e);text-decoration:none">github.com/Gentleman-Programming/gentle-ai</a>; if this helps you, stop by and thank him for the effort. 🙌</p>
+      </div>
+
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fafafa;margin:0 0 14px"><span data-l="es">9.4 — Tus primeras mejoras (en orden)</span><span data-l="en">9.4 — Your first improvements (in order)</span></h3>
+      <p data-l="es" style="margin:0 0 16px;color:#c4c6c9">Empezá por lo básico y seguí subiendo. Pedile una por vez:</p>
+      <p data-l="en" style="margin:0 0 16px;color:#c4c6c9">Start basic and climb. Ask one at a time:</p>
+      <ol style="margin:0 0 18px;padding-left:22px;color:#c4c6c9">
+        <li data-l="es" style="margin-bottom:9px"><strong style="color:#fafafa;font-weight:600">Robustez:</strong> <em>"Revisá el proyecto y agregá manejo de errores donde falte."</em></li>
+        <li data-l="en" style="margin-bottom:9px"><strong style="color:#fafafa;font-weight:600">Robustness:</strong> <em>"Review the project and add error handling where it's missing."</em></li>
+        <li data-l="es" style="margin-bottom:9px"><strong style="color:#fafafa;font-weight:600">Seguridad:</strong> <em>"Hacé una revisión de seguridad y corregí lo más riesgoso."</em></li>
+        <li data-l="en" style="margin-bottom:9px"><strong style="color:#fafafa;font-weight:600">Security:</strong> <em>"Do a security review and fix the riskiest parts."</em></li>
+        <li data-l="es" style="margin-bottom:9px"><strong style="color:#fafafa;font-weight:600">Arquitectura:</strong> <em>"Refactorizá el proyecto aplicando arquitectura hexagonal, explicándome cada cambio."</em></li>
+        <li data-l="en" style="margin-bottom:9px"><strong style="color:#fafafa;font-weight:600">Architecture:</strong> <em>"Refactor the project applying hexagonal architecture, explaining each change to me."</em></li>
+      </ol>
+      <div style="margin:0 0 0;border-left:3px solid var(--ac,#a6e22e);background:#0d0e11;border-radius:0 10px 10px 0;padding:14px 20px">
+        <p data-l="es" style="margin:0;color:#d8dadd;font-size:16.5px;line-height:1.6"><strong style="color:#fff;font-weight:600">Regla de oro:</strong> después de cada cambio, pedile que te <strong style="color:#fff;font-weight:600">explique qué hizo y por qué</strong>. Si no entendés algo, preguntá. No aceptes código que no comprendés.</p>
+        <p data-l="en" style="margin:0;color:#d8dadd;font-size:16.5px;line-height:1.6"><strong style="color:#fff;font-weight:600">Golden rule:</strong> after each change, ask it to <strong style="color:#fff;font-weight:600">explain what it did and why</strong>. If you don't understand something, ask. Never accept code you don't understand.</p>
+      </div>
+
+      <div style="margin:28px 0 0;border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:11px;padding:18px 22px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ac,#a6e22e);margin-bottom:8px">✓ <span data-l="es">CÓMO SÉ QUE FUNCIONÓ — ETAPA 9</span><span data-l="en">HOW I KNOW IT WORKED — STAGE 9</span></div>
+        <p data-l="es" style="margin:0;color:#c4c6c9;font-size:16.5px;line-height:1.6">El proyecto sigue funcionando, está más ordenado, y <strong style="color:#fafafa;font-weight:600">vos podés explicar qué cambió y por qué</strong>. Esa última parte es la que importa.</p>
+        <p data-l="en" style="margin:0;color:#c4c6c9;font-size:16.5px;line-height:1.6">The project still works, it's tidier, and <strong style="color:#fafafa;font-weight:600">you can explain what changed and why</strong>. That last part is what matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPTS ===================== -->
+  <section id="conceptos" style="max-width:940px;margin:0 auto;padding:88px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ ✶ ]</span>
+      <span style="color:#7d8085"><span data-l="es">PARA TENER EN LA CABEZA</span><span data-l="en">TO KEEP IN MIND</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 18px;max-width:720px"><span data-l="es">Conceptos que te dan el control</span><span data-l="en">Concepts that give you control</span></h2>
+    <p data-l="es" style="margin:0 0 36px;color:#c4c6c9;max-width:680px">No hace falta que los domines hoy. Pero cuando le pidas cosas a la IA, estas palabras te van a dar el control.</p>
+    <p data-l="en" style="margin:0 0 36px;color:#c4c6c9;max-width:680px">You don't have to master these today. But when you ask the AI for things, these words give you the control.</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;color:#fafafa;margin:0 0 18px"><span data-l="es">SOLID — 5 principios para buen código</span><span data-l="en">SOLID — 5 principles for good code</span></h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin:0 0 40px">
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11"><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:var(--ac,#a6e22e);line-height:1;margin-bottom:10px">S</div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a9da1;margin-bottom:8px"><span data-l="es">Responsabilidad única</span><span data-l="en">Single responsibility</span></div><p data-l="es" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Cada pieza hace <strong style="color:#fafafa;font-weight:600">una sola cosa</strong>, y bien.</p><p data-l="en" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Each piece does <strong style="color:#fafafa;font-weight:600">one thing</strong>, well.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11"><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:var(--ac,#a6e22e);line-height:1;margin-bottom:10px">O</div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a9da1;margin-bottom:8px"><span data-l="es">Abierto/Cerrado</span><span data-l="en">Open/Closed</span></div><p data-l="es" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Se puede <strong style="color:#fafafa;font-weight:600">extender</strong> sin romper lo que ya anda.</p><p data-l="en" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">You can <strong style="color:#fafafa;font-weight:600">extend</strong> it without breaking what works.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11"><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:var(--ac,#a6e22e);line-height:1;margin-bottom:10px">L</div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a9da1;margin-bottom:8px"><span data-l="es">Sustitución de Liskov</span><span data-l="en">Liskov substitution</span></div><p data-l="es" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Una pieza nueva puede <strong style="color:#fafafa;font-weight:600">reemplazar</strong> a otra sin sorpresas.</p><p data-l="en" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">A new piece can <strong style="color:#fafafa;font-weight:600">replace</strong> another with no surprises.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11"><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:var(--ac,#a6e22e);line-height:1;margin-bottom:10px">I</div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a9da1;margin-bottom:8px"><span data-l="es">Segregación de interfaces</span><span data-l="en">Interface segregation</span></div><p data-l="es" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Muchas interfaces <strong style="color:#fafafa;font-weight:600">chicas y específicas</strong>, no una gigante.</p><p data-l="en" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Many <strong style="color:#fafafa;font-weight:600">small, specific</strong> interfaces, not one giant.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;background:#0d0e11"><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:var(--ac,#a6e22e);line-height:1;margin-bottom:10px">D</div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a9da1;margin-bottom:8px"><span data-l="es">Inversión de dependencias</span><span data-l="en">Dependency inversion</span></div><p data-l="es" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Depender de <strong style="color:#fafafa;font-weight:600">ideas abstractas</strong>, no de detalles concretos.</p><p data-l="en" style="margin:0;font-size:14.5px;line-height:1.5;color:#c4c6c9">Depend on <strong style="color:#fafafa;font-weight:600">abstractions</strong>, not concrete details.</p></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;max-width:768px">
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px;background:#0d0e11">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;color:#fafafa;margin:0 0 12px"><span data-l="es">Arquitectura Limpia</span><span data-l="en">Clean Architecture</span></h3>
+        <p data-l="es" style="margin:0;font-size:15.5px;line-height:1.6;color:#c4c6c9">Imaginá tu app como <strong style="color:#fafafa;font-weight:600">capas de una cebolla</strong>. En el centro está la lógica de tu negocio (lo que no cambia). Afuera están los detalles: la base de datos, la pantalla, internet. La regla: lo de afuera puede cambiar sin tocar el centro.</p>
+        <p data-l="en" style="margin:0;font-size:15.5px;line-height:1.6;color:#c4c6c9">Picture your app as <strong style="color:#fafafa;font-weight:600">layers of an onion</strong>. At the center is your business logic (what doesn't change). Outside are the details: the database, the screen, the internet. The rule: the outside can change without touching the center.</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px;background:#0d0e11">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;color:#fafafa;margin:0 0 12px"><span data-l="es">Arquitectura Hexagonal</span><span data-l="en">Hexagonal Architecture</span></h3>
+        <p data-l="es" style="margin:0;font-size:15.5px;line-height:1.6;color:#c4c6c9">Tu lógica de negocio expone <strong style="color:#fafafa;font-weight:600">"puertos"</strong> (enchufes), y los <strong style="color:#fafafa;font-weight:600">"adaptadores"</strong> son los cables que conectan el mundo exterior a esos enchufes. Podés cambiar la pantalla o la base de datos <strong style="color:#fafafa;font-weight:600">sin tocar el corazón</strong>. Es lo que pediste en la Etapa 9.4.</p>
+        <p data-l="en" style="margin:0;font-size:15.5px;line-height:1.6;color:#c4c6c9">Your business logic exposes <strong style="color:#fafafa;font-weight:600">"ports"</strong> (sockets), and <strong style="color:#fafafa;font-weight:600">"adapters"</strong> are the cables that connect the outside world to those sockets. You can swap the screen or the database <strong style="color:#fafafa;font-weight:600">without touching the heart</strong>. It's what you asked for in Stage 9.4.</p>
+      </div>
+    </div>
+    <p style="margin:18px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#56585d;max-width:768px"><span data-l="es">// es la misma arquitectura que sostiene este portafolio — dominio en el centro, adaptadores intercambiables alrededor.</span><span data-l="en">// the same architecture behind this very portfolio — domain at the center, swappable adapters around it.</span></p>
+  </section>
+
+  <!-- ===================== APPENDICES ===================== -->
+  <section id="apendices" style="max-width:940px;margin:0 auto;padding:88px 24px 0;scroll-margin-top:80px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;margin-bottom:18px">
+      <span style="color:var(--ac,#a6e22e)">[ § ]</span>
+      <span style="color:#7d8085"><span data-l="es">REFERENCIA RÁPIDA</span><span data-l="en">QUICK REFERENCE</span></span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,36px);line-height:1.15;letter-spacing:-.01em;color:#fafafa;margin:0 0 36px"><span data-l="es">Apéndices</span><span data-l="en">Appendices</span></h2>
+
+    <!-- A. cheat sheet -->
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#fafafa;margin:0 0 14px"><span style="color:var(--ac,#a6e22e);font-family:'JetBrains Mono',monospace;font-size:14px">A ·</span> <span data-l="es">Hoja de trucos</span><span data-l="en">Cheat sheet</span></h3>
+    <div data-code style="position:relative;margin:0 0 40px;border:1px solid rgba(255,255,255,.1);border-radius:11px;background:#0b0c0e;overflow:hidden;max-width:768px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.08em">bash · cheatsheet <button data-label="copy" onClick="{{ copyCode }}" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#9a9da1;border-radius:5px;padding:3px 10px;font-family:inherit;font-size:11px;cursor:pointer">copy</button></div>
+      <pre style="margin:0;padding:16px;overflow-x:auto"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.85;color:#e6e6e6"><span style="color:#6e7176"># --- Verificar el entorno ---</span>
+uname -a            <span style="color:#6e7176"># confirma WSL2</span>
+brew --version      <span style="color:#6e7176"># Homebrew</span>
+node --version      <span style="color:#6e7176"># Node.js</span>
+go version          <span style="color:#6e7176"># Go</span>
+python3 --version   <span style="color:#6e7176"># Python</span>
+claude --version    <span style="color:#6e7176"># Claude Code</span>
+gentle-ai doctor    <span style="color:#6e7176"># salud del arnés</span>
+
+<span style="color:#6e7176"># --- Git / GitHub del día a día ---</span>
+git status          <span style="color:#6e7176"># ver qué cambió</span>
+git add .           <span style="color:#6e7176"># marcar todos los cambios</span>
+git commit -m "msg" <span style="color:#6e7176"># guardar con un mensaje</span>
+git push            <span style="color:#6e7176"># subir a GitHub</span>
+git pull            <span style="color:#6e7176"># bajar de GitHub</span>
+gh auth status      <span style="color:#6e7176"># ver tu sesión</span>
+
+<span style="color:#6e7176"># --- Trabajar con un proyecto ---</span>
+cd ~/dev/TU_REPO    <span style="color:#6e7176"># entrar a la carpeta</span>
+ls                  <span style="color:#6e7176"># listar archivos</span>
+code .              <span style="color:#6e7176"># abrir en VS Code</span>
+claude              <span style="color:#6e7176"># iniciar el asistente</span>
+<span style="color:#6e7176"># Dentro de Claude: /model · /fast · /exit</span></code></pre>
+    </div>
+
+    <!-- B. common problems -->
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#fafafa;margin:0 0 14px"><span style="color:var(--ac,#a6e22e);font-family:'JetBrains Mono',monospace;font-size:14px">B ·</span> <span data-l="es">Problemas comunes</span><span data-l="en">Common problems</span></h3>
+    <div style="border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;margin:0 0 40px;background:#0d0e11">
+      <div style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#6e7176;padding:11px 18px;border-bottom:1px solid rgba(255,255,255,.08)"><span><span data-l="es">SÍNTOMA</span><span data-l="en">SYMPTOM</span></span><span><span data-l="es">SOLUCIÓN</span><span data-l="en">FIX</span></span></div>
+      <div data-prow style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#d8a0a0"><span data-l="es">wsl --install falla / no inicia WSL</span><span data-l="en">wsl --install fails / WSL won't start</span></span><span style="font-size:14.5px;color:#c4c6c9;line-height:1.5"><span data-l="es">Reiniciá. Si sigue, activá la virtualización en la BIOS y corré wsl --update en PowerShell.</span><span data-l="en">Restart. If it persists, enable virtualization in the BIOS and run wsl --update in PowerShell.</span></span></div>
+      <div data-prow style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#d8a0a0">brew: command not found</span><span style="font-size:14.5px;color:#c4c6c9;line-height:1.5"><span data-l="es">Faltó conectar Homebrew. Corré source ~/.bashrc. Si sigue, repetí el echo de la Etapa 2.2.</span><span data-l="en">Homebrew wasn't connected. Run source ~/.bashrc. If it persists, repeat the echo from Stage 2.2.</span></span></div>
+      <div data-prow style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#d8a0a0">node: command not found</span><span style="font-size:14.5px;color:#c4c6c9;line-height:1.5"><span data-l="es">Cerrá y reabrí la terminal (fnm se activa al abrir). Verificá con fnm list.</span><span data-l="en">Close and reopen the terminal (fnm activates on open). Check with fnm list.</span></span></div>
+      <div data-prow style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#d8a0a0">claude: command not found</span><span style="font-size:14.5px;color:#c4c6c9;line-height:1.5"><span data-l="es">Cerrá y reabrí la terminal. Claude se instala en ~/.local/bin.</span><span data-l="en">Close and reopen the terminal. Claude installs to ~/.local/bin.</span></span></div>
+      <div data-prow style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#d8a0a0"><span data-l="es">git push pide usuario y contraseña</span><span data-l="en">git push asks for user &amp; password</span></span><span style="font-size:14.5px;color:#c4c6c9;line-height:1.5"><span data-l="es">Corré gh auth login de nuevo (Etapa 6.4).</span><span data-l="en">Run gh auth login again (Stage 6.4).</span></span></div>
+      <div data-prow style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#d8a0a0"><span data-l="es">Docker no responde en WSL</span><span data-l="en">Docker not responding in WSL</span></span><span style="font-size:14.5px;color:#c4c6c9;line-height:1.5"><span data-l="es">Abrí Docker Desktop y esperá a que diga "running". Revisá la integración WSL (Etapa 1.4).</span><span data-l="en">Open Docker Desktop and wait for "running". Check WSL integration (Stage 1.4).</span></span></div>
+      <div data-prow style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;padding:13px 18px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#d8a0a0"><span data-l="es">Un comando en PowerShell falló</span><span data-l="en">A command failed in PowerShell</span></span><span style="font-size:14.5px;color:#c4c6c9;line-height:1.5"><span data-l="es">Recordá: desde la Etapa 2, todo va dentro de Ubuntu, no en PowerShell.</span><span data-l="en">Remember: from Stage 2, everything goes inside Ubuntu, not PowerShell.</span></span></div>
+    </div>
+
+    <!-- C. glossary -->
+    <h3 id="glosario" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#fafafa;margin:0 0 14px;scroll-margin-top:80px"><span style="color:var(--ac,#a6e22e);font-family:'JetBrains Mono',monospace;font-size:14px">C ·</span> <span data-l="es">Glosario</span><span data-l="en">Glossary</span></h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:0 0 40px">
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px"><span data-l="es">Terminal / shell</span><span data-l="en">Terminal / shell</span></div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">La ventana donde escribís comandos en vez de hacer clics.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">The window where you type commands instead of clicking.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px">WSL</div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Linux corriendo dentro de Windows.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Linux running inside Windows.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px">Homebrew / brew</div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">El instalador de programas.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">The program installer.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px"><span data-l="es">Repositorio (repo)</span><span data-l="en">Repository (repo)</span></div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">La carpeta de tu proyecto con todo su historial.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Your project folder with all its history.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px"><span data-l="es">Clonar</span><span data-l="en">Clone</span></div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Bajar una copia de un repositorio a tu máquina.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Download a copy of a repository to your machine.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px">Commit</div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Una "foto" guardada de tus cambios, con un mensaje.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">A saved "snapshot" of your changes, with a message.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px">Push / Pull</div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Subir cambios a GitHub / bajar cambios de GitHub.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Push changes to GitHub / pull changes from GitHub.</p></div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:13px 15px;background:#0d0e11"><div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ac,#a6e22e);margin-bottom:5px"><span data-l="es">IA agente</span><span data-l="en">Agentic AI</span></div><p data-l="es" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">Una IA que no solo responde, sino que ejecuta tareas por vos.</p><p data-l="en" style="margin:0;font-size:14px;line-height:1.5;color:#a9abae">An AI that not only answers, but executes tasks for you.</p></div>
+    </div>
+
+    <!-- D. versions -->
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#fafafa;margin:0 0 14px"><span style="color:var(--ac,#a6e22e);font-family:'JetBrains Mono',monospace;font-size:14px">D ·</span> <span data-l="es">Versiones de referencia</span><span data-l="en">Reference versions</span></h3>
+    <p data-l="es" style="margin:0 0 16px;color:#9a9da1;font-size:15px;max-width:680px">Probado con estas versiones (las tuyas pueden ser más nuevas, no hay problema):</p>
+    <p data-l="en" style="margin:0 0 16px;color:#9a9da1;font-size:15px;max-width:680px">Tested with these versions (yours may be newer — no problem):</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;max-width:768px">
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">Ubuntu <span style="color:#e6e6e6">24.04 LTS</span></span>
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">Node <span style="color:#e6e6e6">v24 LTS</span></span>
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">Go <span style="color:#e6e6e6">1.26</span></span>
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">Python <span style="color:#e6e6e6">3.14</span></span>
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">Git <span style="color:#e6e6e6">2.43</span></span>
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">Claude Code <span style="color:#e6e6e6">2.1</span></span>
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">Gentle AI <span style="color:#e6e6e6">1.41</span></span>
+      <span style="border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px 12px;color:#a9abae">engram <span style="color:#e6e6e6">1.17</span></span>
+    </div>
+  </section>
+
+  <!-- ===================== CLOSING ===================== -->
+  <section style="max-width:768px;margin:0 auto;padding:90px 24px 0">
+    <div style="border:1px solid rgba(166,226,46,.3);background:linear-gradient(180deg,rgba(166,226,46,.07),rgba(166,226,46,.02));border-radius:16px;padding:40px 34px;text-align:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--ac,#a6e22e);margin-bottom:18px"><span data-l="es">ÚLTIMO CONSEJO — Y EL MÁS IMPORTANTE</span><span data-l="en">LAST ADVICE — AND THE MOST IMPORTANT</span></div>
+      <p data-l="es" style="margin:0 auto;max-width:560px;font-size:clamp(20px,2.6vw,25px);line-height:1.5;color:#ededed;font-style:italic">No tengas miedo de romper nada. Para eso está Git: siempre podés volver atrás. Equivocarse es parte de aprender. Tomate tu tiempo, entendé cada paso, y disfrutá el camino. <strong style="color:var(--ac,#a6e22e);font-style:normal;font-weight:600">Vos dirigís.</strong></p>
+      <p data-l="en" style="margin:0 auto;max-width:560px;font-size:clamp(20px,2.6vw,25px);line-height:1.5;color:#ededed;font-style:italic">Don't be afraid to break anything. That's what Git is for: you can always go back. Making mistakes is part of learning. Take your time, understand each step, and enjoy the road. <strong style="color:var(--ac,#a6e22e);font-style:normal;font-weight:600">You direct.</strong></p>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="max-width:940px;margin:0 auto;padding:70px 24px 60px">
+    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);margin-bottom:30px"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6e7176;letter-spacing:.04em">
+      <span><span data-l="es">PROTOCOLO · ENTORNO DE DESARROLLO · v1 · 2026</span><span data-l="en">PROTOCOL · DEVELOPMENT ENVIRONMENT · v1 · 2026</span></span>
+      <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" style="text-decoration:none;color:#9a9da1;display:inline-flex;align-items:center;gap:6px"><span data-l="es">VOLVER AL PORTAFOLIO</span><span data-l="en">BACK TO PORTFOLIO</span> <span style="color:var(--ac,#a6e22e)">↗</span></a>
+      <span style="display:inline-flex;align-items:center;gap:7px"><span style="width:6px;height:6px;border-radius:50%;background:var(--ac,#a6e22e);animation:blink 2.4s infinite"></span> SYSTEM NOMINAL</span>
+    </div>
+    <p style="margin:22px 0 0;font-family:var(--bf);font-size:14px;color:#56585d;max-width:560px">© 2026 Juan Felipe Jaramillo-Hernández · <span data-l="es">escrito para mi viejo, con cariño.</span><span data-l="en">written for my father, with love.</span></p>
+  </footer>
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:760},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#a6e22e&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;serifBody&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showProgress&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;es&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;en&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { lang: 'es' };
+
+  constructor(props){
+    super(props);
+    this.progressRef = React.createRef();
+  }
+
+  componentDidMount(){
+    let lang = null;
+    try { const s = localStorage.getItem('protocolo-lang'); if (s === 'es' || s === 'en') lang = s; } catch(e){}
+    if (!lang) lang = (this.props.defaultLang === 'en') ? 'en' : 'es';
+    if (lang !== this.state.lang) this.setState({ lang });
+    this._onScroll = () => {
+      const el = this.progressRef && this.progressRef.current;
+      if (!el) return;
+      const h = document.documentElement;
+      const max = (h.scrollHeight - h.clientHeight) || 1;
+      const pct = Math.min(100, Math.max(0, (h.scrollTop || window.scrollY) / max * 100));
+      el.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onScroll);
+  }
+
+  setLang(l){
+    this.setState({ lang: l });
+    try { localStorage.setItem('protocolo-lang', l); } catch(e){}
+  }
+
+  renderVals(){
+    const accent = this.props.accent ?? '#a6e22e';
+    const serif = this.props.serifBody ?? true;
+    return {
+      lang: this.state.lang,
+      accent,
+      bodyFont: serif ? "'Newsreader', Georgia, serif" : "'Space Grotesk', system-ui, sans-serif",
+      showProgress: this.props.showProgress ?? true,
+      progressRef: this.progressRef,
+      setES: () => this.setLang('es'),
+      setEN: () => this.setLang('en'),
+      copyCode: (e) => {
+        const wrap = e.currentTarget.closest('[data-code]');
+        const code = wrap && wrap.querySelector('code');
+        if (code && navigator.clipboard) navigator.clipboard.writeText(code.innerText);
+        const b = e.currentTarget; const prev = b.getAttribute('data-label') || b.textContent;
+        b.textContent = '✓'; setTimeout(() => { b.textContent = prev; }, 1200);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
