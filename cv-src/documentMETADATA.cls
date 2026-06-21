@@ -356,11 +356,9 @@
 }
 
 %%%%%%%%%%%% certification entry
-% Render a certification in the scolarship environment
-% Usage: \certificationentry{<date>}{<description>}
-\newcommand\keywordsentry[2]{
-  \textbf{#1} &   #2\\ *
-}
+% The certification entry command is defined below as a 3-argument macro.
+% A stray 2-argument duplicate of \keywordsentry lived here and redefined an
+% already-defined command, which made LuaLaTeX abort; it has been removed.
 
 % Define a new column type for the certification environment
 \newcolumntype{Y}{>{\raggedleft}p{\leftcolumn}}
