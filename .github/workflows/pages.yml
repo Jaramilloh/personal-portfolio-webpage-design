@@ -2,15 +2,16 @@ name: Deploy to GitHub Pages
 
 # Publishes the build-free static portfolio (dc-runtime: HTML + support.js + core.js)
 # to https://jaramilloh.github.io/personal-portfolio-webpage-design/ .
-# `develop` is the deploy branch (it is where all PRs land and ci.yml gates them);
-# every merged PR goes live. The artifact is assembled at deploy time so committed
-# source stays canonical: the entry file "Juan Felipe Jaramillo.dc.html" is copied
-# to index.html so the project subpath root serves the portfolio (the repo has no
-# committed index.html).
+# `main` is the deploy branch: develop is integration, main is production. Each
+# release merge (develop -> main) goes live. The github-pages environment only
+# permits deployments from main, so this trigger must stay aligned with it.
+# The artifact is assembled at deploy time so committed source stays canonical:
+# the entry file "Juan Felipe Jaramillo.dc.html" is copied to index.html so the
+# project subpath root serves the portfolio (the repo has no committed index.html).
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
   workflow_dispatch:
 
 # Least privilege for the build job; deploy job needs pages + id-token to publish.
