@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; base-uri 'self'; form-action 'none'; object-src 'none'">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0a0c0f"/><rect x="30" y="30" width="40" height="40" rx="2" fill="none" stroke="#2dd4bf" stroke-width="2"/><text x="50" y="56" font-family="monospace" font-size="20" font-weight="700" fill="#2dd4bf" text-anchor="middle">JF</text></svg></template>
+<helmet>
+<link rel="stylesheet" href="./assets/fonts/fonts.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { background:#0a0c0f; }
+  ::selection { background:#2dd4bf; color:#04130f; }
+  @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+  @media print {
+    @page { size:A4; margin:14mm; }
+    html, body { background:#0a0c0f !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .cv-noprint { display:none !important; }
+    .cv-page { box-shadow:none !important; }
+    .cv-break { break-inside:avoid; page-break-inside:avoid; }
+  }
+</style>
+</helmet>
+<div style="background:#0a0c0f; min-height:100vh; width:100%; font-family:'IBM Plex Sans',system-ui,sans-serif; color:#e8eaed; padding:40px 20px; display:flex; flex-direction:column; align-items:center; -webkit-font-smoothing:antialiased;">
+
+  <div class="cv-page" style="width:100%; max-width:940px; background:linear-gradient(180deg,#0e1116 0%,#0b0e12 100%); border:1px solid #1b2027; border-radius:10px; box-shadow:0 30px 80px -40px rgba(0,0,0,.8); overflow:hidden;">
+
+    <!-- terminal bar -->
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:13px 22px; border-bottom:1px solid #1b2027; background:#0b0e12;">
+      <div style="display:flex; align-items:center; gap:9px;">
+        <span style="width:10px; height:10px; border-radius:50%; background:#2dd4bf; box-shadow:0 0 10px #2dd4bf;"></span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.04em; color:#cbd2da;">jaramillo.dev</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#4a525c;">/ cv</span>
+      </div>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.18em; color:#5b626b;">CURRICULUM&nbsp;VITAE&nbsp;·&nbsp;2026</span>
+    </div>
+
+    <!-- header -->
+    <div style="display:grid; grid-template-columns:1fr 196px; gap:32px; padding:34px 40px 30px;">
+      <div style="min-width:0;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:#2dd4bf; margin-bottom:16px;">// AI ·&nbsp; COMPUTER VISION ·&nbsp; PhD CANDIDATE</div>
+        <h1 style="font-size:41px; line-height:1.04; font-weight:700; letter-spacing:-0.02em; color:#f4f6f8;">Juan&nbsp;Felipe Jaramillo&nbsp;Hernández<span style="color:#2dd4bf;">,</span> <span style="font-size:24px; font-weight:500; color:#9aa2ab;">M.Sc.</span></h1>
+        <p style="margin-top:14px; font-size:15.5px; line-height:1.62; color:#aeb6bf; max-width:54ch;">AI &amp; Computer Vision engineer and PhD candidate bridging research and production. I build state-of-the-art vision systems end to end — from dataset creation to real-time inference on the edge — validated in industrial environments and backed by peer-reviewed research.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:7px; margin-top:20px; font-family:'IBM Plex Mono',monospace; font-size:11.5px;">
+          <span style="display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border:1px solid #232a32; border-radius:5px; color:#c3cad2; background:#0d1116;"><span style="color:#2dd4bf;">⌖</span> Valencia, Spain</span>
+          <a href="mailto:felipejarher@gmail.com" style="display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border:1px solid #232a32; border-radius:5px; color:#c3cad2; background:#0d1116; text-decoration:none;"><span style="color:#2dd4bf;">✉</span> felipejarher@gmail.com</a>
+          <span style="display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border:1px solid #232a32; border-radius:5px; color:#c3cad2; background:#0d1116;"><span style="color:#2dd4bf;">☎</span> +34 624 66 92 59</span>
+          <a href="https://linkedin.com/in/jaramilloh" style="display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border:1px solid #232a32; border-radius:5px; color:#c3cad2; background:#0d1116; text-decoration:none;"><span style="color:#2dd4bf;">in</span> /jaramilloh</a>
+          <a href="https://github.com/Jaramilloh" style="display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border:1px solid #232a32; border-radius:5px; color:#c3cad2; background:#0d1116; text-decoration:none;"><span style="color:#2dd4bf;">⌥</span> /Jaramilloh</a>
+        </div>
+      </div>
+
+      <!-- portrait detection box -->
+      <div style="position:relative; align-self:start;">
+        <div style="position:relative; border:1.5px solid #2dd4bf; border-radius:3px; overflow:hidden; aspect-ratio:1/1;">
+          <img src="assets/portrait.jpeg" alt="Juan Felipe Jaramillo" style="width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.92) contrast(1.02);">
+          <div style="position:absolute; top:0; left:0; padding:3px 7px; background:#2dd4bf; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.05em; color:#04130f;">J.F. JARAMILLO · 0.99</div>
+        </div>
+        <span style="position:absolute; top:-5px; left:-5px; width:13px; height:13px; border-top:2px solid #2dd4bf; border-left:2px solid #2dd4bf;"></span>
+        <span style="position:absolute; top:-5px; right:-5px; width:13px; height:13px; border-top:2px solid #2dd4bf; border-right:2px solid #2dd4bf;"></span>
+        <span style="position:absolute; bottom:-5px; left:-5px; width:13px; height:13px; border-bottom:2px solid #2dd4bf; border-left:2px solid #2dd4bf;"></span>
+        <span style="position:absolute; bottom:-5px; right:-5px; width:13px; height:13px; border-bottom:2px solid #2dd4bf; border-right:2px solid #2dd4bf;"></span>
+      </div>
+    </div>
+
+    <div style="height:1px; background:linear-gradient(90deg,transparent,#222932 12%,#222932 88%,transparent); margin:0 40px;"></div>
+
+    <!-- body -->
+    <div style="padding:8px 40px 44px;">
+
+      <!-- 01 EXPERIENCE -->
+      <section style="padding-top:30px;">
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:#2dd4bf;">[01]</span>
+          <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Experience</h2>
+          <span style="flex:1; height:1px; background:#1b2027;"></span>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2025 — NOW</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">Arisnova · Aimira</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Valencia, Spain</div>
+          </div>
+          <div>
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">Artificial Vision Lead — Aimira</h3>
+              <span style="display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.06em; color:#04130f; background:#2dd4bf; border-radius:4px; padding:3px 7px;">● CURRENT</span>
+            </div>
+            <p style="margin-top:6px; font-size:13px; line-height:1.5; color:#8b929b;">Aimira — an AI platform for real-time textile quality control, detecting fabric defects on rolling machines directly on the factory floor.</p>
+            <ul style="list-style:none; margin-top:11px; display:flex; flex-direction:column; gap:9px;">
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Lead the <strong style="color:#eaeef1; font-weight:600;">computer-vision direction</strong> of the product — owning the major design choices and the direction of the deep-learning algorithms behind real-time defect detection.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Architect and write the <strong style="color:#eaeef1; font-weight:600;">core of the system</strong> — the vision/DL components and the on-device application monitoring rolling machines live in production.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Direct AI agents and serve as the <strong style="color:#eaeef1; font-weight:600;">human in the loop</strong> for AI-assisted development, sustaining engineering velocity without compromising reliability.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>In production across <strong style="color:#eaeef1; font-weight:600;">10+ industrial deployments</strong>: <strong style="color:#eaeef1; font-weight:600;">2M+ defects</strong> detected over <strong style="color:#eaeef1; font-weight:600;">52K+</strong> inspected fabric batches.</li>
+            </ul>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Technical Leadership</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Edge AI</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Deep Learning</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Agent Orchestration</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">SEP 2024 — NOW</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">Arisnova</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Valencia, Spain</div>
+          </div>
+          <div>
+            <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">AI Developer — Computer Vision</h3>
+            <ul style="list-style:none; margin-top:11px; display:flex; flex-direction:column; gap:9px;">
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Designed and deployed state-of-the-art vision algorithms for industrial quality inspection, reaching <strong style="color:#eaeef1; font-weight:600;">&gt;90% defect-detection accuracy</strong> and validating the system in production (<strong style="color:#eaeef1; font-weight:600;">TRL 4–7</strong>).</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Built dataset-generation and annotation pipelines guaranteeing model precision and reproducibility across product lines.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Developed optimization and ML methods for automated resource management, improving efficiency and cutting costs in event-logistics planning.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Scouted and evaluated emerging AI techniques, surfacing new <strong style="color:#eaeef1; font-weight:600;">R&amp;D&amp;i</strong> opportunities and strengthening the company's innovation capabilities.</li>
+            </ul>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Computer Vision</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Deep Learning</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Industrial AI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">JUL — DEC 2021</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">Ernst &amp; Young</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Bogotá, Colombia</div>
+          </div>
+          <div>
+            <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">Intern — Technology Consulting, Digital &amp; Emerging Tech</h3>
+            <ul style="list-style:none; margin-top:11px; display:flex; flex-direction:column; gap:9px;">
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Automated internal client processes with <strong style="color:#eaeef1; font-weight:600;">RPA</strong>, reducing manual effort by <strong style="color:#eaeef1; font-weight:600;">30%</strong>.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Designed and implemented APIs for a blockchain-based traceability solution, improving data integrity and transparency.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Conceptualized a multimodal CV/ML platform to optimize logistics and stock distribution for brick-and-mortar retail.</li>
+            </ul>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Consulting</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">RPA</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Blockchain</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">MAR 2020 — MAY 2021</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">ÓMICAS</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Bogotá, Colombia</div>
+          </div>
+          <div>
+            <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">Research Assistant — Precision Agriculture</h3>
+            <ul style="list-style:none; margin-top:11px; display:flex; flex-direction:column; gap:9px;">
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Researched sustainable agricultural practices through multiscale optimization within <strong style="color:#eaeef1; font-weight:600;">ÓMICAS Macroproject 4</strong>.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Created the <strong style="color:#eaeef1; font-weight:600;">first plant light-field image dataset</strong>, pioneering light-field research in agricultural imaging.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Developed and evaluated a spatial super-resolution deep-learning model, improving image quality for precision farming.</li>
+            </ul>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Research</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Light Fields</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6f7780; border:1px solid #1f262e; border-radius:4px; padding:3px 8px;">Super-Resolution</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2017 — 2020</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">PUJ</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Bogotá, Colombia</div>
+          </div>
+          <div>
+            <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">Robotics &amp; Society — RAS/IEEE · Social Practicum</h3>
+            <ul style="list-style:none; margin-top:11px; display:flex; flex-direction:column; gap:9px;">
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Designed, built and programmed sumo-robots (sensors, actuators, microcontrollers); competed at <strong style="color:#eaeef1; font-weight:600;">Runibot 2018</strong>.</li>
+              <li style="position:relative; padding-left:18px; font-size:14px; line-height:1.55; color:#b3bbc4;"><span style="position:absolute; left:0; top:1px; color:#2dd4bf;">▹</span>Delivered multimedia programming tutorials to underserved youth, impacting <strong style="color:#eaeef1; font-weight:600;">50+ students</strong> and fostering digital literacy with Scratch.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 EDUCATION -->
+      <section style="padding-top:36px;">
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:#2dd4bf;">[02]</span>
+          <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Education</h2>
+          <span style="flex:1; height:1px; background:#1b2027;"></span>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:22px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">SEP 2024 — NOW</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">UPV · VRAIN</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Valencia, Spain</div>
+          </div>
+          <div>
+            <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">PhD in Computer Science <span style="font-size:13px; color:#2dd4bf; font-weight:500;">· Industrial Mention</span></h3>
+            <p style="margin-top:8px; font-size:14px; line-height:1.55; color:#b3bbc4;">Advanced machine-learning algorithms for computer vision applied to sustainable agriculture, at the Valencian Research Institute for AI (VRAIN). Industrial agreement with <strong style="color:#eaeef1; font-weight:600;">Arisnova</strong> on the <strong style="color:#eaeef1; font-weight:600;">VisionTex</strong> innovation project — an AI quality-inspection system for industry.</p>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:22px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2022 — 2023</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">UPV</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Valencia, Spain</div>
+          </div>
+          <div>
+            <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">M.Sc. Artificial Intelligence, Pattern Recognition &amp; Digital Imaging</h3>
+            <p style="margin-top:8px; font-size:14px; line-height:1.55; color:#b3bbc4;">GPA <strong style="color:#eaeef1; font-weight:600;">8.9 / 10</strong>. Specialization in ML for Computer Vision, Automatic Speech Recognition and NLP. Thesis: a novel object-detection method with integrated depth estimation for real-time systems.</p>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2016 — 2022</div>
+            <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">PUJ</div>
+            <div style="font-size:12.5px; color:#7d858e; margin-top:1px;">Bogotá, Colombia</div>
+          </div>
+          <div>
+            <h3 style="font-size:16.5px; font-weight:600; color:#f1f4f6;">B.Sc. Electronic Engineering <span style="font-size:13px; color:#2dd4bf; font-weight:500;">· ABET-accredited</span></h3>
+            <p style="margin-top:8px; font-size:14px; line-height:1.55; color:#b3bbc4;">GPA <strong style="color:#eaeef1; font-weight:600;">4.2 / 5.0</strong>. Foundations in control systems, telecommunications, digital systems and electronic circuits. Thesis: deep-learning spatial super-resolution of plenoptic plant images (ÓMICAS).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 PUBLICATIONS -->
+      <section style="padding-top:36px;">
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:#2dd4bf;">[03]</span>
+          <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Publications &amp; Talks</h2>
+          <span style="flex:1; height:1px; background:#1b2027;"></span>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:20px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2024 · JOURNAL</div>
+          <div>
+            <p style="font-size:14px; line-height:1.58; color:#c2c9d1;"><strong style="color:#f1f4f6; font-weight:600;">Application of Machine Vision Techniques in Low-Cost Devices to Improve Efficiency in Precision Farming.</strong> Jaramillo-Hernández, J.F., Julian, V., Marco-Detchart, C., &amp; Rincón, J.A. <em style="color:#9aa2ab;">Sensors</em> 24(3): 937. <a href="https://doi.org/10.3390/s24030937" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#2dd4bf; text-decoration:none;">doi.org/10.3390/s24030937 ↗</a></p>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:20px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2025 · SPRINGER</div>
+          <div>
+            <p style="font-size:14px; line-height:1.58; color:#c2c9d1;"><strong style="color:#f1f4f6; font-weight:600;">Efficient Depth Object Detection: Ablation-Driven Optimization for Lightweight YOLOv8 Architecture.</strong> Jaramillo-Hernández, J.F., Julian, V., Marco-Detchart, C., &amp; Rincón, J.A. PAAMS 2024, <em style="color:#9aa2ab;">Communications in Computer and Information Science</em>, vol. 2149, Springer, Cham. <a href="https://doi.org/10.1007/978-3-031-73058-0_13" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#2dd4bf; text-decoration:none;">doi.org/10.1007/978-3-031-73058-0_13 ↗</a></p>
+          </div>
+        </div>
+
+        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2024 · TALK</div>
+          <div>
+            <p style="font-size:14px; line-height:1.58; color:#c2c9d1;">Oral presentation, <strong style="color:#f1f4f6; font-weight:600;">22nd International Conference on Practical Applications of Agents and Multi-Agent Systems (PAAMS'24)</strong> — "Efficient Depth Object Detection".</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 SKILLS -->
+      <section style="padding-top:36px;" class="cv-break">
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:#2dd4bf;">[04]</span>
+          <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Technical Skills</h2>
+          <span style="flex:1; height:1px; background:#1b2027;"></span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 36px;">
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">ML / DL</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">PyTorch, TensorFlow, scikit-learn, OpenCV, Hugging Face, NLTK</span></div>
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">LANGUAGES</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">Python, C/C++, C#, SQL, Rust, Bash</span></div>
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">MLOPS</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">Docker, Git, GitHub Actions, CI/CD</span></div>
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">CLOUD</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">Google Cloud, AWS</span></div>
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">HARDWARE</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">Arduino, Raspberry Pi, Altium Designer, OrCAD</span></div>
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">SPOKEN</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">English (C2), Spanish (native)</span></div>
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">LEADERSHIP</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">CV technical direction, design ownership, mentoring</span></div>
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">AI WORKFLOW</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">AI agent orchestration, human-in-the-loop AI-assisted development ("vibe coding"), prompt engineering</span></div>
+        </div>
+      </section>
+
+      <!-- 05 CERTIFICATIONS -->
+      <section style="padding-top:36px;" class="cv-break">
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:#2dd4bf;">[05]</span>
+          <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Certifications</h2>
+          <span style="flex:1; height:1px; background:#1b2027;"></span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">Google Cloud Professional ML Engineer — Cert Prep</span></div>
+          <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">AWS Certified Machine Learning — Specialty (MLS-C01)</span></div>
+          <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">Microsoft Azure AI Fundamentals (AI-900)</span></div>
+          <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">Career Essentials in Generative AI — Microsoft</span></div>
+          <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">Career Essentials in GitHub — Professional Certificate</span></div>
+        </div>
+      </section>
+
+      <!-- 06 AWARDS -->
+      <section style="padding-top:36px;" class="cv-break">
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:#2dd4bf;">[06]</span>
+          <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Honors &amp; Awards</h2>
+          <span style="flex:1; height:1px; background:#1b2027;"></span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2022</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">Honorable Mention</strong>, undergraduate thesis — light-field spatial super-resolution. Faculty of Engineering, PUJ.</span></div>
+          <div style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2019</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">2nd place</strong>, Expo Electrónica Javeriana — "PVLPower", photovoltaic power-loss quantifier.</span></div>
+          <div style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2016</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">Academic Excellence Award</strong>, Faculty of Engineering, PUJ.</span></div>
+        </div>
+      </section>
+
+      <!-- 07 REFERENCES -->
+      <section style="padding-top:36px;" class="cv-break">
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:#2dd4bf;">[07]</span>
+          <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">References</h2>
+          <span style="flex:1; height:1px; background:#1b2027;"></span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div style="padding:14px 16px; border:1px solid #1c232b; border-radius:7px; background:#0d1116;"><div style="font-size:14.5px; font-weight:600; color:#eef1f4;">Vicente J. Julian Inglada, PhD</div><div style="font-size:12.5px; color:#9aa2ab; margin-top:2px;">Professor &amp; Researcher · UPV, VRAIN</div></div>
+          <div style="padding:14px 16px; border:1px solid #1c232b; border-radius:7px; background:#0d1116;"><div style="font-size:14.5px; font-weight:600; color:#eef1f4;">Borja Gramage Bonastre</div><div style="font-size:12.5px; color:#9aa2ab; margin-top:2px;">Org. Development &amp; People · Arisnova</div></div>
+          <div style="padding:14px 16px; border:1px solid #1c232b; border-radius:7px; background:#0d1116;"><div style="font-size:14.5px; font-weight:600; color:#eef1f4;">Francisco C. Calderón B., PhD</div><div style="font-size:12.5px; color:#9aa2ab; margin-top:2px;">Professor &amp; Researcher · ÓMICAS, PUJ</div></div>
+          <div style="padding:14px 16px; border:1px solid #1c232b; border-radius:7px; background:#0d1116;"><div style="font-size:14.5px; font-weight:600; color:#eef1f4;">Diego Sáenz</div><div style="font-size:12.5px; color:#9aa2ab; margin-top:2px;">Consulting Partner · Ernst &amp; Young</div></div>
+        </div>
+        <p style="margin-top:12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#5b626b;">// full contact details available on request</p>
+      </section>
+
+      <!-- footer -->
+      <div style="margin-top:42px; padding-top:18px; border-top:1px solid #1b2027; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#5b626b;">off the clock → rock climbing 🧗 · building side projects</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#5b626b;">jfjarher@upv.edu.es<span style="color:#2dd4bf;">_</span><span style="animation:blink 1.1s step-end infinite; color:#2dd4bf;">█</span></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- print FAB -->
+  <button class="cv-noprint" onClick="{{ doPrint }}" style="position:fixed; right:26px; bottom:26px; display:inline-flex; align-items:center; gap:9px; padding:12px 18px; background:#2dd4bf; color:#04130f; border:none; border-radius:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; letter-spacing:.03em; cursor:pointer; box-shadow:0 12px 30px -8px rgba(45,212,191,.5);" style-hover="filter:brightness(1.08);">↓ SAVE AS PDF</button>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      doPrint: () => window.print(),
+    };
+  }
+}
+</script>
+</body>
+</html>
