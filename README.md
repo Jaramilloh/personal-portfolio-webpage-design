@@ -274,7 +274,8 @@ The site is fully static. Two ways:
 2. Commit `index.html`, `support.js`, `core.js`, and `assets/` (plus `cv/` if
    you added the PDF).
 3. Repo **Settings → Pages →** deploy from `main` / root. Your site is at
-   `https://<user>.github.io/<repo>/`.
+   `https://<user>.github.io/<repo>/` — for this repo, the live URL is
+   <https://jaramilloh.github.io/personal-portfolio-webpage-design/>.
 4. Set `ALLOW_ORIGIN` in your Vercel function to that exact origin (for the
    album), and `PHOTOS_ENDPOINT` to the function URL.
 
