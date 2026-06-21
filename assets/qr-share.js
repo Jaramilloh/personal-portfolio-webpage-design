@@ -1,4 +1,7 @@
-// LOCAL VENDOR COPY — diverges from upstream: (1) QR_LIB_URL local; (2) Google-Fonts injection removed for CSP.
+// LOCAL VENDOR COPY — diverges from upstream:
+//   (1) QR_LIB_URL -> ./assets/vendor/qrcode-generator.min.js (CSP script-src 'self' blocks the CDN; matches the site's vendored *.min.js libs).
+//   (2) Google-Fonts <link> injection removed (CSP style-src/font-src 'self').
+//   (3) HUD fonts repointed to the site's self-hosted IBM Plex Mono/Sans (assets/fonts/fonts.css) so the overlay matches the page typography.
 /* ============================================================================
  * qr-share.js  —  "SCAN_TO_OPEN" QR share widget
  * Drop-in, framework-agnostic. No build step. ~7 KB + one tiny CDN dependency.
@@ -27,7 +30,9 @@
   'use strict';
   if (window.QRShare) return;
 
-  var QR_LIB_URL = './assets/vendor/qrcode-generator.js';
+  // Vendored locally (assets/vendor/) — no CDN call. Resolves against the page
+  // URL, matching how the site references ./assets/vendor/react*.min.js.
+  var QR_LIB_URL = './assets/vendor/qrcode-generator.min.js';
   var els = {};      // cached DOM refs
   var CFG = {};
 
@@ -48,16 +53,18 @@
     };
   }
 
-  /* ---- one-time style + font injection ------------------------------------*/
+  /* ---- one-time style injection -------------------------------------------*/
   function injectStyles(accent) {
     if (document.getElementById('qrs-styles')) {
       document.documentElement.style.setProperty('--qrs-accent', accent);
       return;
     }
+    // No webfont fetch: the host page self-hosts "IBM Plex Mono" + "IBM Plex Sans"
+    // (assets/fonts/fonts.css); the HUD reuses them, falling back to system fonts.
     var css = [
       ':root{--qrs-accent:' + accent + ';}',
-      '.qrs-mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}',
-      '.qrs-sans{font-family:"Space Grotesk",system-ui,sans-serif;}',
+      '.qrs-mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}',
+      '.qrs-sans{font-family:"IBM Plex Sans",system-ui,sans-serif;}',
       '@keyframes qrs-pulse{0%,100%{opacity:1}50%{opacity:.3}}',
       '@keyframes qrs-scan{0%{top:4%;opacity:0}12%{opacity:1}88%{opacity:1}100%{top:94%;opacity:0}}',
       '@keyframes qrs-fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}',
