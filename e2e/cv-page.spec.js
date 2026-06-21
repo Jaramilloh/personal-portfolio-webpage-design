@@ -35,4 +35,14 @@ test.describe('CV page', () => {
 
     expect(errors, `unexpected console errors: ${errors.join('; ')}`).toHaveLength(0);
   });
+
+  test('print button triggers window.print under CSP (no inline handler)', async ({ page }) => {
+    // The CSP is script-src 'self', which blocks inline onClick attributes, so the
+    // print button must be wired via addEventListener. Stub print, click, assert it fired.
+    await page.addInitScript(() => { window.__printed = 0; window.print = () => { window.__printed += 1; }; });
+    await page.goto(CV_PAGE);
+    await expect(page.locator('h1', { hasText: 'Jaramillo' })).toBeVisible();
+    await page.locator('#cv-print').click();
+    await expect.poll(() => page.evaluate(() => window.__printed)).toBeGreaterThan(0);
+  });
 });
