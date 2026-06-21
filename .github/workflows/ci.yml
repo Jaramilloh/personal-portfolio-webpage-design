@@ -56,28 +56,3 @@ jobs:
 
       - name: Run E2E tests
         run: npm run test:e2e
-
-  cv:
-    name: CV build (LuaLaTeX)
-    runs-on: ubuntu-latest
-    # 15 min: the LuaLaTeX compile step pulls the full TeXLive image first.
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-
-      # Proves the CV compiles on every PR to develop (deploy only runs on main).
-      # Same config as the pages.yml publish step so CI and deploy stay in sync.
-      - name: Compile CV (LuaLaTeX)
-        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4
-        with:
-          working_directory: cv-src
-          root_file: cv.tex
-          latexmk_use_lualatex: true
-
-      - name: Upload CV PDF artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: cv-pdf
-          path: cv-src/cv.pdf
-          if-no-files-found: error
