@@ -14,13 +14,18 @@ test.describe('QR Share Widget', () => {
     await expect(page.locator('.qrs-overlay')).toHaveClass(/open/);
   });
 
-  test('canvas renders with non-zero size (CSP + vendored lib)', async ({ page }) => {
+  test('canvas renders a real QR matrix — dark-module ratio > 5% (CSP + vendored lib)', async ({ page }) => {
     await page.goto(ENTRY);
     await page.locator('.qrs-btn').click();
     await expect(page.locator('.qrs-overlay canvas')).toBeAttached();
-    const canvas = page.locator('.qrs-overlay canvas');
-    await expect.poll(async () => await canvas.evaluate(el => el.width)).toBeGreaterThan(0);
-    await expect.poll(async () => await canvas.evaluate(el => el.height)).toBeGreaterThan(0);
+    const ratio = await page.locator('.qrs-overlay canvas').evaluate((c) => {
+      const ctx = c.getContext('2d');
+      const d = ctx.getImageData(0, 0, c.width, c.height).data;
+      let dark = 0, total = 0;
+      for (let i = 0; i < d.length; i += 4) { total++; if (d[i] < 128 && d[i+1] < 128 && d[i+2] < 128) dark++; }
+      return total ? dark / total : 0;
+    });
+    expect(ratio).toBeGreaterThan(0.05); // a real QR matrix is ~15-20% dark; blank canvas = 0
   });
 
   test('all three action controls are attached', async ({ page }) => {

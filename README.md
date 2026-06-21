@@ -20,7 +20,7 @@ photo album — is a swappable module you can extend without touching the rest.
 6. [Images / assets](#images--assets)
 7. [Sections](#sections)
 8. [GitHub repositories (live)](#github-repositories-live)
-9. [CV gate (rate-limited)](#cv-gate-rate-limited)
+9. [CV page](#cv-page)
 10. [Contact](#contact)
 11. [Google Photos album](#google-photos-album)
 12. [Deploy to GitHub Pages](#deploy-to-github-pages)
@@ -58,13 +58,13 @@ a small runtime that renders the template + logic class. You do **not** edit
 ```
 .
 ├── Juan Felipe Jaramillo.dc.html   # the site: template + logic class
+├── CV.dc.html                      # CV page (deployed as cv.html)
 ├── support.js                      # DC runtime (do NOT edit)
 ├── core.js                         # hexagonal core — ports + adapters
 ├── assets/
 │   ├── portrait.png                # hero photo (1024×1024)
+│   ├── portrait.jpeg               # CV portrait
 │   └── dod-demo.png                # DOD inference result (320×569)
-├── cv/
-│   └── Juan-Felipe-Jaramillo-CV.pdf # ← add your PDF here (not included)
 ├── serverless/                     # optional backend for Google Photos
 │   ├── api/google-photos.js        # Vercel function
 │   └── README.md                   # step-by-step setup
@@ -146,7 +146,7 @@ All config lives at the **top of the logic class** in
 | Setting | Where | Purpose |
 |---|---|---|
 | GitHub username | `componentDidMount` → `githubUser: 'Jaramilloh'` | which account the repos grid fetches |
-| `CV_URL` | class field | path the CV gate downloads (`cv/Juan-Felipe-Jaramillo-CV.pdf`) |
+| `CV_URL` | class field | URL the CV gate opens (`cv.html`) |
 | `PHOTOS_ENDPOINT` | class field (default `''`) | your deployed Google Photos function URL — set this to make the album live |
 | Curated repos | `curated = [ … ]` class field | fallback list shown if the GitHub API is rate-limited |
 | Timeline dates | template, "Trajectory" section | **edit to your exact record** — a couple are estimates |
@@ -200,17 +200,18 @@ pill shows **LIVE** or **CURATED**.
 
 ---
 
-## CV gate (rate-limited)
+## CV page
 
-The CV section captures an email, then calls `cvGate.tryConsume()`. The default
-`TokenBucketGate` allows **3 downloads/hour**, persisted in `localStorage`, and
-triggers a download of `CV_URL`.
+The CV is a self-contained designer page (`CV.dc.html`) deployed at `cv.html`.
+The "View CV" button in the Reach Me section opens it in a new tab.
 
-1. **Add your PDF** at `cv/Juan-Felipe-Jaramillo-CV.pdf` (create the `cv/`
-   folder). Until then the button validates + rate-limits but the download 404s.
-2. **Client-side limiting is a UX guard, not security.** For real protection,
-   implement a `ServerGate` adapter (same `tryConsume` contract) that enforces
-   the limit on your API, and wire it in `buildPortfolioCore`.
+- **Export to PDF:** open `cv.html` in the browser and use the browser's print
+  dialog (or the "SAVE AS PDF" button on the page). The page has `@media print`
+  styles that produce a clean A4 PDF.
+- **To update the CV:** edit `CV.dc.html` directly. No build step required.
+- **Portrait:** stored at `assets/portrait.jpeg` and referenced from the CV page.
+- The `cvGate` (`TokenBucketGate`) remains wired in `core.js` but is no longer
+  used by the CTA — it is retained as an optional guard for future use.
 
 ---
 
@@ -324,7 +325,7 @@ You never modify existing adapters — you add new ones (Open/Closed).
 - **DOD optimization (PAAMS, Springer, 2024):** https://doi.org/10.1007/978-3-031-73058-0_13
 - **Depth Object Detector repo:** https://github.com/Jaramilloh/Depth-Object-Detector-DOD
 
-Fonts via Google Fonts (Space Grotesk, IBM Plex Sans, IBM Plex Mono).
+Fonts self-hosted (Space Grotesk, IBM Plex Sans, IBM Plex Mono) — no external font requests; CSP-clean.
 
 ---
 
