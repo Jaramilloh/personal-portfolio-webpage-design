@@ -210,6 +210,9 @@
 % Define author's tagline
 % Usage: \tagline{<tag line>}
 \newcommand*{\tagline}[1]{\def\@tagline{#1}}
+% The tagline is optional; default it to empty so \makecvheader still builds
+% when \tagline is omitted (otherwise \@tagline is an undefined control sequence).
+\def\@tagline{}
 
 % Define author's photo
 % Usage \photo{<diameter>}{<photo>}
