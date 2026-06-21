@@ -27,6 +27,24 @@ img{max-width:100%}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes gridmove{from{background-position:0 0}to{background-position:0 40px}}
+/* base (desktop) — reproduces current inline values verbatim, behavior unchanged */
+#top{grid-template-columns:1.15fr .85fr;gap:56px;padding:148px 32px 70px}
+#top h1{font-size:62px}
+#top .hero-lede{max-width:480px}
+#top .hero-portrait{justify-self:end;max-width:420px}
+.nav-links{gap:4px}
+.stats-grid{grid-template-columns:repeat(4,1fr)}
+.work-grid{grid-template-columns:.95fr 1.05fr;gap:40px}
+/* mobile */
+@media(max-width:640px){
+  #top{grid-template-columns:1fr;gap:24px;padding:100px 24px 48px}
+  #top h1{font-size:clamp(32px,9vw,62px);max-width:calc(100vw - 48px);overflow-wrap:break-word}
+  #top .hero-lede{max-width:min(480px,100%)}
+  #top .hero-portrait{justify-self:center;max-width:min(340px,calc(100vw - 72px));width:100%}
+  .nav-links{flex-wrap:wrap;justify-content:flex-end;gap:2px 6px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .work-grid{grid-template-columns:1fr;gap:24px}
+}
 </style>
 </helmet>
 
@@ -44,7 +62,7 @@ img{max-width:100%}
     </span>
     <span style="color:#8b929c">jaramillo<span style="color:#5c636e">.dev</span></span>
   </a>
-  <div style="display:flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em">
+  <div class="nav-links" style="display:flex;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em">
     <a href="#work" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">work</a>
     <a href="#repos" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">repos</a>
     <a href="#research" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">research</a>
@@ -56,15 +74,15 @@ img{max-width:100%}
 </nav>
 
 <!-- ===================== HERO ===================== -->
-<header id="top" style="position:relative;max-width:1180px;margin:0 auto;padding:148px 32px 70px;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center">
+<header id="top" style="position:relative;max-width:1180px;margin:0 auto;display:grid;align-items:center">
   <div style="position:relative;z-index:2">
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px">
       <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a">PORTFOLIO // 2026</span>
       <span style="display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c"><span style="width:7px;height:7px;border-radius:50%;background:#b8f24a;animation:blink 1.8s infinite"></span>AVAILABLE · VALENCIA, ES</span>
     </div>
-    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:62px;line-height:1.02;letter-spacing:-.025em;margin:0;color:#f4f6f7">Juan&nbsp;Felipe<br>Jaramillo<span style="color:#5c636e">·</span>Hernández</h1>
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:600;line-height:1.02;letter-spacing:-.025em;margin:0;color:#f4f6f7">Juan&nbsp;Felipe<br>Jaramillo<span style="color:#5c636e">·</span>Hernández</h1>
     <p style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:.02em;color:#45dcef;margin:22px 0 0">ML / Software / Electronics Engineer · Computer&nbsp;Vision&nbsp;Researcher</p>
-    <p style="max-width:480px;color:#9aa0aa;font-size:16px;line-height:1.65;margin:20px 0 0">I build vision systems that see <span style="color:#e8eaed">depth</span> — from YOLO-based detectors on microcontrollers to the anomaly-detection pipeline behind <span style="color:#b8f24a">Aimira</span>. PhD candidate at UPV, inventor of the Depth Object Detector.</p>
+    <p class="hero-lede" style="color:#9aa0aa;font-size:16px;line-height:1.65;margin:20px 0 0">I build vision systems that see <span style="color:#e8eaed">depth</span> — from YOLO-based detectors on microcontrollers to the anomaly-detection pipeline behind <span style="color:#b8f24a">Aimira</span>. PhD candidate at UPV, inventor of the Depth Object Detector.</p>
     <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:34px">
       <a href="#work" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;background:#b8f24a;color:#0d0f12;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;font-weight:500;transition:transform .2s" style-hover="transform:translateY(-2px)">View work <span>→</span></a>
       <a href="#cv" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border:1px solid #2b313b;color:#e8eaed;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;transition:border-color .2s" style-hover="border-color:#45dcef">Request CV</a>
@@ -79,7 +97,7 @@ img{max-width:100%}
   </div>
 
   <!-- detection canvas -->
-  <div style="position:relative;justify-self:end;width:100%;max-width:420px;aspect-ratio:4/5;background:#0f1216;border:1px solid #2b313b">
+  <div class="hero-portrait" style="position:relative;width:100%;aspect-ratio:4/5;background:#0f1216;border:1px solid #2b313b">
     <span style="position:absolute;top:-1px;left:-1px;width:20px;height:20px;border-top:2px solid #b8f24a;border-left:2px solid #b8f24a;z-index:5"></span>
     <span style="position:absolute;top:-1px;right:-1px;width:20px;height:20px;border-top:2px solid #b8f24a;border-right:2px solid #b8f24a;z-index:5"></span>
     <span style="position:absolute;bottom:-1px;left:-1px;width:20px;height:20px;border-bottom:2px solid #b8f24a;border-left:2px solid #b8f24a;z-index:5"></span>
@@ -115,7 +133,7 @@ img{max-width:100%}
 
 <!-- ===================== STATS ===================== -->
 <section style="max-width:1180px;margin:0 auto;padding:70px 32px">
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+  <div class="stats-grid" style="display:grid;gap:24px">
     <div data-reveal style="border-left:1px solid #232831;padding-left:20px"><div data-count="61.46" data-dec="2" data-suffix="%" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;letter-spacing:-.02em;color:#b8f24a">61.46%</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#8b929c;margin-top:6px">DOD size reduction</div></div>
     <div data-reveal style="border-left:1px solid #232831;padding-left:20px"><div data-count="1.6" data-dec="1" data-suffix=" MB" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;letter-spacing:-.02em;color:#e8eaed">1.6 MB</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#8b929c;margin-top:6px">on-device model</div></div>
     <div data-reveal style="border-left:1px solid #232831;padding-left:20px"><div data-count="1.0" data-dec="1" data-suffix="M" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;letter-spacing:-.02em;color:#e8eaed">1.0M</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#8b929c;margin-top:6px">parameters</div></div>
@@ -128,7 +146,7 @@ img{max-width:100%}
   <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 01 ] &nbsp;Featured work</div>
   <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;line-height:1.04;letter-spacing:-.02em;margin:0;color:#f4f6f7;max-width:760px">Depth Object Detector <span style="color:#5c636e">— a detector that also regresses metric depth.</span></h2>
 
-  <div data-reveal style="display:grid;grid-template-columns:.95fr 1.05fr;gap:40px;align-items:center;margin-top:44px;border:1px solid #232831;background:#101317;padding:30px">
+  <div data-reveal class="work-grid" style="display:grid;align-items:center;margin-top:44px;border:1px solid #232831;background:#101317;padding:30px">
     <!-- visual -->
     <div style="position:relative;height:480px;background:#0c0f12;border:1px solid #232831;display:flex;align-items:center;justify-content:center;overflow:hidden">
       <span style="position:absolute;top:-1px;left:-1px;width:18px;height:18px;border-top:2px solid #b8f24a;border-left:2px solid #b8f24a;z-index:3"></span>
