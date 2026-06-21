@@ -35,6 +35,10 @@ img{max-width:100%}
 .nav-links{gap:4px}
 .stats-grid{grid-template-columns:repeat(4,1fr)}
 .work-grid{grid-template-columns:.95fr 1.05fr;gap:40px}
+.stack-grid{grid-template-columns:repeat(4,1fr);gap:22px}
+.arch-grid{grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.blog-grid{grid-template-columns:repeat(3,1fr);gap:18px}
+.reading-table > div,.reading-table > a{grid-template-columns:58px 1fr 78px 96px;gap:18px}
 /* mobile */
 @media(max-width:640px){
   #top{grid-template-columns:1fr;gap:24px;padding:100px 24px 48px}
@@ -44,6 +48,11 @@ img{max-width:100%}
   .nav-links{flex-wrap:wrap;justify-content:flex-end;gap:2px 6px}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .work-grid{grid-template-columns:1fr;gap:24px}
+  .stack-grid{grid-template-columns:repeat(2,1fr)}
+  .arch-grid{grid-template-columns:1fr}
+  .blog-grid{grid-template-columns:1fr}
+  .reading-table > a{grid-template-columns:1fr}
+  .reading-table > div{display:none}
 }
 </style>
 </helmet>
@@ -242,7 +251,7 @@ img{max-width:100%}
 <section id="stack" style="max-width:1180px;margin:0 auto;padding:60px 32px;scroll-margin-top:84px">
   <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 04 ] &nbsp;Capabilities</div>
   <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 38px;color:#f4f6f7">Stack</h2>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+  <div class="stack-grid" style="display:grid">
     <div data-reveal>
       <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#45dcef;margin-bottom:16px;border-bottom:1px solid #232831;padding-bottom:10px">Vision &amp; ML</div>
       <div style="display:flex;flex-direction:column;gap:9px;font-family:'IBM Plex Sans';font-size:14px;color:#c4c9d0">
@@ -366,7 +375,7 @@ img{max-width:100%}
     <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 10px;color:#f4f6f7">Hexagonal architecture</h2>
     <p style="max-width:680px;color:#9aa0aa;font-size:15.5px;line-height:1.65;margin:0 0 44px">This page is the <span style="color:#e8eaed">domain core</span>. It depends only on <span style="color:#45dcef">ports</span> (contracts) — never on concrete IO. Each <span style="color:#b8f24a">adapter</span> implements a port and is swappable without touching anything else. Want a photo album, a CV gate, a blog? Write one adapter and register it. <span style="color:#5c636e">(see&nbsp;core.js)</span></p>
 
-    <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center">
+    <div class="arch-grid" style="display:grid">
       <!-- diagram -->
       <div data-reveal style="position:relative">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
@@ -486,7 +495,7 @@ img{max-width:100%}
     </div>
     <span style="font-family:'IBM Plex Mono';font-size:12px;color:#5c636e;max-width:330px;text-align:right">module: <span style="color:#45dcef">ContentModule</span> — plug a Markdown / CMS adapter to publish.</span>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+  <div class="blog-grid" style="display:grid">
     <div data-reveal style="border:1px solid #232831;background:#14171c;padding:22px;min-height:160px;display:flex;flex-direction:column">
       <span style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;color:#45dcef;text-transform:uppercase">Draft</span>
       <div style="font-family:'Space Grotesk';font-weight:600;font-size:18px;color:#e8eaed;margin-top:12px;line-height:1.3;flex:1">Regressing metric depth inside YOLO detection heads</div>
@@ -517,12 +526,12 @@ img{max-width:100%}
     </div>
     <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#5c636e;margin:0 0 30px">5 entries · curated · class ∈ {CV, NLP}</p>
 
-    <div style="border:1px solid #232831;background:#0d0f12">
-      <div style="display:grid;grid-template-columns:58px 1fr 78px 96px;gap:18px;align-items:center;padding:13px 22px;border-bottom:1px solid #232831;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#5c636e">
+    <div class="reading-table" style="border:1px solid #232831;background:#0d0f12">
+      <div style="display:grid;align-items:center;padding:13px 22px;border-bottom:1px solid #232831;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#5c636e">
         <span>Class</span><span>Paper</span><span>Year</span><span style="text-align:right">Source</span>
       </div>
 
-      <a href="https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;grid-template-columns:58px 1fr 78px 96px;gap:18px;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
+      <a href="https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:4px 0;text-align:center">CV</span>
         <div>
           <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#e8eaed;line-height:1.3">ImageNet Classification with Deep Convolutional Neural Networks</div>
@@ -532,7 +541,7 @@ img{max-width:100%}
         <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c4c9d0;text-align:right;white-space:nowrap">NeurIPS ↗</span>
       </a>
 
-      <a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;grid-template-columns:58px 1fr 78px 96px;gap:18px;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
+      <a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:4px 0;text-align:center">CV</span>
         <div>
           <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#e8eaed;line-height:1.3">Deep Residual Learning for Image Recognition</div>
@@ -542,7 +551,7 @@ img{max-width:100%}
         <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c4c9d0;text-align:right;white-space:nowrap">arXiv ↗</span>
       </a>
 
-      <a href="https://arxiv.org/abs/1506.02640" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;grid-template-columns:58px 1fr 78px 96px;gap:18px;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
+      <a href="https://arxiv.org/abs/1506.02640" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:#b8f24a;border:1px solid #2b3a1d;background:#141a0d;padding:4px 0;text-align:center">CV</span>
         <div>
           <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#e8eaed;line-height:1.3">You Only Look Once: Unified, Real-Time Object Detection</div>
@@ -552,7 +561,7 @@ img{max-width:100%}
         <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c4c9d0;text-align:right;white-space:nowrap">arXiv ↗</span>
       </a>
 
-      <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;grid-template-columns:58px 1fr 78px 96px;gap:18px;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
+      <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:#45dcef;border:1px solid #1d3a3a;background:#0c1a1c;padding:4px 0;text-align:center">NLP</span>
         <div>
           <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#e8eaed;line-height:1.3">Attention Is All You Need</div>
@@ -562,7 +571,7 @@ img{max-width:100%}
         <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c4c9d0;text-align:right;white-space:nowrap">arXiv ↗</span>
       </a>
 
-      <a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;grid-template-columns:58px 1fr 78px 96px;gap:18px;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
+      <a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener noreferrer" data-reveal style="display:grid;align-items:center;padding:20px 22px;border-top:1px solid #1c2128;transition:background .2s" style-hover="background:#101317">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:#45dcef;border:1px solid #1d3a3a;background:#0c1a1c;padding:4px 0;text-align:center">NLP</span>
         <div>
           <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#e8eaed;line-height:1.3">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</div>
