@@ -341,17 +341,19 @@
   </div>
 
   <!-- print FAB -->
-  <button class="cv-noprint" onClick="{{ doPrint }}" style="position:fixed; right:26px; bottom:26px; display:inline-flex; align-items:center; gap:9px; padding:12px 18px; background:#2dd4bf; color:#04130f; border:none; border-radius:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; letter-spacing:.03em; cursor:pointer; box-shadow:0 12px 30px -8px rgba(45,212,191,.5);" style-hover="filter:brightness(1.08);">↓ SAVE AS PDF</button>
+  <button id="cv-print" class="cv-noprint" style="position:fixed; right:26px; bottom:26px; display:inline-flex; align-items:center; gap:9px; padding:12px 18px; background:#2dd4bf; color:#04130f; border:none; border-radius:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; letter-spacing:.03em; cursor:pointer; box-shadow:0 12px 30px -8px rgba(45,212,191,.5);" style-hover="filter:brightness(1.08);">↓ SAVE AS PDF</button>
 
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  renderVals() {
-    return {
-      doPrint: () => window.print(),
-    };
+  // Wire the print button via addEventListener (not an inline onClick attribute):
+  // the page CSP is script-src 'self', which blocks inline event handlers.
+  componentDidMount() {
+    const btn = document.getElementById('cv-print');
+    if (btn) btn.addEventListener('click', () => window.print());
   }
+  renderVals() { return {}; }
 }
 </script>
 </body>
