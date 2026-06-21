@@ -27,13 +27,23 @@ jobs:
   build:
     name: Build Pages artifact
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 15 min: the LuaLaTeX compile step pulls the full TeXLive image first.
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Configure Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      # Compile the CV from LaTeX source (cv-src/) into cv-src/cv.pdf. The source
+      # is never published; only the resulting PDF is copied into _site/ below.
+      - name: Compile CV (LuaLaTeX)
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4
+        with:
+          working_directory: cv-src
+          root_file: cv.tex
+          latexmk_use_lualatex: true
 
       - name: Assemble static site
         run: |
@@ -46,8 +56,12 @@ jobs:
           cp "$ENTRY" _site/
           cp support.js core.js _site/
           cp -r assets _site/
-          # CV PDF is optional and added by the owner later; include it if present.
-          if [ -d cv ]; then cp -r cv _site/; fi
+
+          # Publish ONLY the compiled CV PDF (built above) at the fixed path the
+          # site expects: "Juan Felipe Jaramillo.dc.html" -> CV_URL =
+          # 'cv/Juan-Felipe-Jaramillo-CV.pdf'. The LaTeX source stays unpublished.
+          mkdir -p _site/cv
+          cp cv-src/cv.pdf "_site/cv/Juan-Felipe-Jaramillo-CV.pdf"
 
           # Pages serves index.html at the subpath root; the repo's canonical
           # entry keeps its original name, so mirror it as index.html here.
