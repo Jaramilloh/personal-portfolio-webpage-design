@@ -131,6 +131,13 @@ test.describe('Mobile viewport 390px', () => {
     const box = await page.locator('.reading-table > a').first().boundingBox();
     expect(box.x + box.width).toBeLessThanOrEqual(390);
   });
+
+  test('SPEC-11b: .reading-table header label row is hidden on mobile', async ({ page }) => {
+    const display = await page.locator('.reading-table > div').first().evaluate(
+      el => getComputedStyle(el).display
+    );
+    expect(display).toBe('none');
+  });
 });
 
 test.describe('Desktop viewport 1280px — section column invariance (SPEC-12)', () => {
