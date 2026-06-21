@@ -27,49 +27,18 @@ test.describe('Component — boot & render', () => {
   });
 });
 
-test.describe('Component.requestCv — CV email gate', () => {
-  test('rejects an invalid email address', async ({ page }) => {
+test.describe('Component — v2 sections (launchpad + reading)', () => {
+  test('#reading contains an attached external paper link', async ({ page }) => {
     await gotoBooted(page);
-    const cv = page.locator('#cv');
-    await cv.getByPlaceholder('you@company.com').fill('not-an-email');
-    await cv.getByRole('button', { name: /Request & download CV/i }).click();
-    await expect(cv).toContainText('Enter a valid email address');
+    // At least one arXiv paper link must be attached in the reading section
+    await expect(page.locator('#reading a[href*="arxiv.org"]').first()).toBeAttached();
   });
 
-  test('accepts a valid email and starts the CV download', async ({ page }) => {
+  test('#cv launchpad has CV download anchor and GitHub social link', async ({ page }) => {
     await gotoBooted(page);
-    const cv = page.locator('#cv');
-    await cv.getByPlaceholder('you@company.com').fill('recruiter@example.com');
-    await cv.getByRole('button', { name: /Request & download CV/i }).click();
-    await expect(cv).toContainText('Download started');
-  });
-});
-
-test.describe('Component.sendContact — contact form', () => {
-  test('rejects an empty submission', async ({ page }) => {
-    await gotoBooted(page);
-    const contact = page.locator('#contact');
-    await contact.getByRole('button', { name: /Send message/i }).click();
-    await expect(contact).toContainText('Please complete all fields');
-  });
-
-  test('rejects an invalid email address', async ({ page }) => {
-    await gotoBooted(page);
-    const contact = page.locator('#contact');
-    await contact.getByPlaceholder('name').fill('Jane Doe');
-    await contact.getByPlaceholder('email').fill('bad-email');
-    await contact.getByPlaceholder('message').fill('Hello there.');
-    await contact.getByRole('button', { name: /Send message/i }).click();
-    await expect(contact).toContainText('That email looks off');
-  });
-
-  test('queues a valid message with a reference', async ({ page }) => {
-    await gotoBooted(page);
-    const contact = page.locator('#contact');
-    await contact.getByPlaceholder('name').fill('Jane Doe');
-    await contact.getByPlaceholder('email').fill('jane@example.com');
-    await contact.getByPlaceholder('message').fill('Loved the DOD work — let us talk.');
-    await contact.getByRole('button', { name: /Send message/i }).click();
-    await expect(contact).toContainText('Queued — ref MSG-');
+    // Direct CV download anchor (no email gate)
+    await expect(page.locator('#cv a[href$="CV.pdf"][download]')).toBeAttached();
+    // GitHub social card
+    await expect(page.locator('#cv a[href*="github.com/Jaramilloh"]')).toBeAttached();
   });
 });
