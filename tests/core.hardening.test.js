@@ -65,7 +65,7 @@ describe('safeHttpUrl', () => {
   });
 
   it('allows relative paths', () => {
-    expect(safeHttpUrl('./cv/Juan-Felipe-Jaramillo-CV.pdf')).toBe('./cv/Juan-Felipe-Jaramillo-CV.pdf');
+    expect(safeHttpUrl('./cv.html')).toBe('./cv.html');
     expect(safeHttpUrl('assets/album/img-01.webp')).toBe('assets/album/img-01.webp');
     expect(safeHttpUrl('/absolute/path')).toBe('/absolute/path');
   });
