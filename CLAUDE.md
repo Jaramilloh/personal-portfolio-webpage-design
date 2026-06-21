@@ -2,18 +2,21 @@
 
 ## Merge strategy (mandatory)
 
-All merges in this repository follow a fixed two-stage flow:
+Every merge in this repository uses **Rebase and merge** — always. Rebase
+first, then merge. Never merge without rebasing first, never a plain merge
+commit, never squash.
 
 ```
-<any branch>  --(Rebase and merge)-->  develop  --(merge commit)-->  main
+<any branch>  --(Rebase and merge)-->  develop  --(Rebase and merge)-->  main
 ```
 
-- **Into `develop`:** always use **Rebase and merge**. Every incoming branch
+- **Into `develop`:** always **Rebase and merge**. Every incoming branch
   (`feat/*`, `fix/*`, `chore/*`, etc.) is rebased onto `develop` and merged with
-  a linear history. Never use a merge commit or squash when targeting `develop`.
-- **Into `main`:** merge **directly** from `develop` using a standard
-  **merge commit** (GitHub "Create a merge commit"). Never rebase or squash into
-  `main`.
+  a linear history.
+- **Into `main`:** always **Rebase and merge** from `develop` — never a merge
+  commit. Because `main` is kept an ancestor of `develop`, this lands as a clean
+  fast-forward: no rewritten hashes, no divergence between the branches.
 
-`main` therefore advances only via merge commits from `develop`, and `develop`
-keeps a linear history of rebased branches.
+Never use "Create a merge commit" or "Squash and merge" anywhere. Both `develop`
+and `main` keep one linear history, and `main` is always an ancestor of
+`develop`.
