@@ -26,6 +26,18 @@
     .cv-page { box-shadow:none !important; }
     .cv-break { break-inside:avoid; page-break-inside:avoid; }
   }
+  @media (max-width:680px) {
+    .cv-header { grid-template-columns:1fr !important; gap:20px !important; padding:26px 22px 22px !important; }
+    .cv-portrait { width:150px; }
+    .cv-name { font-size:30px !important; }
+    .cv-row { grid-template-columns:1fr !important; gap:5px !important; }
+    .cv-2col { grid-template-columns:1fr !important; }
+    .cv-skills > div { grid-template-columns:1fr !important; gap:2px !important; }
+    .cv-award { grid-template-columns:1fr !important; gap:2px !important; }
+    .cv-body { padding:8px 22px 34px !important; }
+    .cv-divider { margin:0 22px !important; }
+    .cv-bartag { display:none; }
+  }
 </style>
 </helmet>
 <div style="background:#0a0c0f; min-height:100vh; width:100%; font-family:'IBM Plex Sans',system-ui,sans-serif; color:#e8eaed; padding:40px 20px; display:flex; flex-direction:column; align-items:center; -webkit-font-smoothing:antialiased;">
@@ -39,14 +51,14 @@
         <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.04em; color:#cbd2da;">jaramillo.dev</span>
         <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#4a525c;">/ cv</span>
       </div>
-      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.18em; color:#5b626b;">CURRICULUM&nbsp;VITAE&nbsp;·&nbsp;2026</span>
+      <span class="cv-bartag" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.18em; color:#5b626b;">CURRICULUM&nbsp;VITAE&nbsp;·&nbsp;2026</span>
     </div>
 
     <!-- header -->
-    <div style="display:grid; grid-template-columns:1fr 196px; gap:32px; padding:34px 40px 30px;">
+    <div class="cv-header" style="display:grid; grid-template-columns:1fr 196px; gap:32px; padding:34px 40px 30px;">
       <div style="min-width:0;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:#2dd4bf; margin-bottom:16px;">// AI ·&nbsp; COMPUTER VISION ·&nbsp; PhD CANDIDATE</div>
-        <h1 style="font-size:41px; line-height:1.04; font-weight:700; letter-spacing:-0.02em; color:#f4f6f8;">Juan&nbsp;Felipe Jaramillo&nbsp;Hernández<span style="color:#2dd4bf;">,</span> <span style="font-size:24px; font-weight:500; color:#9aa2ab;">M.Sc.</span></h1>
+        <h1 class="cv-name" style="font-size:41px; line-height:1.04; font-weight:700; letter-spacing:-0.02em; color:#f4f6f8;">Juan&nbsp;Felipe Jaramillo&nbsp;Hernández<span style="color:#2dd4bf;">,</span> <span style="font-size:24px; font-weight:500; color:#9aa2ab;">M.Sc.</span></h1>
         <p style="margin-top:14px; font-size:15.5px; line-height:1.62; color:#aeb6bf; max-width:54ch;">AI &amp; Computer Vision engineer and PhD candidate bridging research and production. I build state-of-the-art vision systems end to end — from dataset creation to real-time inference on the edge — validated in industrial environments and backed by peer-reviewed research.</p>
 
         <div style="display:flex; flex-wrap:wrap; gap:7px; margin-top:20px; font-family:'IBM Plex Mono',monospace; font-size:11.5px;">
@@ -59,7 +71,7 @@
       </div>
 
       <!-- portrait detection box -->
-      <div style="position:relative; align-self:start;">
+      <div class="cv-portrait" style="position:relative; align-self:start;">
         <div style="position:relative; border:1.5px solid #2dd4bf; border-radius:3px; overflow:hidden; aspect-ratio:1/1;">
           <img src="assets/portrait.jpeg" alt="Juan Felipe Jaramillo" style="width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.92) contrast(1.02);">
           <div style="position:absolute; top:0; left:0; padding:3px 7px; background:#2dd4bf; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.05em; color:#04130f;">J.F. JARAMILLO · 0.99</div>
@@ -71,10 +83,10 @@
       </div>
     </div>
 
-    <div style="height:1px; background:linear-gradient(90deg,transparent,#222932 12%,#222932 88%,transparent); margin:0 40px;"></div>
+    <div class="cv-divider" style="height:1px; background:linear-gradient(90deg,transparent,#222932 12%,#222932 88%,transparent); margin:0 40px;"></div>
 
     <!-- body -->
-    <div style="padding:8px 40px 44px;">
+    <div class="cv-body" style="padding:8px 40px 44px;">
 
       <!-- 01 EXPERIENCE -->
       <section style="padding-top:30px;">
@@ -84,7 +96,7 @@
           <span style="flex:1; height:1px; background:#1b2027;"></span>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2025 — NOW</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">Arisnova · Aimira</div>
@@ -111,7 +123,7 @@
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">SEP 2024 — NOW</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">Arisnova</div>
@@ -133,7 +145,7 @@
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">JUL — DEC 2021</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">Ernst &amp; Young</div>
@@ -154,7 +166,7 @@
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:24px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">MAR 2020 — MAY 2021</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">ÓMICAS</div>
@@ -175,7 +187,7 @@
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2017 — 2020</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">PUJ</div>
@@ -199,7 +211,7 @@
           <span style="flex:1; height:1px; background:#1b2027;"></span>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:22px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:22px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">SEP 2024 — NOW</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">UPV · VRAIN</div>
@@ -211,7 +223,7 @@
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:22px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:22px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2022 — 2023</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">UPV</div>
@@ -223,7 +235,7 @@
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.03em;">2016 — 2022</div>
             <div style="font-size:14px; font-weight:600; color:#dde2e7; margin-top:6px;">PUJ</div>
@@ -244,21 +256,21 @@
           <span style="flex:1; height:1px; background:#1b2027;"></span>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:20px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:20px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2024 · JOURNAL</div>
           <div>
             <p style="font-size:14px; line-height:1.58; color:#c2c9d1;"><strong style="color:#f1f4f6; font-weight:600;">Application of Machine Vision Techniques in Low-Cost Devices to Improve Efficiency in Precision Farming.</strong> Jaramillo-Hernández, J.F., Julian, V., Marco-Detchart, C., &amp; Rincón, J.A. <em style="color:#9aa2ab;">Sensors</em> 24(3): 937. <a href="https://doi.org/10.3390/s24030937" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#2dd4bf; text-decoration:none;">doi.org/10.3390/s24030937 ↗</a></p>
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:20px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px; margin-bottom:20px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2025 · SPRINGER</div>
           <div>
             <p style="font-size:14px; line-height:1.58; color:#c2c9d1;"><strong style="color:#f1f4f6; font-weight:600;">Efficient Depth Object Detection: Ablation-Driven Optimization for Lightweight YOLOv8 Architecture.</strong> Jaramillo-Hernández, J.F., Julian, V., Marco-Detchart, C., &amp; Rincón, J.A. PAAMS 2024, <em style="color:#9aa2ab;">Communications in Computer and Information Science</em>, vol. 2149, Springer, Cham. <a href="https://doi.org/10.1007/978-3-031-73058-0_13" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#2dd4bf; text-decoration:none;">doi.org/10.1007/978-3-031-73058-0_13 ↗</a></p>
           </div>
         </div>
 
-        <div class="cv-break" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
+        <div class="cv-break cv-row" style="display:grid; grid-template-columns:178px 1fr; gap:24px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2024 · TALK</div>
           <div>
             <p style="font-size:14px; line-height:1.58; color:#c2c9d1;">Oral presentation, <strong style="color:#f1f4f6; font-weight:600;">22nd International Conference on Practical Applications of Agents and Multi-Agent Systems (PAAMS'24)</strong> — "Efficient Depth Object Detection".</p>
@@ -273,7 +285,7 @@
           <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Technical Skills</h2>
           <span style="flex:1; height:1px; background:#1b2027;"></span>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 36px;">
+        <div class="cv-2col cv-skills" style="display:grid; grid-template-columns:1fr 1fr; gap:14px 36px;">
           <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">ML / DL</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">PyTorch, TensorFlow, scikit-learn, OpenCV, Hugging Face, NLTK</span></div>
           <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">LANGUAGES</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">Python, C/C++, C#, SQL, Rust, Bash</span></div>
           <div style="display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; letter-spacing:.05em;">MLOPS</span><span style="font-size:13.5px; color:#bcc3cb; line-height:1.5;">Docker, Git, GitHub Actions, CI/CD</span></div>
@@ -292,7 +304,7 @@
           <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">Certifications</h2>
           <span style="flex:1; height:1px; background:#1b2027;"></span>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div class="cv-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
           <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">Google Cloud Professional ML Engineer — Cert Prep</span></div>
           <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">AWS Certified Machine Learning — Specialty (MLS-C01)</span></div>
           <div style="display:flex; gap:11px; align-items:baseline; padding:11px 13px; border:1px solid #1c232b; border-radius:6px; background:#0d1116;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#2dd4bf;">2024</span><span style="font-size:13px; color:#c8cfd6; line-height:1.4;">Microsoft Azure AI Fundamentals (AI-900)</span></div>
@@ -309,9 +321,9 @@
           <span style="flex:1; height:1px; background:#1b2027;"></span>
         </div>
         <div style="display:flex; flex-direction:column; gap:14px;">
-          <div style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2022</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">Honorable Mention</strong>, undergraduate thesis — light-field spatial super-resolution. Faculty of Engineering, PUJ.</span></div>
-          <div style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2019</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">2nd place</strong>, Expo Electrónica Javeriana — "PVLPower", photovoltaic power-loss quantifier.</span></div>
-          <div style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2016</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">Academic Excellence Award</strong>, Faculty of Engineering, PUJ.</span></div>
+          <div class="cv-award" style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2022</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">Honorable Mention</strong>, undergraduate thesis — light-field spatial super-resolution. Faculty of Engineering, PUJ.</span></div>
+          <div class="cv-award" style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2019</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">2nd place</strong>, Expo Electrónica Javeriana — "PVLPower", photovoltaic power-loss quantifier.</span></div>
+          <div class="cv-award" style="display:grid; grid-template-columns:90px 1fr; gap:18px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf;">2016</span><span style="font-size:14px; line-height:1.5; color:#bcc3cb;"><strong style="color:#eef1f4; font-weight:600;">Academic Excellence Award</strong>, Faculty of Engineering, PUJ.</span></div>
         </div>
       </section>
 
@@ -322,7 +334,7 @@
           <h2 style="font-size:16px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#eef1f4;">References</h2>
           <span style="flex:1; height:1px; background:#1b2027;"></span>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div class="cv-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
           <div style="padding:14px 16px; border:1px solid #1c232b; border-radius:7px; background:#0d1116;"><div style="font-size:14.5px; font-weight:600; color:#eef1f4;">Vicente J. Julian Inglada, PhD</div><div style="font-size:12.5px; color:#9aa2ab; margin-top:2px;">Professor &amp; Researcher · UPV, VRAIN</div></div>
           <div style="padding:14px 16px; border:1px solid #1c232b; border-radius:7px; background:#0d1116;"><div style="font-size:14.5px; font-weight:600; color:#eef1f4;">Borja Gramage Bonastre</div><div style="font-size:12.5px; color:#9aa2ab; margin-top:2px;">Org. Development &amp; People · Arisnova</div></div>
           <div style="padding:14px 16px; border:1px solid #1c232b; border-radius:7px; background:#0d1116;"><div style="font-size:14.5px; font-weight:600; color:#eef1f4;">Francisco C. Calderón B., PhD</div><div style="font-size:12.5px; color:#9aa2ab; margin-top:2px;">Professor &amp; Researcher · ÓMICAS, PUJ</div></div>
