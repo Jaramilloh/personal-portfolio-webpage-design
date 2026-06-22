@@ -36,7 +36,6 @@ img{max-width:100%}
 .stats-grid{grid-template-columns:repeat(4,1fr)}
 .work-grid{grid-template-columns:.95fr 1.05fr;gap:40px}
 .stack-grid{grid-template-columns:repeat(4,1fr);gap:22px}
-.arch-grid{grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
 .blog-grid{grid-template-columns:repeat(3,1fr);gap:18px}
 .reading-table > div,.reading-table > a{display:grid;grid-template-columns:58px 1fr 78px 96px;gap:18px}
 /* mobile */
@@ -49,7 +48,6 @@ img{max-width:100%}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .work-grid{grid-template-columns:1fr;gap:24px}
   .stack-grid{grid-template-columns:repeat(2,1fr)}
-  .arch-grid{grid-template-columns:1fr}
   .blog-grid{grid-template-columns:1fr}
   .reading-table > a{grid-template-columns:1fr}
   .reading-table > div{display:none}
@@ -76,7 +74,6 @@ img{max-width:100%}
     <a href="#repos" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">repos</a>
     <a href="#research" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">research</a>
     <a href="#stack" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">stack</a>
-    <a href="#arch" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">system</a>
     <a href="#reading" style="padding:8px 12px;color:#8b929c;transition:color .2s" style-hover="color:#e8eaed">reading</a>
     <a href="#cv" style="margin-left:8px;display:inline-flex;align-items:center;gap:7px;padding:8px 15px;background:#b8f24a;color:#0d0f12;font-weight:500;letter-spacing:.05em;transition:transform .2s" style-hover="transform:translateY(-1px)">▼ CV</a>
   </div>
@@ -368,60 +365,6 @@ img{max-width:100%}
   </sc-if>
 </section>
 
-<!-- ===================== ARCHITECTURE ===================== -->
-<section id="arch" style="border-top:1px solid #1c2128;border-bottom:1px solid #1c2128;background:#0a0c0f;scroll-margin-top:84px">
-  <div style="max-width:1180px;margin:0 auto;padding:72px 32px">
-    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 07 ] &nbsp;Extensible by design</div>
-    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0 0 10px;color:#f4f6f7">Hexagonal architecture</h2>
-    <p style="max-width:680px;color:#9aa0aa;font-size:15.5px;line-height:1.65;margin:0 0 44px">This page is the <span style="color:#e8eaed">domain core</span>. It depends only on <span style="color:#45dcef">ports</span> (contracts) — never on concrete IO. Each <span style="color:#b8f24a">adapter</span> implements a port and is swappable without touching anything else. Want a photo album, a CV gate, a blog? Write one adapter and register it. <span style="color:#5c636e">(see&nbsp;core.js)</span></p>
-
-    <div class="arch-grid" style="display:grid">
-      <!-- diagram -->
-      <div data-reveal style="position:relative">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <!-- center hexagon spanning -->
-          <div style="grid-column:1 / -1;display:flex;justify-content:center;margin-bottom:6px">
-            <div style="width:190px;height:165px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(150deg,#161d12,#101317);border:1px solid #2b3a1d;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-              <span style="font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.16em;color:#b8f24a">DOMAIN</span>
-              <span style="font-family:'Space Grotesk';font-weight:600;font-size:17px;color:#e8eaed;margin-top:3px">Portfolio<br>shell</span>
-              <span style="font-family:'IBM Plex Mono';font-size:9px;color:#5c636e;margin-top:5px">depends on ports only</span>
-            </div>
-          </div>
-          <div style="border:1px solid #232831;background:#101317;padding:15px">
-            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · RepositorySource</div>
-            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">GitHubApiAdapter <span style="color:#5c636e">(live)</span><br>CuratedAdapter <span style="color:#5c636e">(fallback)</span></div>
-          </div>
-          <div style="border:1px solid #232831;background:#101317;padding:15px">
-            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · DownloadGate</div>
-            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">TokenBucketGate <span style="color:#5c636e">(client)</span><br>ServerGate <span style="color:#5c636e">→ your API</span></div>
-          </div>
-          <div style="border:1px solid #232831;background:#101317;padding:15px">
-            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · MessageChannel</div>
-            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">LocalOutbox <span style="color:#5c636e">(stub)</span><br>Smtp / Formspree <span style="color:#5c636e">→ plug</span></div>
-          </div>
-          <div style="border:1px solid #232831;background:#101317;padding:15px">
-            <div style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;color:#45dcef;margin-bottom:6px">PORT · MediaSource</div>
-            <div style="font-family:'IBM Plex Mono';font-size:11px;color:#8b929c;line-height:1.7">ImageSlot <span style="color:#5c636e">(drop-in)</span><br>Cloudinary / S3 <span style="color:#5c636e">→ plug</span></div>
-          </div>
-        </div>
-      </div>
-      <!-- SOLID + extend -->
-      <div data-reveal>
-        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:26px">
-          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">S</span><span style="color:#c4c9d0;font-size:14px">Single responsibility — one adapter, one reason to change.</span></div>
-          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">O</span><span style="color:#c4c9d0;font-size:14px">Open/closed — extend by adding modules, not editing them.</span></div>
-          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">L</span><span style="color:#c4c9d0;font-size:14px">Liskov — every adapter is a drop-in for its port.</span></div>
-          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">I</span><span style="color:#c4c9d0;font-size:14px">Interface segregation — small, focused contracts.</span></div>
-          <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'IBM Plex Mono';font-weight:500;color:#b8f24a;width:18px">D</span><span style="color:#c4c9d0;font-size:14px">Dependency inversion — core depends on abstractions.</span></div>
-        </div>
-        <div style="background:#0d0f12;border:1px solid #232831;padding:16px;font-family:'IBM Plex Mono';font-size:11.5px;line-height:1.75;color:#8b929c;overflow:auto">
-          <span style="color:#5c636e">// add a section in one place</span><br>core.modules.<span style="color:#45dcef">push</span>({<br>&nbsp;&nbsp;id:<span style="color:#b8f24a">'talks'</span>, label:<span style="color:#b8f24a">'Talks'</span>,<br>&nbsp;&nbsp;source:<span style="color:#b8f24a"> new</span> TalksAdapter()<br>});
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ===================== REACH ME (launchpad) ===================== -->
 <section id="cv" style="max-width:1180px;margin:0 auto;padding:72px 32px;scroll-margin-top:84px">
   <div style="position:relative;border:1px solid #232831;background:linear-gradient(160deg,#12160d,#101317);padding:46px">
@@ -432,7 +375,7 @@ img{max-width:100%}
 
     <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:36px;flex-wrap:wrap;margin-bottom:40px">
       <div style="max-width:580px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 08 ] &nbsp;// REACH_ME</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 07 ] &nbsp;// REACH_ME</div>
         <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:40px;letter-spacing:-.02em;margin:0 0 16px;color:#f4f6f7">Let's build something</h2>
         <p style="color:#9aa0aa;font-size:15.5px;line-height:1.65;margin:0;max-width:470px">One ping away — open to research collaboration, vision / edge-AI consulting, and engineering roles. Pick a channel, or take the whole CV.</p>
       </div>
@@ -490,7 +433,7 @@ img{max-width:100%}
 <section id="blog" style="max-width:1180px;margin:0 auto;padding:40px 32px 60px;scroll-margin-top:84px">
   <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:32px">
     <div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 09 ] &nbsp;Notes</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8f24a;margin-bottom:14px">[ 08 ] &nbsp;Notes</div>
       <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:42px;letter-spacing:-.02em;margin:0;color:#f4f6f7">Writing</h2>
     </div>
     <span style="font-family:'IBM Plex Mono';font-size:12px;color:#5c636e;max-width:330px;text-align:right">module: <span style="color:#45dcef">ContentModule</span> — plug a Markdown / CMS adapter to publish.</span>
