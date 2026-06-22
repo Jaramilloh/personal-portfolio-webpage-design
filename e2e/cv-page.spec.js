@@ -45,4 +45,25 @@ test.describe('CV page', () => {
     await page.locator('#cv-print').click();
     await expect.poll(() => page.evaluate(() => window.__printed)).toBeGreaterThan(0);
   });
+
+  test('collapses to a single-column, overflow-free layout on a phone viewport', async ({ page }) => {
+    // Phone viewport inside the 680px breakpoint; acceptance band is ~375-414px.
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(CV_PAGE);
+    // DOM proof the DC runtime booted (same gate the other tests use).
+    await expect(page.locator('h1', { hasText: 'Jaramillo' })).toBeVisible();
+
+    // The header grid must compute to a single track on mobile (cv-header -> 1fr).
+    const headerTracks = await page.locator('.cv-header').evaluate(
+      (el) => getComputedStyle(el).gridTemplateColumns
+    );
+    // One resolved track = no inner space char (two tracks render as "Xpx Ypx").
+    expect(headerTracks.trim().split(/\s+/)).toHaveLength(1);
+
+    // No horizontal overflow at this viewport.
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth
+    );
+    expect(overflow, `horizontal overflow of ${overflow}px`).toBeLessThanOrEqual(1);
+  });
 });
