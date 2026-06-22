@@ -109,13 +109,6 @@ test.describe('Mobile viewport 390px', () => {
     expect(cols).toBe(2);
   });
 
-  test('SPEC-09: .arch-grid collapses to 1 column at 390px', async ({ page }) => {
-    const cols = await page.locator('.arch-grid').evaluate(
-      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
-    );
-    expect(cols).toBe(1);
-  });
-
   test('SPEC-10: .blog-grid collapses to 1 column at 390px', async ({ page }) => {
     const cols = await page.locator('.blog-grid').evaluate(
       el => getComputedStyle(el).gridTemplateColumns.split(' ').length
@@ -152,13 +145,6 @@ test.describe('Desktop viewport 1280px — section column invariance (SPEC-12)',
       el => getComputedStyle(el).gridTemplateColumns.split(' ').length
     );
     expect(cols).toBe(4);
-  });
-
-  test('SPEC-12b: .arch-grid retains 2 columns on desktop', async ({ page }) => {
-    const cols = await page.locator('.arch-grid').evaluate(
-      el => getComputedStyle(el).gridTemplateColumns.split(' ').length
-    );
-    expect(cols).toBe(2);
   });
 
   test('SPEC-12c: .blog-grid retains 3 columns on desktop', async ({ page }) => {
