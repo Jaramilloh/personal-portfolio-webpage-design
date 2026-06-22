@@ -66,4 +66,29 @@ test.describe('CV page', () => {
     );
     expect(overflow, `horizontal overflow of ${overflow}px`).toBeLessThanOrEqual(1);
   });
+
+  test('shrinks the portrait detection tag on a phone viewport so it stops overpowering the photo', async ({ page }) => {
+    // The "J.F. JARAMILLO · 0.99" tag has a fixed size that looks right on desktop,
+    // but the mobile breakpoint scales the portrait down to 150px. If the tag does
+    // not scale with it, it grows proportionally large and covers the forehead/hair.
+    // Behavior guard: the tag's rendered box must be smaller on a phone viewport
+    // than on desktop — selected by its text, not its class, so it stays decoupled
+    // from implementation details.
+    const tag = page.getByText(/J\.F\. JARAMILLO/);
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(CV_PAGE);
+    await expect(page.locator('h1', { hasText: 'Jaramillo' })).toBeVisible();
+    const desktopBox = await tag.boundingBox();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    const mobileBox = await tag.boundingBox();
+
+    expect(desktopBox, 'desktop tag must render').not.toBeNull();
+    expect(mobileBox, 'mobile tag must render').not.toBeNull();
+    expect(
+      mobileBox.height,
+      `tag should shrink on mobile (desktop ${desktopBox?.height}px vs mobile ${mobileBox?.height}px)`
+    ).toBeLessThan(desktopBox.height);
+  });
 });
