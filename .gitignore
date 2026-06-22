@@ -24,23 +24,9 @@ playwright/.cache/
 # Local image scratch (source dupes / album-sync inputs — never part of the deploy)
 uploads/
 
-# CV LaTeX build — source lives in cv-src/; only the compiled PDF is published
-# (assembled into _site/cv/ at deploy time). Neither the source archive nor the
-# build artifacts are ever committed.
-/CV improvement and portfolio.zip
-cv-src/*.pdf
-cv-src/*.aux
-cv-src/*.log
-cv-src/*.fls
-cv-src/*.fdb_latexmk
-cv-src/*.out
-cv-src/*.toc
-cv-src/*.synctex.gz
-cv-src/*.bbl
-cv-src/*.blg
-cv-src/*.bcf
-cv-src/*.run.xml
-cv-src/*.xdv
+# Download/export bundles dropped at the repo root are scratch inputs, never
+# source. The deployed site and CV are the source of truth.
+/*.zip
 
 # OS / editor cruft
 .DS_Store
