@@ -40,9 +40,44 @@ describe('section 09 — published Protocolo guide', () => {
     expect(blog).toContain('publicado · ~30 min · 9 etapas');
   });
 
-  it('leaves the other two draft cards untouched', () => {
+  it('leaves the other draft card untouched', () => {
     expect(blog).toContain('Shrinking a detector 61% with ablation-driven design');
+    expect((blog.match(/>Draft</g) || []).length).toBe(1);
+  });
+});
+
+describe('section 09 — published Lytro note', () => {
+  it('ships the self-contained note asset under writing/', () => {
+    const asset = join(root, 'writing', 'lytro-lightfield.html');
+    expect(existsSync(asset)).toBe(true);
+    expect(statSync(asset).size).toBeGreaterThan(8_000);
+  });
+
+  it('turns the third card into a live link to the note', () => {
+    expect(blog).toContain('href="writing/lytro-lightfield.html"');
     expect(blog).toContain('From Lytro raw to sub-aperture light-field stacks');
-    expect((blog.match(/>Draft</g) || []).length).toBe(2);
+  });
+
+  it('opens the note in a new tab without leaking the opener', () => {
+    const anchor = blog.slice(blog.indexOf('href="writing/lytro-lightfield.html"'));
+    expect(anchor).toContain('target="_blank"');
+    expect(anchor).toContain('rel="noopener"');
+  });
+
+  it('marks the entry published with correct metadata', () => {
+    expect(blog).toContain('publicado · ~10 min · 6 secciones');
+  });
+
+  it('Lytro card appears after Protocolo card', () => {
+    const protocoloIdx = blog.indexOf('href="writing/protocolo.html"');
+    const lytroIdx = blog.indexOf('href="writing/lytro-lightfield.html"');
+    expect(protocoloIdx).toBeGreaterThan(-1);
+    expect(lytroIdx).toBeGreaterThan(protocoloIdx);
+  });
+
+  it('note source contains i18n wiring', () => {
+    const content = readFileSync(join(root, 'writing', 'lytro-lightfield.html'), 'utf8');
+    expect(content).toContain('lytro-lang');
+    expect(content).toContain('10×10');
   });
 });
