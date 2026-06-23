@@ -57,6 +57,7 @@ jobs:
           # The editable .dc.html source (writing/Protocolo.dc.html) stays unpublished.
           mkdir -p _site/writing
           cp writing/protocolo.html "_site/writing/protocolo.html"
+          cp writing/lytro-lightfield.html "_site/writing/lytro-lightfield.html"
 
           # Pages serves index.html at the subpath root; the repo's canonical
           # entry keeps its original name, so mirror it as index.html here.
