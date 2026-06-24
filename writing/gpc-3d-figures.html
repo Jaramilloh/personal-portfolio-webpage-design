@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GPC — 3D figures in three.js | Juan Felipe Jaramillo</title>
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:#08090b;color:#cfd1d3;font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.78;-webkit-font-smoothing:antialiased}
+    ::selection{background:rgba(166,226,46,.28)}
+
+    /* i18n */
+    [data-l="en"]{display:none}
+    [data-lang="en"] [data-l="en"]{display:revert}
+    [data-lang="en"] [data-l="es"]{display:none}
+
+    /* lang buttons */
+    [data-langbtn]{background:transparent;color:#7d8085;padding:5px 13px;border:0;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;transition:color .15s}
+    [data-langbtn]:hover{color:#cfd1d3}
+    [data-lang="es"] [data-langbtn="es"],[data-lang="en"] [data-langbtn="en"]{background:#a6e22e;color:#08090b;font-weight:600}
+
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+    /* progress bar */
+    #progress{position:fixed;top:0;left:0;height:2px;background:#a6e22e;width:0%;z-index:200;transition:width .1s linear}
+
+    /* sticky header */
+    header{position:sticky;top:0;z-index:100;background:rgba(8,9,11,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;gap:16px}
+    .hdr-left{display:flex;align-items:center;gap:12px}
+    .hdr-badge{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#a6e22e;text-transform:uppercase;text-decoration:none}
+    .hdr-sep{color:#3b4048;font-size:11px}
+    .hdr-path{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.06em}
+    .hdr-right{display:flex;align-items:center;gap:4px}
+    .hdr-back{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7d8085;text-decoration:none;padding:5px 10px;border:1px solid #232831;transition:border-color .15s,color .15s;letter-spacing:.06em}
+    .hdr-back:hover{border-color:#a6e22e;color:#a6e22e}
+    .lang-divider{width:1px;height:16px;background:#232831;margin:0 4px}
+
+    /* content root */
+    [data-doc]{--ac:#a6e22e;--bg:#08090b;min-height:100vh}
+
+    /* sections */
+    section{padding:80px 24px 0;scroll-margin-top:80px}
+    .inner{max-width:768px;margin:0 auto}
+    .inner-wide{max-width:940px;margin:0 auto}
+
+    /* eyebrow label */
+    .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:18px}
+    .eyebrow .num{color:var(--ac)}
+    .eyebrow .tag{color:#7d8085}
+
+    /* headings */
+    h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(34px,5vw,58px);letter-spacing:-.02em;color:#fafafa;line-height:1.1;margin-bottom:20px}
+    h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.5vw,36px);letter-spacing:-.01em;color:#fafafa;margin-bottom:20px}
+    h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#e8eaed;margin-bottom:12px}
+    p{margin-bottom:16px;color:#c4c6c9}
+    a{color:#a6e22e;text-decoration:none}
+    a:hover{text-decoration:underline}
+    code{font-family:'JetBrains Mono',monospace;font-size:.88em;color:#45dcef;background:rgba(69,220,239,.08);padding:1px 5px;border-radius:3px}
+
+    /* hero */
+    #hero{padding-top:64px;padding-bottom:0}
+    .status-row{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+    .status-dot{width:7px;height:7px;border-radius:50%;background:#a6e22e;animation:blink 2.4s infinite}
+    .status-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7d8085}
+    .dek{font-size:18px;color:#9aa0aa;line-height:1.65;max-width:600px;margin-bottom:28px}
+    .meta-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0}
+    .pill{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;padding:6px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#7d8085;text-transform:uppercase}
+    .pill-ac{border-color:rgba(166,226,46,.3);color:#a6e22e}
+
+    /* intro cards */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:28px}
+    .card{border:1px solid #1e2530;background:#0d0e11;padding:22px;border-radius:2px}
+    .card-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#a6e22e;margin-bottom:10px}
+    .card p{margin-bottom:8px;font-size:14.5px;line-height:1.6}
+
+    /* pipeline / launcher table */
+    .pipeline-table{width:100%;border-collapse:collapse;margin-top:28px}
+    .pipeline-table tr{border-bottom:1px solid rgba(255,255,255,.07)}
+    .pipeline-table tr:last-child{border-bottom:none}
+    .pipeline-table td{padding:14px 16px;font-size:14px}
+    .pipeline-table .p-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#a6e22e;letter-spacing:.1em;white-space:nowrap}
+    .pipeline-table .p-link{color:#e8eaed;font-weight:500;text-decoration:none;font-family:'Space Grotesk',sans-serif}
+    .pipeline-table .p-link:hover{color:#a6e22e}
+    .pipeline-table .p-desc{font-family:'JetBrains Mono',monospace;font-size:12px;color:#5c636e}
+    .pipeline-table td:first-child{width:56px}
+    .pipeline-table .p-ext{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5c636e}
+
+    /* callout */
+    .callout{border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:2px;padding:16px 20px;margin:20px 0}
+    .callout-warn{border-color:rgba(255,176,72,.26);background:rgba(255,176,72,.06)}
+    .callout code{color:#a6e22e}
+
+    /* tech table */
+    .tech-table{width:100%;border-collapse:collapse;margin:16px 0}
+    .tech-table th{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5c636e;padding:8px 12px;border-bottom:1px solid #1e2530;text-align:left}
+    .tech-table td{padding:10px 12px;font-size:14px;border-bottom:1px solid rgba(255,255,255,.05)}
+    .tech-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:12px;color:#45dcef}
+    .tech-table td:last-child{color:#c4c6c9}
+
+    /* SVG containers */
+    .svg-wrap{margin:28px 0;text-align:center}
+    .svg-wrap svg{max-width:100%;height:auto}
+    .svg-caption{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5c636e;margin-top:10px;letter-spacing:.04em}
+
+    /* repo link */
+    .repo-link{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#a6e22e;border:1px solid rgba(166,226,46,.3);padding:8px 16px;border-radius:2px;transition:background .15s}
+    .repo-link:hover{background:rgba(166,226,46,.07);text-decoration:none}
+
+    /* next/closing card */
+    .closing-card{border:1px solid #232831;background:#0d0f12;padding:32px;margin-top:32px;border-radius:2px}
+
+    /* footer */
+    footer{margin-top:80px;padding:40px 24px;border-top:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#3b4048;letter-spacing:.06em}
+    .footer-inner{max-width:768px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+    .footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .footer-label{color:#5c636e;letter-spacing:.12em;text-transform:uppercase}
+    .footer-back{color:#7d8085;text-decoration:none;transition:color .15s}
+    .footer-back:hover{color:#a6e22e}
+    .footer-status{display:flex;align-items:center;gap:8px}
+    .footer-dot{width:5px;height:5px;border-radius:50%;background:#a6e22e;animation:blink 2.4s infinite}
+    .footer-nominal{color:#a6e22e;letter-spacing:.12em}
+    .footer-copy{color:#3b4048;font-size:10.5px}
+
+    @media(max-width:640px){
+      header{padding:0 16px}
+      section{padding:60px 16px 0}
+      h1{font-size:30px}
+      h2{font-size:24px}
+      .card-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<div data-doc data-lang="es" style="--ac:#a6e22e;--bg:#08090b">
+  <div id="progress"></div>
+
+  <header>
+    <div class="hdr-left">
+      <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" class="hdr-badge">JF</a>
+      <span class="hdr-sep">/</span>
+      <span class="hdr-path">jaramillo.dev / gpc-3d</span>
+    </div>
+    <div class="hdr-right">
+      <button data-langbtn="es" aria-label="Español">ES</button>
+      <div class="lang-divider"></div>
+      <button data-langbtn="en" aria-label="English">EN</button>
+      <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" class="hdr-back" style="margin-left:12px">
+        <span data-l="es">← portfolio</span>
+        <span data-l="en">← portfolio</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- =================== HERO =================== -->
+  <section id="hero">
+    <div class="inner">
+      <div class="status-row">
+        <div class="status-dot"></div>
+        <span class="status-label">
+          <span data-l="es">nota // computación gráfica</span>
+          <span data-l="en">note // computer graphics</span>
+        </span>
+      </div>
+
+      <h1>
+        <span data-l="es">Figuras 3D en three.js</span>
+        <span data-l="en">3D figures in three.js</span>
+      </h1>
+
+      <p class="dek">
+        <span data-l="es">Aplicaciones de gráficos 3D escritas con three.js y WebGL para la asignatura de Computación Gráfica del Máster en Inteligencia Artificial, Reconocimiento de Formas e Imagen Digital de la Universitat Politècnica de València: un brazo robótico construido en cinco iteraciones y un proyecto final, FENOBOT, un robot de agricultura de precisión.</span>
+        <span data-l="en">3D graphics applications written with three.js and WebGL for the Computer Graphics course of the Master's in Artificial Intelligence, Pattern Recognition and Digital Imaging at Universitat Politècnica de València: a robotic arm built across five iterations and a final project, FENOBOT, a precision-agriculture robot.</span>
+      </p>
+
+      <div class="meta-pills">
+        <span class="pill pill-ac">INTERACTIVE</span>
+        <span class="pill">ES/EN</span>
+        <span class="pill">THREE.JS</span>
+        <span class="pill">WebGL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== INTRO =================== -->
+  <section id="intro" style="padding-top:48px">
+    <div class="inner-wide">
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">
+            <span data-l="es">// QUÉ ES ESTO</span>
+            <span data-l="en">// WHAT THIS IS</span>
+          </div>
+          <p data-l="es">Una colección de demos WebGL ejecutables en el navegador. Cada una corre en vivo sobre <code>three.js</code> — no son capturas: abrís el enlace y la escena 3D se renderiza y responde a tu cámara.</p>
+          <p data-l="en">A collection of WebGL demos that run in the browser. Each one runs live on <code>three.js</code> — these are not screenshots: open the link and the 3D scene renders and responds to your camera.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <span data-l="es">// QUÉ VAS A VER</span>
+            <span data-l="en">// WHAT YOU GET</span>
+          </div>
+          <p data-l="es">Cinco iteraciones de un brazo robótico articulado —del grafo de escena a la animación— y FENOBOT, el proyecto final: un robot de agricultura de precisión con carga de modelos 3D.</p>
+          <p data-l="en">Five iterations of an articulated robotic arm — from scene graph to animation — and FENOBOT, the final project: a precision-agriculture robot with 3D model loading.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">// SOURCE</div>
+          <p data-l="es">Código bajo licencia MIT. Autor: Juan Felipe Jaramillo Hernández. GPC 2022, UPV.</p>
+          <p data-l="en">Source under the MIT license. Author: Juan Felipe Jaramillo Hernández. GPC 2022, UPV.</p>
+          <p style="margin-top:8px">
+            <a href="https://github.com/Jaramilloh/GPC-3D-figures" target="_blank" rel="noopener" class="repo-link">
+              GitHub ↗
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== DEMOS / LAUNCHER =================== -->
+  <section id="demos">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 01 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">DEMOS EN VIVO</span>
+          <span data-l="en">LIVE DEMOS</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">Abrí cualquier escena</span>
+        <span data-l="en">Open any scene</span>
+      </h2>
+      <p data-l="es">Cada enlace abre la aplicación three.js alojada en GitHub Pages, en una pestaña nueva. Funcionan mejor en escritorio con un navegador con WebGL.</p>
+      <p data-l="en">Each link opens the three.js application hosted on GitHub Pages, in a new tab. They run best on desktop in a WebGL-capable browser.</p>
+
+      <table class="pipeline-table">
+        <tbody>
+          <tr>
+            <td class="p-num">01</td>
+            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica1.html" target="_blank" rel="noopener" class="p-link">
+              <span data-l="es">Brazo robótico — Primera iteración ↗</span>
+              <span data-l="en">Robotic arm — First iteration ↗</span>
+            </a></td>
+            <td class="p-desc">practica1.html</td>
+          </tr>
+          <tr>
+            <td class="p-num">02</td>
+            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica2.html" target="_blank" rel="noopener" class="p-link">
+              <span data-l="es">Brazo robótico — Segunda iteración ↗</span>
+              <span data-l="en">Robotic arm — Second iteration ↗</span>
+            </a></td>
+            <td class="p-desc">practica2.html</td>
+          </tr>
+          <tr>
+            <td class="p-num">03</td>
+            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica3.html" target="_blank" rel="noopener" class="p-link">
+              <span data-l="es">Brazo robótico — Tercera iteración ↗</span>
+              <span data-l="en">Robotic arm — Third iteration ↗</span>
+            </a></td>
+            <td class="p-desc">practica3.html</td>
+          </tr>
+          <tr>
+            <td class="p-num">04</td>
+            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica4.html" target="_blank" rel="noopener" class="p-link">
+              <span data-l="es">Brazo robótico — Cuarta iteración ↗</span>
+              <span data-l="en">Robotic arm — Fourth iteration ↗</span>
+            </a></td>
+            <td class="p-desc">practica4.html</td>
+          </tr>
+          <tr>
+            <td class="p-num">05</td>
+            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica5.html" target="_blank" rel="noopener" class="p-link">
+              <span data-l="es">Brazo robótico — Quinta iteración ↗</span>
+              <span data-l="en">Robotic arm — Fifth iteration ↗</span>
+            </a></td>
+            <td class="p-desc">practica5.html</td>
+          </tr>
+          <tr>
+            <td class="p-num">★</td>
+            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/proyecto.html" target="_blank" rel="noopener" class="p-link">
+              <span data-l="es">FENOBOT — Proyecto final ↗</span>
+              <span data-l="en">FENOBOT — Final project ↗</span>
+            </a></td>
+            <td class="p-desc">proyecto.html</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== ROBOTIC ARM =================== -->
+  <section id="arm">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 02 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">BRAZO ROBÓTICO</span>
+          <span data-l="en">ROBOTIC ARM</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">Cinco iteraciones, un brazo articulado</span>
+        <span data-l="en">Five iterations, one articulated arm</span>
+      </h2>
+      <p data-l="es">El brazo robótico es el hilo conductor de la asignatura: se construye de forma incremental a lo largo de cinco prácticas, cada una añadiendo una capa de complejidad gráfica sobre la anterior hasta llegar a una aplicación three.js completa.</p>
+      <p data-l="en">The robotic arm is the spine of the course: it is built incrementally across five practicals, each adding a layer of graphics complexity over the previous one until it becomes a complete three.js application.</p>
+
+      <p data-l="es">El núcleo del problema es el <strong>grafo de escena</strong>. Un brazo articulado es una jerarquía de transformaciones: la base contiene al hombro, el hombro al antebrazo, el antebrazo a la mano. Cuando rotás un nodo padre, todos sus hijos heredan esa transformación. Modelar eso correctamente es entender de verdad cómo three.js compone matrices de transformación de padre a hijo.</p>
+      <p data-l="en">The core of the problem is the <strong>scene graph</strong>. An articulated arm is a hierarchy of transforms: the base contains the shoulder, the shoulder the forearm, the forearm the hand. When you rotate a parent node, all its children inherit that transform. Modelling this correctly is what it means to truly understand how three.js composes parent-to-child transformation matrices.</p>
+
+      <!-- SVG: scene-graph hierarchy of the articulated arm -->
+      <div class="svg-wrap">
+        <svg viewBox="0 0 520 240" width="520" height="240" xmlns="http://www.w3.org/2000/svg" aria-label="Scene-graph hierarchy of an articulated robotic arm: base, shoulder, forearm, hand">
+          <!-- corner brackets -->
+          <path d="M6,6 h18 M6,6 v18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+          <path d="M514,6 h-18 M514,6 v18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+          <path d="M6,234 h18 M6,234 v-18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+          <path d="M514,234 h-18 M514,234 v-18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+
+          <!-- tree (left) -->
+          <text x="40" y="34" font-family="'JetBrains Mono',monospace" font-size="9" fill="#5c636e" letter-spacing=".06em">SCENE GRAPH</text>
+          <!-- nodes -->
+          <rect x="40" y="46" width="96" height="26" rx="2" fill="rgba(166,226,46,.08)" stroke="#a6e22e" stroke-width="1"/>
+          <text x="52" y="63" font-family="'JetBrains Mono',monospace" font-size="11" fill="#a6e22e">base</text>
+          <rect x="68" y="92" width="96" height="26" rx="2" fill="none" stroke="#7d8085" stroke-width="1"/>
+          <text x="80" y="109" font-family="'JetBrains Mono',monospace" font-size="11" fill="#c4c6c9">shoulder</text>
+          <rect x="96" y="138" width="96" height="26" rx="2" fill="none" stroke="#7d8085" stroke-width="1"/>
+          <text x="108" y="155" font-family="'JetBrains Mono',monospace" font-size="11" fill="#c4c6c9">forearm</text>
+          <rect x="124" y="184" width="96" height="26" rx="2" fill="none" stroke="#7d8085" stroke-width="1"/>
+          <text x="136" y="201" font-family="'JetBrains Mono',monospace" font-size="11" fill="#c4c6c9">hand</text>
+          <!-- connectors -->
+          <path d="M56,72 V105 H68" stroke="#45dcef" stroke-width="1" fill="none" opacity=".6"/>
+          <path d="M84,118 V151 H96" stroke="#45dcef" stroke-width="1" fill="none" opacity=".6"/>
+          <path d="M112,164 V197 H124" stroke="#45dcef" stroke-width="1" fill="none" opacity=".6"/>
+
+          <!-- divider -->
+          <line x1="280" y1="30" x2="280" y2="214" stroke="#1e2530" stroke-width="1"/>
+
+          <!-- arm (right) -->
+          <text x="320" y="34" font-family="'JetBrains Mono',monospace" font-size="9" fill="#5c636e" letter-spacing=".06em">INHERITED TRANSFORM</text>
+          <!-- base -->
+          <rect x="360" y="190" width="80" height="14" rx="2" fill="rgba(166,226,46,.1)" stroke="#a6e22e" stroke-width="1.2"/>
+          <!-- shoulder segment -->
+          <rect x="392" y="138" width="16" height="56" rx="3" fill="none" stroke="#a6e22e" stroke-width="1.4"/>
+          <!-- forearm segment (rotated feel) -->
+          <rect x="392" y="92" width="14" height="50" rx="3" fill="none" stroke="#a6e22e" stroke-width="1.4"/>
+          <!-- hand -->
+          <rect x="384" y="74" width="30" height="20" rx="3" fill="rgba(69,220,239,.1)" stroke="#45dcef" stroke-width="1.2"/>
+          <!-- joint dots -->
+          <circle cx="400" cy="192" r="3.5" fill="#a6e22e"/>
+          <circle cx="400" cy="140" r="3.5" fill="#a6e22e"/>
+          <circle cx="399" cy="94" r="3.5" fill="#a6e22e"/>
+          <!-- rotation arc on shoulder joint -->
+          <path d="M412,140 a12,12 0 0 1 8,8" stroke="#45dcef" stroke-width="1" fill="none" stroke-dasharray="3,2"/>
+          <text x="424" y="150" font-family="'JetBrains Mono',monospace" font-size="9" fill="#45dcef">θ</text>
+        </svg>
+        <p class="svg-caption">
+          <span data-l="es">Fig. 1 — Rotar un nodo padre arrastra a todos sus hijos: así se anima un brazo articulado.</span>
+          <span data-l="en">Fig. 1 — Rotating a parent node drags all its children along: that's how an articulated arm is animated.</span>
+        </p>
+      </div>
+
+      <p data-l="es">A lo largo de las iteraciones, sobre esa base se van sumando los bloques clásicos de un motor 3D:</p>
+      <p data-l="en">Across the iterations, the classic building blocks of a 3D engine are layered on top of that base:</p>
+
+      <table class="tech-table" style="margin-top:12px">
+        <thead>
+          <tr>
+            <th>
+              <span data-l="es">Bloque</span>
+              <span data-l="en">Block</span>
+            </th>
+            <th>
+              <span data-l="es">Qué aporta</span>
+              <span data-l="en">What it adds</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span data-l="es">Grafo de escena</span><span data-l="en">Scene graph</span></td>
+            <td>
+              <span data-l="es">Jerarquía de <code>Object3D</code> y transformaciones heredadas</span>
+              <span data-l="en">Hierarchy of <code>Object3D</code> nodes and inherited transforms</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span data-l="es">Geometría y materiales</span><span data-l="en">Geometry &amp; materials</span></td>
+            <td>
+              <span data-l="es">Primitivas, mallas y materiales para dar forma al brazo</span>
+              <span data-l="en">Primitives, meshes and materials to shape the arm</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span data-l="es">Iluminación</span><span data-l="en">Lighting</span></td>
+            <td>
+              <span data-l="es">Luces y sombreado para dar volumen a la escena</span>
+              <span data-l="en">Lights and shading to give the scene volume</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span data-l="es">Cámara y controles</span><span data-l="en">Camera &amp; controls</span></td>
+            <td>
+              <span data-l="es">Navegación orbital para inspeccionar el modelo</span>
+              <span data-l="en">Orbital navigation to inspect the model</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span data-l="es">Animación</span><span data-l="en">Animation</span></td>
+            <td>
+              <span data-l="es">Bucle de render que actualiza los ángulos de las articulaciones</span>
+              <span data-l="en">Render loop that updates the joint angles over time</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== FENOBOT =================== -->
+  <section id="fenobot">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 03 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">PROYECTO FINAL</span>
+          <span data-l="en">FINAL PROJECT</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">FENOBOT — un robot de agricultura de precisión</span>
+        <span data-l="en">FENOBOT — a precision-agriculture robot</span>
+      </h2>
+      <p data-l="es">El proyecto final lleva todo lo aprendido a una escena más ambiciosa: <strong>FENOBOT</strong>, un robot de agricultura de precisión renderizado en three.js. A diferencia de las prácticas del brazo —construidas con geometría primitiva—, el proyecto carga modelos 3D externos, con una barra de progreso mientras los recursos se descargan antes de mostrar la escena.</p>
+      <p data-l="en">The final project takes everything learned into a more ambitious scene: <strong>FENOBOT</strong>, a precision-agriculture robot rendered in three.js. Unlike the arm practicals — built from primitive geometry — the project loads external 3D models, showing a progress bar while assets download before the scene is revealed.</p>
+
+      <div class="callout">
+        <p data-l="es"><strong>Heads-up:</strong> FENOBOT carga modelos 3D, así que tarda unos segundos en aparecer (vas a ver <code>Cargando…</code>). Dale tiempo y usá un equipo de escritorio para la mejor experiencia.</p>
+        <p data-l="en"><strong>Heads-up:</strong> FENOBOT loads 3D models, so it takes a few seconds to appear (you'll see <code>Cargando…</code>). Give it a moment, and use a desktop machine for the best experience.</p>
+      </div>
+
+      <p data-l="es">FENOBOT no es un ejercicio aislado: conecta con la línea de trabajo en agricultura de precisión y visión por computador que también aparece en otras notas de este sitio. Es el punto donde la asignatura de gráficos se cruza con el dominio de investigación.</p>
+      <p data-l="en">FENOBOT is not an isolated exercise: it connects with the line of work on precision agriculture and computer vision that also shows up in other notes on this site. It's where the graphics course meets the research domain.</p>
+    </div>
+  </section>
+
+  <!-- =================== CLOSING =================== -->
+  <section id="next" style="padding-bottom:0">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ ∞ ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">CÓDIGO Y MEJORAS</span>
+          <span data-l="en">CODE &amp; IMPROVEMENTS</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">Abierto a evolucionar</span>
+        <span data-l="en">Open to evolve</span>
+      </h2>
+      <p data-l="es">El repositorio completo está en GitHub bajo licencia MIT. La página original es de código abierto y está pensada para seguir mejorándose — tanto en diseño como en estructura.</p>
+      <p data-l="en">The full repository is on GitHub under the MIT license. The original page is open source and meant to keep improving — in both design and structure.</p>
+
+      <div class="closing-card">
+        <h3>
+          <span data-l="es">Código fuente</span>
+          <span data-l="en">Source code</span>
+        </h3>
+        <p data-l="es">Demos en vivo y código del proyecto GPC 2022.</p>
+        <p data-l="en">Live demos and source for the GPC 2022 project.</p>
+        <p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px">
+          <a href="https://github.com/Jaramilloh/GPC-3D-figures" target="_blank" rel="noopener" class="repo-link">
+            Jaramilloh/GPC-3D-figures ↗
+          </a>
+          <a href="https://jaramilloh.github.io/GPC-3D-figures/" target="_blank" rel="noopener" class="repo-link">
+            <span data-l="es">Sitio en vivo ↗</span>
+            <span data-l="en">Live site ↗</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <span class="footer-label">GPC · 3D FIGURES · THREE.JS · 2022</span>
+        <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" class="footer-back">
+          <span data-l="es">← VOLVER AL PORTFOLIO</span>
+          <span data-l="en">← BACK TO PORTFOLIO</span>
+        </a>
+      </div>
+      <div class="footer-status">
+        <div class="footer-dot"></div>
+        <span class="footer-nominal">SYSTEM NOMINAL</span>
+      </div>
+      <div class="footer-copy">
+        <span data-l="es">© Juan Felipe Jaramillo Hernández — MIT · UPV GPC 2022 · Hecho con cuidado.</span>
+        <span data-l="en">© Juan Felipe Jaramillo Hernández — MIT · UPV GPC 2022 · Made with care.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+<script>
+(function(){
+  var doc = document.querySelector('[data-doc]');
+  function setLang(l){
+    if (l!=='es' && l!=='en') l='es';
+    doc.setAttribute('data-lang', l);
+    try { localStorage.setItem('gpc-lang', l); } catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var lang='es';
+    try { var s=localStorage.getItem('gpc-lang'); if(s==='es'||s==='en') lang=s; } catch(e){}
+    setLang(lang);
+    document.querySelectorAll('[data-langbtn]').forEach(function(b){
+      b.addEventListener('click', function(){ setLang(b.dataset.langbtn); });
+    });
+    var bar=document.getElementById('progress');
+    if(bar){ var h=document.documentElement;
+      var upd=function(){ var max=(h.scrollHeight-h.clientHeight)||1;
+        bar.style.width=Math.min(100,Math.max(0,(h.scrollTop||window.scrollY)/max*100))+'%'; };
+      window.addEventListener('scroll',upd,{passive:true});
+      window.addEventListener('resize',upd,{passive:true}); upd();
+    }
+  });
+})();
+</script>
+</body>
+</html>
