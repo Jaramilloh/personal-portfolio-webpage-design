@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shrinking a detector 61% with ablation-driven design | Juan Felipe Jaramillo</title>
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:#08090b;color:#cfd1d3;font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.78;-webkit-font-smoothing:antialiased}
+    ::selection{background:rgba(166,226,46,.28)}
+
+    /* i18n */
+    [data-l="en"]{display:none}
+    [data-lang="en"] [data-l="en"]{display:revert}
+    [data-lang="en"] [data-l="es"]{display:none}
+
+    /* lang buttons */
+    [data-langbtn]{background:transparent;color:#7d8085;padding:5px 13px;border:0;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;transition:color .15s}
+    [data-langbtn]:hover{color:#cfd1d3}
+    [data-lang="es"] [data-langbtn="es"],[data-lang="en"] [data-langbtn="en"]{background:#a6e22e;color:#08090b;font-weight:600}
+
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+    /* progress bar */
+    #progress{position:fixed;top:0;left:0;height:2px;background:#a6e22e;width:0%;z-index:200;transition:width .1s linear}
+
+    /* sticky header */
+    header{position:sticky;top:0;z-index:100;background:rgba(8,9,11,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;gap:16px}
+    .hdr-left{display:flex;align-items:center;gap:12px}
+    .hdr-badge{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#a6e22e;text-transform:uppercase;text-decoration:none}
+    .hdr-sep{color:#3b4048;font-size:11px}
+    .hdr-path{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6e7176;letter-spacing:.06em}
+    .hdr-right{display:flex;align-items:center;gap:4px}
+    .hdr-back{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7d8085;text-decoration:none;padding:5px 10px;border:1px solid #232831;transition:border-color .15s,color .15s;letter-spacing:.06em}
+    .hdr-back:hover{border-color:#a6e22e;color:#a6e22e}
+    .lang-divider{width:1px;height:16px;background:#232831;margin:0 4px}
+
+    /* content root */
+    [data-doc]{--ac:#a6e22e;--bg:#08090b;min-height:100vh}
+
+    /* sections */
+    section{padding:80px 24px 0;scroll-margin-top:80px}
+    .inner{max-width:768px;margin:0 auto}
+    .inner-wide{max-width:940px;margin:0 auto}
+
+    /* eyebrow label */
+    .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:18px}
+    .eyebrow .num{color:var(--ac)}
+    .eyebrow .tag{color:#7d8085}
+
+    /* headings */
+    h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(34px,5vw,58px);letter-spacing:-.02em;color:#fafafa;line-height:1.1;margin-bottom:20px}
+    h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.5vw,36px);letter-spacing:-.01em;color:#fafafa;margin-bottom:20px}
+    h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#e8eaed;margin-bottom:12px}
+    p{margin-bottom:16px;color:#c4c6c9}
+    a{color:#a6e22e;text-decoration:none}
+    a:hover{text-decoration:underline}
+    code{font-family:'JetBrains Mono',monospace;font-size:.88em;color:#45dcef;background:rgba(69,220,239,.08);padding:1px 5px;border-radius:3px}
+
+    /* hero */
+    #hero{padding-top:64px;padding-bottom:0}
+    .status-row{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+    .status-dot{width:7px;height:7px;border-radius:50%;background:#a6e22e;animation:blink 2.4s infinite}
+    .status-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7d8085}
+    .dek{font-size:18px;color:#9aa0aa;line-height:1.65;max-width:600px;margin-bottom:28px}
+    .meta-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0}
+    .pill{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;padding:6px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#7d8085;text-transform:uppercase}
+    .pill-ac{border-color:rgba(166,226,46,.3);color:#a6e22e}
+
+    /* intro cards */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:28px}
+    .card{border:1px solid #1e2530;background:#0d0e11;padding:22px;border-radius:2px}
+    .card-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#a6e22e;margin-bottom:10px}
+    .card p{margin-bottom:8px;font-size:14.5px;line-height:1.6}
+
+    /* pipeline / launcher table */
+    .pipeline-table{width:100%;border-collapse:collapse;margin-top:28px}
+    .pipeline-table tr{border-bottom:1px solid rgba(255,255,255,.07)}
+    .pipeline-table tr:last-child{border-bottom:none}
+    .pipeline-table td{padding:14px 16px;font-size:14px}
+    .pipeline-table .p-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#a6e22e;letter-spacing:.1em;white-space:nowrap}
+    .pipeline-table .p-link{color:#e8eaed;font-weight:500;text-decoration:none;font-family:'Space Grotesk',sans-serif}
+    .pipeline-table .p-link:hover{color:#a6e22e}
+    .pipeline-table .p-desc{font-family:'JetBrains Mono',monospace;font-size:12px;color:#5c636e}
+    .pipeline-table td:first-child{width:56px}
+    .pipeline-table .p-ext{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5c636e}
+
+    /* callout */
+    .callout{border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:2px;padding:16px 20px;margin:20px 0}
+    .callout-warn{border-color:rgba(255,176,72,.26);background:rgba(255,176,72,.06)}
+    .callout code{color:#a6e22e}
+
+    /* tech table */
+    .tech-table{width:100%;border-collapse:collapse;margin:16px 0}
+    .tech-table th{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5c636e;padding:8px 12px;border-bottom:1px solid #1e2530;text-align:left}
+    .tech-table td{padding:10px 12px;font-size:14px;border-bottom:1px solid rgba(255,255,255,.05)}
+    .tech-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:12px;color:#45dcef}
+    .tech-table td:last-child{color:#c4c6c9}
+
+    /* SVG containers */
+    .svg-wrap{margin:28px 0;text-align:center}
+    .svg-wrap svg{max-width:100%;height:auto}
+    .svg-caption{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5c636e;margin-top:10px;letter-spacing:.04em}
+
+    /* repo link */
+    .repo-link{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#a6e22e;border:1px solid rgba(166,226,46,.3);padding:8px 16px;border-radius:2px;transition:background .15s}
+    .repo-link:hover{background:rgba(166,226,46,.07);text-decoration:none}
+
+    /* next/closing card */
+    .closing-card{border:1px solid #232831;background:#0d0f12;padding:32px;margin-top:32px;border-radius:2px}
+
+    /* footer */
+    footer{margin-top:80px;padding:40px 24px;border-top:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#3b4048;letter-spacing:.06em}
+    .footer-inner{max-width:768px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+    .footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .footer-label{color:#5c636e;letter-spacing:.12em;text-transform:uppercase}
+    .footer-back{color:#7d8085;text-decoration:none;transition:color .15s}
+    .footer-back:hover{color:#a6e22e}
+    .footer-status{display:flex;align-items:center;gap:8px}
+    .footer-dot{width:5px;height:5px;border-radius:50%;background:#a6e22e;animation:blink 2.4s infinite}
+    .footer-nominal{color:#a6e22e;letter-spacing:.12em}
+    .footer-copy{color:#3b4048;font-size:10.5px}
+
+    @media(max-width:640px){
+      header{padding:0 16px}
+      section{padding:60px 16px 0}
+      h1{font-size:30px}
+      h2{font-size:24px}
+      .card-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<div data-doc data-lang="es" style="--ac:#a6e22e;--bg:#08090b">
+  <div id="progress"></div>
+
+  <header>
+    <div class="hdr-left">
+      <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" class="hdr-badge">JF</a>
+      <span class="hdr-sep">/</span>
+      <span class="hdr-path">jaramillo.dev / ablation</span>
+    </div>
+    <div class="hdr-right">
+      <button data-langbtn="es" aria-label="Español">ES</button>
+      <div class="lang-divider"></div>
+      <button data-langbtn="en" aria-label="English">EN</button>
+      <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" class="hdr-back" style="margin-left:12px">
+        <span data-l="es">← portfolio</span>
+        <span data-l="en">← portfolio</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- =================== HERO =================== -->
+  <section id="hero">
+    <div class="inner">
+      <div class="status-row">
+        <div class="status-dot"></div>
+        <span class="status-label">
+          <span data-l="es">nota // detección en el borde</span>
+          <span data-l="en">note // edge detection</span>
+        </span>
+      </div>
+
+      <h1>
+        <span data-l="es">Reducir un detector 61% con diseño guiado por ablación</span>
+        <span data-l="en">Shrinking a detector 61% with ablation-driven design</span>
+      </h1>
+
+      <p class="dek">
+        <span data-l="es">Detección de objetos en el borde —microcontroladores y Raspberry Pi— para agricultura de precisión: donde el tamaño del modelo es la restricción que manda. Esta nota explica cómo el proceso de ablación sistemática redujo el DOD un ≈61% manteniendo la precisión, y por qué esa técnica importa para entender cualquier red neuronal componente a componente.</span>
+        <span data-l="en">Object detection at the edge — microcontrollers and Raspberry Pi — for precision farming: where model size is the binding constraint. This note explains how systematic ablation reduced the DOD by ≈61% while preserving precision, and why that technique matters for understanding any neural network component by component.</span>
+      </p>
+
+      <div class="meta-pills">
+        <span class="pill pill-ac">~6 MIN</span>
+        <span class="pill">ES/EN</span>
+        <span class="pill">EDGE-AI</span>
+        <span class="pill">ABLATION</span>
+        <span class="pill">v1</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== [01] THE EDGE CONSTRAINT =================== -->
+  <section id="problem">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 01 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">LA RESTRICCIÓN DEL BORDE</span>
+          <span data-l="en">THE EDGE CONSTRAINT</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">En el campo, el tamaño manda</span>
+        <span data-l="en">In the field, size is the rule</span>
+      </h2>
+      <p data-l="es">La visión por computador en agricultura de precisión no corre en servidores con GPU. Corre en microcontroladores y Raspberry Pi montados sobre robots y drones que operan entre hileras de cultivo. El modelo tiene que caber en la memoria del dispositivo, ejecutarse en tiempo real y funcionar sin conexión a internet. Esas tres restricciones juntas convierten el tamaño del modelo —no solo su precisión— en la variable de diseño más importante.</p>
+      <p data-l="en">Computer vision in precision farming does not run on GPU servers. It runs on microcontrollers and Raspberry Pi units mounted on robots and drones operating between crop rows. The model has to fit in device memory, run in real time, and work without internet. Those three constraints together make model size — not just accuracy — the most important design variable.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">
+            <span data-l="es">// POR QUÉ EL BORDE</span>
+            <span data-l="en">// WHY EDGE</span>
+          </div>
+          <p data-l="es">Los robots de campo operan sin conectividad confiable. La inferencia local elimina latencia de red y dependencia de infraestructura cloud. El borde no es una opción: es la única arquitectura viable en campo abierto.</p>
+          <p data-l="en">Field robots operate without reliable connectivity. Local inference eliminates network latency and cloud infrastructure dependency. The edge is not an option — it is the only viable architecture in open fields.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <span data-l="es">// LA RESTRICCIÓN</span>
+            <span data-l="en">// THE CONSTRAINT</span>
+          </div>
+          <p data-l="es">Memoria flash limitada, RAM escasa, sin GPU dedicada. Un modelo que funciona bien en un servidor puede ser literalmente imposible de cargar en un microcontrolador. El tamaño en disco y la huella de memoria son restricciones duras, no métricas secundarias.</p>
+          <p data-l="en">Limited flash memory, scarce RAM, no dedicated GPU. A model that works well on a server may be literally impossible to load on a microcontroller. Disk size and memory footprint are hard constraints, not secondary metrics.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <span data-l="es">// EL RESULTADO EN UNA LÍNEA</span>
+            <span data-l="en">// THE RESULT IN ONE LINE</span>
+          </div>
+          <p data-l="es">Ablación sistemática redujo el detector a menos de la mitad de su tamaño original manteniendo la precisión sobre el conjunto de datos de evaluación. Pequeño y capaz: los dos a la vez.</p>
+          <p data-l="en">Systematic ablation reduced the detector to less than half its original size while preserving precision on the evaluation dataset. Small and capable: both at once.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== [02] WHAT THE DOD IS =================== -->
+  <section id="dod">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 02 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">QUÉ ES EL DOD</span>
+          <span data-l="en">WHAT THE DOD IS</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">Un detector ligero con estimación de profundidad integrada</span>
+        <span data-l="en">A lightweight detector with integrated depth estimation</span>
+      </h2>
+      <p data-l="es">El <strong>Depth Object Detector (DOD)</strong> es una CNN de aproximadamente un millón de parámetros, fuertemente inspirada en la arquitectura YOLOv8 (Ultralytics, AGPL-3.0). La característica que lo distingue es multi-tarea: no solo detecta objetos, sino que estima la profundidad por objeto, fusionando ambas salidas directamente en las cabezas de predicción. Las etiquetas de profundidad se sintetizan con MiDaS; el entrenamiento usa los conjuntos COCO 2017 y MinneApple.</p>
+      <p data-l="en">The <strong>Depth Object Detector (DOD)</strong> is a CNN of approximately one million parameters, heavily inspired by the YOLOv8 architecture (Ultralytics, AGPL-3.0). Its distinguishing feature is multi-task: it not only detects objects but estimates per-object depth, fusing both outputs directly into the prediction heads. Depth labels are synthesized with MiDaS; training uses the COCO 2017 and MinneApple datasets.</p>
+
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th>
+              <span data-l="es">Atributo</span>
+              <span data-l="en">Attribute</span>
+            </th>
+            <th>
+              <span data-l="es">Valor</span>
+              <span data-l="en">Value</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span data-l="es">Parámetros</span>
+              <span data-l="en">Parameters</span>
+            </td>
+            <td>
+              <span data-l="es">~1 M</span>
+              <span data-l="en">~1 M</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span data-l="es">Inspiración del backbone</span>
+              <span data-l="en">Backbone inspiration</span>
+            </td>
+            <td>
+              <span data-l="es">YOLOv8 (Ultralytics, AGPL-3.0) — fuertemente inspirado, no un fork</span>
+              <span data-l="en">YOLOv8 (Ultralytics, AGPL-3.0) — heavily inspired, not a fork</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span data-l="es">Cabezas</span>
+              <span data-l="en">Heads</span>
+            </td>
+            <td>
+              <span data-l="es">Detección + profundidad por objeto (multi-tarea)</span>
+              <span data-l="en">Detection + per-object depth (multi-task)</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span data-l="es">Etiquetas de profundidad</span>
+              <span data-l="en">Depth labels</span>
+            </td>
+            <td>
+              <span data-l="es">Sintetizadas con MiDaS</span>
+              <span data-l="en">Synthesized with MiDaS</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span data-l="es">Datasets</span>
+              <span data-l="en">Datasets</span>
+            </td>
+            <td>COCO 2017 + MinneApple</td>
+          </tr>
+          <tr>
+            <td>
+              <span data-l="es">Postura de licencia</span>
+              <span data-l="en">License posture</span>
+            </td>
+            <td>
+              <span data-l="es">Inspirado en AGPL-3.0; ver repositorio para detalles</span>
+              <span data-l="en">Inspired by AGPL-3.0; see repository for details</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:20px">
+        <a href="https://github.com/Jaramilloh/Depth-Object-Detector-DOD" target="_blank" rel="noopener" class="repo-link">
+          Jaramilloh/Depth-Object-Detector-DOD ↗
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- =================== [03] WHAT AN ABLATION STUDY IS =================== -->
+  <section id="ablation">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 03 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">QUÉ ES UN ESTUDIO DE ABLACIÓN</span>
+          <span data-l="en">WHAT AN ABLATION STUDY IS</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">Convertir la arquitectura de conjetura en evidencia</span>
+        <span data-l="en">Turning architecture from guesswork into evidence</span>
+      </h2>
+      <p data-l="es">El término <strong>ablación</strong> viene de la medicina y la neurociencia: en estudios de lesiones, los investigadores eliminan o dañan una región del cerebro y observan qué función se pierde. Aplicado a redes neuronales, el principio es el mismo: quitá —o simplificá— un componente a la vez y medí qué cambia.</p>
+      <p data-l="en">The term <strong>ablation</strong> comes from medicine and neuroscience: in lesion studies, researchers remove or damage a brain region and observe which function is lost. Applied to neural networks, the principle is the same: remove — or simplify — one component at a time and measure what changes.</p>
+
+      <p data-l="es">La clave es medir el delta en <em>dos dimensiones simultáneamente</em>: calidad (¿la precisión cae?) y costo (¿los parámetros o el tamaño bajan?). Si un bloque no mejora la calidad y solo encarece el modelo, no gana su lugar. Si lo eliminar no degrada la calidad pero sí reduce el tamaño, hay que eliminarlo. Esa lógica —aplicada sistemáticamente, componente a componente— es lo que convierte el diseño de arquitecturas de guesswork en evidencia.</p>
+      <p data-l="en">The key is measuring the delta in <em>two dimensions simultaneously</em>: quality (does precision drop?) and cost (do parameters or size decrease?). If a block does not improve quality and only makes the model heavier, it does not earn its place. If removing it does not degrade quality but does reduce size, it must go. That logic — applied systematically, component by component — is what turns architecture design from guesswork into evidence.</p>
+
+      <!-- Ablation loop concept SVG — data-free, conceptual only -->
+      <div class="svg-wrap">
+        <svg viewBox="0 0 540 220" width="540" height="220" xmlns="http://www.w3.org/2000/svg" aria-label="Ablation study loop: baseline, remove or replace one block, retrain and measure, compare quality vs cost delta, keep or discard, repeat">
+          <!-- corner brackets -->
+          <path d="M6,6 h18 M6,6 v18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+          <path d="M534,6 h-18 M534,6 v18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+          <path d="M6,214 h18 M6,214 v-18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+          <path d="M534,214 h-18 M534,214 v-18" stroke="#a6e22e" stroke-width="1.5" fill="none"/>
+
+          <!-- arrowhead marker -->
+          <defs>
+            <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+              <path d="M0,0 L7,3.5 L0,7 Z" fill="#45dcef"/>
+            </marker>
+          </defs>
+
+          <!-- node: BASELINE -->
+          <rect x="30" y="88" width="100" height="34" rx="2" fill="rgba(166,226,46,.1)" stroke="#a6e22e" stroke-width="1.2"/>
+          <text x="80" y="108" font-family="'JetBrains Mono',monospace" font-size="10" fill="#a6e22e" text-anchor="middle" letter-spacing=".04em">BASELINE</text>
+
+          <!-- arrow baseline → remove -->
+          <line x1="130" y1="105" x2="165" y2="105" stroke="#45dcef" stroke-width="1" marker-end="url(#arr)"/>
+
+          <!-- node: REMOVE / REPLACE ONE BLOCK -->
+          <rect x="166" y="78" width="110" height="54" rx="2" fill="none" stroke="#7d8085" stroke-width="1"/>
+          <text x="221" y="100" font-family="'JetBrains Mono',monospace" font-size="9" fill="#c4c6c9" text-anchor="middle">REMOVE /</text>
+          <text x="221" y="113" font-family="'JetBrains Mono',monospace" font-size="9" fill="#c4c6c9" text-anchor="middle">REPLACE</text>
+          <text x="221" y="126" font-family="'JetBrains Mono',monospace" font-size="9" fill="#5c636e" text-anchor="middle">one block</text>
+
+          <!-- arrow remove → measure -->
+          <line x1="276" y1="105" x2="311" y2="105" stroke="#45dcef" stroke-width="1" marker-end="url(#arr)"/>
+
+          <!-- node: MEASURE Δ quality + cost -->
+          <rect x="312" y="78" width="110" height="54" rx="2" fill="none" stroke="#7d8085" stroke-width="1"/>
+          <text x="367" y="100" font-family="'JetBrains Mono',monospace" font-size="9" fill="#c4c6c9" text-anchor="middle">MEASURE</text>
+          <text x="367" y="113" font-family="'JetBrains Mono',monospace" font-size="9" fill="#45dcef" text-anchor="middle">Δ quality</text>
+          <text x="367" y="126" font-family="'JetBrains Mono',monospace" font-size="9" fill="#45dcef" text-anchor="middle">Δ cost</text>
+
+          <!-- arrow measure → keep/discard -->
+          <line x1="422" y1="105" x2="455" y2="105" stroke="#45dcef" stroke-width="1" marker-end="url(#arr)"/>
+
+          <!-- node: KEEP / DISCARD -->
+          <rect x="456" y="78" width="70" height="54" rx="2" fill="none" stroke="#7d8085" stroke-width="1"/>
+          <text x="491" y="100" font-family="'JetBrains Mono',monospace" font-size="9" fill="#c4c6c9" text-anchor="middle">KEEP /</text>
+          <text x="491" y="113" font-family="'JetBrains Mono',monospace" font-size="9" fill="#c4c6c9" text-anchor="middle">DISCARD</text>
+
+          <!-- loop-back arrow: keep/discard → remove (bottom arc) -->
+          <path d="M491,132 Q491,180 221,180 Q166,180 166,132" stroke="#45dcef" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+          <text x="330" y="196" font-family="'JetBrains Mono',monospace" font-size="9" fill="#5c636e" text-anchor="middle" letter-spacing=".04em">repeat for next component</text>
+        </svg>
+        <p class="svg-caption">
+          <span data-l="es">Fig. 1 — El ciclo de ablación: cada vuelta aísla un componente, mide su delta en calidad y costo, y decide si se queda o se descarta.</span>
+          <span data-l="en">Fig. 1 — The ablation loop: each pass isolates one component, measures its quality and cost delta, and decides keep or discard.</span>
+        </p>
+      </div>
+
+      <p data-l="es">Este proceso se puede aplicar a cualquier arquitectura de red neuronal: ¿necesita esta capa de atención? ¿Qué pasa si simplifico el cuello de botella? ¿Vale la pena este bloque residual extra? La ablación da respuestas con datos, no con intuición.</p>
+      <p data-l="en">This process can be applied to any neural network architecture: does this attention layer earn its place? What happens if I simplify the bottleneck? Is this extra residual block worth it? Ablation gives answers with data, not intuition.</p>
+    </div>
+  </section>
+
+  <!-- =================== [04] HOW ABLATION DROVE THE 61% CUT =================== -->
+  <section id="result">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 04 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">EL RESULTADO: ≈61% MENOS</span>
+          <span data-l="en">THE RESULT: ≈61% SMALLER</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">Cómo la ablación guió el recorte del DOD</span>
+        <span data-l="en">How ablation drove the DOD cut</span>
+      </h2>
+      <p data-l="es">Aplicando el ciclo de ablación al DOD —identificando qué bloques ganaban su lugar en calidad sin justificarlo en costo— el modelo pasó de 4,18 MB a 1,6 MB: una reducción de aproximadamente el 61,46%. Y la precisión sobre MinneApple se mantuvo.</p>
+      <p data-l="en">Applying the ablation loop to the DOD — identifying which blocks earned their place in quality without justifying it in cost — the model went from 4.18 MB to 1.6 MB: a reduction of approximately 61.46%. Precision on MinneApple was preserved.</p>
+
+      <div class="callout">
+        <table class="tech-table" style="margin:0">
+          <thead>
+            <tr>
+              <th>
+                <span data-l="es">Métrica de tamaño</span>
+                <span data-l="en">Size metric</span>
+              </th>
+              <th>
+                <span data-l="es">Valor</span>
+                <span data-l="en">Value</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span data-l="es">Antes</span>
+                <span data-l="en">Before</span>
+              </td>
+              <td>4.18 MB</td>
+            </tr>
+            <tr>
+              <td>
+                <span data-l="es">Después</span>
+                <span data-l="en">After</span>
+              </td>
+              <td>1.6 MB</td>
+            </tr>
+            <tr>
+              <td>
+                <span data-l="es">Reducción</span>
+                <span data-l="en">Reduction</span>
+              </td>
+              <td>≈61.46%</td>
+            </tr>
+            <tr>
+              <td>
+                <span data-l="es">Precisión (MinneApple)</span>
+                <span data-l="en">Precision (MinneApple)</span>
+              </td>
+              <td>
+                <span data-l="es">preservada (cualitativo)</span>
+                <span data-l="en">preserved (qualitative)</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p data-l="es">La lógica del recorte fue consistente con el ciclo: los bloques que aportaban calidad se conservaron; los que solo sumaban parámetros sin justificación en las métricas de evaluación se eliminaron o simplificaron. El resultado es un modelo que <em>gana su tamaño</em> — cada parámetro tiene un propósito medible.</p>
+      <p data-l="en">The logic of the cut was consistent with the cycle: blocks that contributed quality were kept; those that only added parameters without justification in evaluation metrics were removed or simplified. The result is a model that <em>earns its size</em> — every parameter has a measurable purpose.</p>
+    </div>
+  </section>
+
+  <!-- =================== [05] SHIPPING TO THE EDGE =================== -->
+  <section id="deploy">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 05 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">LLEVARLO AL BORDE</span>
+          <span data-l="en">SHIPPING TO THE EDGE</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">Del entrenamiento al campo: cuantización y CI/CD</span>
+        <span data-l="en">From training to the field: quantization and CI/CD</span>
+      </h2>
+      <p data-l="es">Reducir el modelo mediante ablación es el primer paso. El siguiente es llevarlo al hardware real: microcontroladores y Raspberry Pi montados sobre robots y drones de agricultura de precisión. Para eso, la cuantización comprime aún más el modelo —convirtiendo pesos de punto flotante a representaciones de menor precisión— sin requerir reentrenamiento completo. La entrega del modelo al dispositivo se gestiona mediante un pipeline de CI/CD e Infraestructura como Código (IaC), lo que hace el proceso reproducible y automatizado.</p>
+      <p data-l="en">Reducing the model through ablation is the first step. The next is getting it onto real hardware: microcontrollers and Raspberry Pi units mounted on precision-agriculture robots and drones. For that, quantization compresses the model further — converting floating-point weights to lower-precision representations — without requiring full retraining. Model delivery to the device is managed through a CI/CD pipeline and Infrastructure as Code (IaC), making the process reproducible and automated.</p>
+
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th>
+              <span data-l="es">Aspecto</span>
+              <span data-l="en">Aspect</span>
+            </th>
+            <th>
+              <span data-l="es">Detalle</span>
+              <span data-l="en">Detail</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span data-l="es">Dispositivos objetivo</span>
+              <span data-l="en">Target devices</span>
+            </td>
+            <td>
+              <span data-l="es">Microcontroladores / Raspberry Pi</span>
+              <span data-l="en">Microcontrollers / Raspberry Pi</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span data-l="es">Cuantización</span>
+              <span data-l="en">Quantization</span>
+            </td>
+            <td>
+              <span data-l="es">Reduce el tamaño del modelo post-entrenamiento para inferencia en dispositivos</span>
+              <span data-l="en">Further reduces post-training model size for device inference</span>
+            </td>
+          </tr>
+          <tr>
+            <td>CI/CD + IaC</td>
+            <td>
+              <span data-l="es">Entrega automatizada y reproducible del modelo al hardware</span>
+              <span data-l="en">Automated, reproducible model delivery to hardware</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span data-l="es">Repositorio</span>
+              <span data-l="en">Repository</span>
+            </td>
+            <td>
+              <a href="https://github.com/Jaramilloh/DOD-ci-cd" target="_blank" rel="noopener">Jaramilloh/DOD-ci-cd ↗</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:20px">
+        <a href="https://github.com/Jaramilloh/DOD-ci-cd" target="_blank" rel="noopener" class="repo-link">
+          Jaramilloh/DOD-ci-cd ↗
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- =================== [06] TAKEAWAYS & REFERENCES =================== -->
+  <section id="refs" style="padding-bottom:0">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="num">[ 06 ]</span>&nbsp;
+        <span class="tag">
+          <span data-l="es">APRENDIZAJES Y REFERENCIAS</span>
+          <span data-l="en">TAKEAWAYS &amp; REFERENCES</span>
+        </span>
+      </div>
+      <h2>
+        <span data-l="es">El modelo más pequeño que sostiene la métrica gana</span>
+        <span data-l="en">The smallest model that holds the metric wins</span>
+      </h2>
+      <p data-l="es">En edge AI, el modelo correcto no es el más preciso: es el más pequeño que mantiene la precisión necesaria. La ablación es la herramienta que te permite llegar ahí con evidencia en lugar de intuición. Cada bloque que se descarta sin perder calidad es un argumento a favor de la arquitectura que queda. Eso es lo que hace que la ablación importe: no solo para el DOD, sino para entender cualquier red neuronal componente a componente.</p>
+      <p data-l="en">In edge AI, the right model is not the most accurate: it is the smallest one that maintains the required precision. Ablation is the tool that gets you there with evidence instead of intuition. Every block discarded without losing quality is an argument for the architecture that remains. That is what makes ablation matter: not just for the DOD, but for understanding any neural network component by component.</p>
+
+      <div class="closing-card">
+        <h3>
+          <span data-l="es">Publicación y repositorios</span>
+          <span data-l="en">Publication and repositories</span>
+        </h3>
+        <p data-l="es">El trabajo fue presentado en PAAMS 2024 y publicado en CCIS vol. 2149, Springer. El repositorio canónico del DOD y el pipeline de CI/CD están en GitHub.</p>
+        <p data-l="en">The work was presented at PAAMS 2024 and published in CCIS vol. 2149, Springer. The canonical DOD repository and the CI/CD pipeline are on GitHub.</p>
+
+        <p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px">
+          <a href="https://github.com/Jaramilloh/Depth-Object-Detector-DOD" target="_blank" rel="noopener" class="repo-link">
+            Jaramilloh/Depth-Object-Detector-DOD ↗
+          </a>
+          <a href="https://github.com/Jaramilloh/DOD-ci-cd" target="_blank" rel="noopener" class="repo-link">
+            Jaramilloh/DOD-ci-cd ↗
+          </a>
+        </p>
+
+        <table class="pipeline-table" style="margin-top:24px">
+          <tbody>
+            <tr>
+              <td class="p-num">01</td>
+              <td>
+                <a href="https://doi.org/10.1007/978-3-031-73058-0_13" target="_blank" rel="noopener" class="p-link">
+                  <span data-l="es">Efficient Depth Object Detection: Ablation-Driven Optimization for Lightweight YOLOv8 Architecture ↗</span>
+                  <span data-l="en">Efficient Depth Object Detection: Ablation-Driven Optimization for Lightweight YOLOv8 Architecture ↗</span>
+                </a>
+              </td>
+              <td class="p-desc">
+                <span data-l="es">Jaramillo-Hernández, Julián, Marco-Detchart, Rincón — PAAMS 2024, CCIS 2149, Springer</span>
+                <span data-l="en">Jaramillo-Hernández, Julián, Marco-Detchart, Rincón — PAAMS 2024, CCIS 2149, Springer</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="p-num">02</td>
+              <td>
+                <a href="https://doi.org/10.3390/s24030937" target="_blank" rel="noopener" class="p-link">
+                  <span data-l="es">Application of Machine Vision Techniques in Low-Cost Devices to Improve Efficiency in Precision Farming ↗</span>
+                  <span data-l="en">Application of Machine Vision Techniques in Low-Cost Devices to Improve Efficiency in Precision Farming ↗</span>
+                </a>
+              </td>
+              <td class="p-desc">Sensors 2024, DOI: 10.3390/s24030937</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <span class="footer-label">ABLATION-DRIVEN DETECTOR · v1 · 2026</span>
+        <a href="https://jaramilloh.github.io/personal-portfolio-webpage-design/" class="footer-back">
+          <span data-l="es">← VOLVER AL PORTFOLIO</span>
+          <span data-l="en">← BACK TO PORTFOLIO</span>
+        </a>
+      </div>
+      <div class="footer-status">
+        <div class="footer-dot"></div>
+        <span class="footer-nominal">SYSTEM NOMINAL</span>
+      </div>
+      <div class="footer-copy">
+        <span data-l="es">© 2026 Juan Felipe Jaramillo H. — Publicado con cuidado.</span>
+        <span data-l="en">© 2026 Juan Felipe Jaramillo H. — Published with care.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+<script>
+(function(){
+  var doc = document.querySelector('[data-doc]');
+  function setLang(l){
+    if (l!=='es' && l!=='en') l='es';
+    doc.setAttribute('data-lang', l);
+    try { localStorage.setItem('ablation-lang', l); } catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var lang='es';
+    try { var s=localStorage.getItem('ablation-lang'); if(s==='es'||s==='en') lang=s; } catch(e){}
+    setLang(lang);
+    document.querySelectorAll('[data-langbtn]').forEach(function(b){
+      b.addEventListener('click', function(){ setLang(b.dataset.langbtn); });
+    });
+    var bar=document.getElementById('progress');
+    if(bar){ var h=document.documentElement;
+      var upd=function(){ var max=(h.scrollHeight-h.clientHeight)||1;
+        bar.style.width=Math.min(100,Math.max(0,(h.scrollTop||window.scrollY)/max*100))+'%'; };
+      window.addEventListener('scroll',upd,{passive:true});
+      window.addEventListener('resize',upd,{passive:true}); upd();
+    }
+  });
+})();
+</script>
+</body>
+</html>
