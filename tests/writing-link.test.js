@@ -31,18 +31,17 @@ describe('section 09 — published Protocolo guide', () => {
     expect(anchor).toContain('rel="noopener"');
   });
 
-  it('marks the entry published, not a draft, as the first card', () => {
+  it('marks the entry published as the first card', () => {
     const linkIdx = blog.indexOf('href="writing/protocolo.html"');
-    const firstDraftIdx = blog.indexOf('>Draft<');
     expect(linkIdx).toBeGreaterThan(-1);
-    // The live anchor must precede the remaining Draft cards (i.e. it IS the first card).
-    expect(firstDraftIdx).toBeGreaterThan(linkIdx);
+    // Protocolo is the first card — it precedes every other note card in the grid.
+    expect(blog.indexOf('href="writing/lytro-lightfield.html"')).toBeGreaterThan(linkIdx);
     expect(blog).toContain('publicado · ~30 min · 9 etapas');
   });
 
-  it('leaves the other draft card untouched', () => {
-    expect(blog).toContain('Shrinking a detector 61% with ablation-driven design');
-    expect((blog.match(/>Draft</g) || []).length).toBe(1);
+  it('leaves no draft cards in the writing grid', () => {
+    // Publishing the ablation note retired the last Draft card.
+    expect((blog.match(/>Draft</g) || []).length).toBe(0);
   });
 });
 
@@ -79,5 +78,42 @@ describe('section 09 — published Lytro note', () => {
     const content = readFileSync(join(root, 'writing', 'lytro-lightfield.html'), 'utf8');
     expect(content).toContain('lytro-lang');
     expect(content).toContain('10×10');
+  });
+});
+
+describe('section 09 — published ablation note', () => {
+  it('ships the self-contained note asset under writing/', () => {
+    const asset = join(root, 'writing', 'ablation-driven-detector.html');
+    expect(existsSync(asset)).toBe(true);
+    expect(statSync(asset).size).toBeGreaterThan(8_000);
+  });
+
+  it('turns the former draft card into a live link to the note', () => {
+    expect(blog).toContain('href="writing/ablation-driven-detector.html"');
+    expect(blog).toContain('Shrinking a detector 61% with ablation-driven design');
+  });
+
+  it('opens the note in a new tab without leaking the opener', () => {
+    const anchor = blog.slice(blog.indexOf('href="writing/ablation-driven-detector.html"'));
+    expect(anchor).toContain('target="_blank"');
+    expect(anchor).toContain('rel="noopener"');
+  });
+
+  it('marks the entry published with correct metadata', () => {
+    expect(blog).toContain('publicado · ~6 min · 6 secciones');
+  });
+
+  it('ablation card sits between Protocolo and Lytro cards', () => {
+    const protocoloIdx = blog.indexOf('href="writing/protocolo.html"');
+    const ablationIdx = blog.indexOf('href="writing/ablation-driven-detector.html"');
+    const lytroIdx = blog.indexOf('href="writing/lytro-lightfield.html"');
+    expect(ablationIdx).toBeGreaterThan(protocoloIdx);
+    expect(lytroIdx).toBeGreaterThan(ablationIdx);
+  });
+
+  it('note source contains i18n wiring', () => {
+    const content = readFileSync(join(root, 'writing', 'ablation-driven-detector.html'), 'utf8');
+    expect(content).toContain('ablation-lang');
+    expect(content).toContain('61.46');
   });
 });
