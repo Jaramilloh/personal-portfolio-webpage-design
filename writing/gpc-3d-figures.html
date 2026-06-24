@@ -75,18 +75,6 @@
     .card-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#a6e22e;margin-bottom:10px}
     .card p{margin-bottom:8px;font-size:14.5px;line-height:1.6}
 
-    /* pipeline / launcher table */
-    .pipeline-table{width:100%;border-collapse:collapse;margin-top:28px}
-    .pipeline-table tr{border-bottom:1px solid rgba(255,255,255,.07)}
-    .pipeline-table tr:last-child{border-bottom:none}
-    .pipeline-table td{padding:14px 16px;font-size:14px}
-    .pipeline-table .p-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#a6e22e;letter-spacing:.1em;white-space:nowrap}
-    .pipeline-table .p-link{color:#e8eaed;font-weight:500;text-decoration:none;font-family:'Space Grotesk',sans-serif}
-    .pipeline-table .p-link:hover{color:#a6e22e}
-    .pipeline-table .p-desc{font-family:'JetBrains Mono',monospace;font-size:12px;color:#5c636e}
-    .pipeline-table td:first-child{width:56px}
-    .pipeline-table .p-ext{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5c636e}
-
     /* callout */
     .callout{border:1px solid rgba(166,226,46,.28);background:rgba(166,226,46,.055);border-radius:2px;padding:16px 20px;margin:20px 0}
     .callout-warn{border-color:rgba(255,176,72,.26);background:rgba(255,176,72,.06)}
@@ -107,6 +95,36 @@
     /* repo link */
     .repo-link{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#a6e22e;border:1px solid rgba(166,226,46,.3);padding:8px 16px;border-radius:2px;transition:background .15s}
     .repo-link:hover{background:rgba(166,226,46,.07);text-decoration:none}
+
+    /* hero CTA — borrowed from the live site's launch buttons */
+    .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.04em;padding:11px 20px;border-radius:3px;transition:transform .15s,box-shadow .2s,border-color .2s,background .2s,color .2s}
+    .btn-primary{background:#a6e22e;color:#08090b;font-weight:600}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(166,226,46,.22);text-decoration:none}
+    .btn-ghost{color:#e8eaed;border:1px solid rgba(255,255,255,.16)}
+    .btn-ghost:hover{border-color:rgba(166,226,46,.5);color:#a6e22e;text-decoration:none}
+
+    /* demo cards — screenshot grid mirroring the live site */
+    .demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:28px}
+    .demo-card{display:block;border:1px solid #1e2530;background:#0d0e11;border-radius:4px;overflow:hidden;transition:transform .18s,border-color .2s}
+    .demo-card:hover{transform:translateY(-4px);border-color:rgba(166,226,46,.45);text-decoration:none}
+    .demo-thumb{position:relative;aspect-ratio:4/3;background:#0c0f0d;overflow:hidden}
+    .demo-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .demo-body{padding:16px 16px 18px}
+    .demo-num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:500;color:#a6e22e;line-height:1;letter-spacing:-.02em}
+    .demo-name{margin-top:10px;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:#e8eaed}
+    .demo-desc{margin-top:4px;font-size:13px;line-height:1.45;color:#8c958d;font-family:'JetBrains Mono',monospace}
+    .demo-open{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9aa39b}
+    .demo-card:hover .demo-open{color:#a6e22e}
+
+    /* featured FENOBOT media */
+    .feature{display:flex;flex-wrap:wrap;border:1px solid #1e2530;border-radius:6px;overflow:hidden;background:#101312;margin:24px 0 8px}
+    .feature-media{flex:1 1 380px;min-width:280px;position:relative;aspect-ratio:16/10;background:#0c0f0d;overflow:hidden}
+    .feature-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .feature-tag{position:absolute;bottom:14px;right:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#a6e22e;background:rgba(8,9,11,.6);border:1px solid rgba(166,226,46,.4);padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px)}
+    .feature-body{flex:1 1 320px;min-width:280px;padding:32px;display:flex;flex-direction:column;justify-content:center}
+    .feature-body h3{margin-bottom:0}
+    .feature-body p{margin:14px 0 0}
 
     /* next/closing card */
     .closing-card{border:1px solid #232831;background:#0d0f12;padding:32px;margin-top:32px;border-radius:2px}
@@ -180,6 +198,19 @@
         <span class="pill">THREE.JS</span>
         <span class="pill">WebGL</span>
       </div>
+
+      <div class="hero-cta">
+        <a href="https://jaramilloh.github.io/GPC-3D-figures/" target="_blank" rel="noopener" class="btn btn-primary">
+          <span data-l="es">Abrir el sitio en vivo</span>
+          <span data-l="en">Open the live site</span>
+          <span style="font-family:'JetBrains Mono',monospace">↗</span>
+        </a>
+        <a href="https://jaramilloh.github.io/GPC-3D-figures/proyecto.html" target="_blank" rel="noopener" class="btn btn-ghost">
+          <span data-l="es">Lanzar FENOBOT</span>
+          <span data-l="en">Launch FENOBOT</span>
+          <span style="font-family:'JetBrains Mono',monospace">→</span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -231,61 +262,71 @@
         <span data-l="es">Abrí cualquier escena</span>
         <span data-l="en">Open any scene</span>
       </h2>
-      <p data-l="es">Cada enlace abre la aplicación three.js alojada en GitHub Pages, en una pestaña nueva. Funcionan mejor en escritorio con un navegador con WebGL.</p>
-      <p data-l="en">Each link opens the three.js application hosted on GitHub Pages, in a new tab. They run best on desktop in a WebGL-capable browser.</p>
+      <p data-l="es">Cada card abre la aplicación three.js alojada en GitHub Pages, en una pestaña nueva. Cinco iteraciones del brazo, cada una sumando una capa nueva del pipeline gráfico. Funcionan mejor en escritorio con un navegador con WebGL.</p>
+      <p data-l="en">Each card opens the three.js application hosted on GitHub Pages, in a new tab. Five iterations of the arm, each adding a new layer of the graphics pipeline. They run best on desktop in a WebGL-capable browser.</p>
 
-      <table class="pipeline-table">
-        <tbody>
-          <tr>
-            <td class="p-num">01</td>
-            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica1.html" target="_blank" rel="noopener" class="p-link">
-              <span data-l="es">Brazo robótico — Primera iteración ↗</span>
-              <span data-l="en">Robotic arm — First iteration ↗</span>
-            </a></td>
-            <td class="p-desc">practica1.html</td>
-          </tr>
-          <tr>
-            <td class="p-num">02</td>
-            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica2.html" target="_blank" rel="noopener" class="p-link">
-              <span data-l="es">Brazo robótico — Segunda iteración ↗</span>
-              <span data-l="en">Robotic arm — Second iteration ↗</span>
-            </a></td>
-            <td class="p-desc">practica2.html</td>
-          </tr>
-          <tr>
-            <td class="p-num">03</td>
-            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica3.html" target="_blank" rel="noopener" class="p-link">
-              <span data-l="es">Brazo robótico — Tercera iteración ↗</span>
-              <span data-l="en">Robotic arm — Third iteration ↗</span>
-            </a></td>
-            <td class="p-desc">practica3.html</td>
-          </tr>
-          <tr>
-            <td class="p-num">04</td>
-            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica4.html" target="_blank" rel="noopener" class="p-link">
-              <span data-l="es">Brazo robótico — Cuarta iteración ↗</span>
-              <span data-l="en">Robotic arm — Fourth iteration ↗</span>
-            </a></td>
-            <td class="p-desc">practica4.html</td>
-          </tr>
-          <tr>
-            <td class="p-num">05</td>
-            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/practica5.html" target="_blank" rel="noopener" class="p-link">
-              <span data-l="es">Brazo robótico — Quinta iteración ↗</span>
-              <span data-l="en">Robotic arm — Fifth iteration ↗</span>
-            </a></td>
-            <td class="p-desc">practica5.html</td>
-          </tr>
-          <tr>
-            <td class="p-num">★</td>
-            <td><a href="https://jaramilloh.github.io/GPC-3D-figures/proyecto.html" target="_blank" rel="noopener" class="p-link">
-              <span data-l="es">FENOBOT — Proyecto final ↗</span>
-              <span data-l="en">FENOBOT — Final project ↗</span>
-            </a></td>
-            <td class="p-desc">proyecto.html</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="demo-grid">
+        <a href="https://jaramilloh.github.io/GPC-3D-figures/practica1.html" target="_blank" rel="noopener" class="demo-card">
+          <div class="demo-thumb"><img src="https://jaramilloh.github.io/GPC-3D-figures/images/screenshots/practica1.webp" alt="Práctica 1 — Hello World wireframe primitive" loading="lazy"></div>
+          <div class="demo-body">
+            <div class="demo-num">01</div>
+            <div class="demo-name">Hello World</div>
+            <div class="demo-desc">
+              <span data-l="es">Primera escena — puntos, líneas y la primitiva wireframe.</span>
+              <span data-l="en">First scene — points, lines &amp; the wireframe primitive.</span>
+            </div>
+            <div class="demo-open">Open ↗</div>
+          </div>
+        </a>
+        <a href="https://jaramilloh.github.io/GPC-3D-figures/practica2.html" target="_blank" rel="noopener" class="demo-card">
+          <div class="demo-thumb"><img src="https://jaramilloh.github.io/GPC-3D-figures/images/screenshots/practica2.webp" alt="Práctica 2 — wireframe articulated arm" loading="lazy"></div>
+          <div class="demo-body">
+            <div class="demo-num">02</div>
+            <div class="demo-name"><span data-l="es">Articulación</span><span data-l="en">Articulation</span></div>
+            <div class="demo-desc">
+              <span data-l="es">Jerarquía de articulaciones y transformaciones, en wireframe.</span>
+              <span data-l="en">Joint hierarchy &amp; transforms, shown in wireframe.</span>
+            </div>
+            <div class="demo-open">Open ↗</div>
+          </div>
+        </a>
+        <a href="https://jaramilloh.github.io/GPC-3D-figures/practica3.html" target="_blank" rel="noopener" class="demo-card">
+          <div class="demo-thumb"><img src="https://jaramilloh.github.io/GPC-3D-figures/images/screenshots/practica3.webp" alt="Práctica 3 — solid shaded arm" loading="lazy"></div>
+          <div class="demo-body">
+            <div class="demo-num">03</div>
+            <div class="demo-name"><span data-l="es">Sombreado</span><span data-l="en">Shading</span></div>
+            <div class="demo-desc">
+              <span data-l="es">Geometría sólida y superficies con normal mapping.</span>
+              <span data-l="en">Solid geometry &amp; normal-mapped surfaces.</span>
+            </div>
+            <div class="demo-open">Open ↗</div>
+          </div>
+        </a>
+        <a href="https://jaramilloh.github.io/GPC-3D-figures/practica4.html" target="_blank" rel="noopener" class="demo-card">
+          <div class="demo-thumb"><img src="https://jaramilloh.github.io/GPC-3D-figures/images/screenshots/practica4.webp" alt="Práctica 4 — arm with live joint control panel" loading="lazy"></div>
+          <div class="demo-body">
+            <div class="demo-num">04</div>
+            <div class="demo-name"><span data-l="es">Interacción</span><span data-l="en">Interaction</span></div>
+            <div class="demo-desc">
+              <span data-l="es">Controles GUI para mover cada articulación y animar.</span>
+              <span data-l="en">GUI controls to drive every joint &amp; animate.</span>
+            </div>
+            <div class="demo-open">Open ↗</div>
+          </div>
+        </a>
+        <a href="https://jaramilloh.github.io/GPC-3D-figures/practica5.html" target="_blank" rel="noopener" class="demo-card">
+          <div class="demo-thumb"><img src="https://jaramilloh.github.io/GPC-3D-figures/images/screenshots/practica5.webp" alt="Práctica 5 — textured arm with environment lighting and shadows" loading="lazy"></div>
+          <div class="demo-body">
+            <div class="demo-num">05</div>
+            <div class="demo-name"><span data-l="es">Entorno</span><span data-l="en">Environment</span></div>
+            <div class="demo-desc">
+              <span data-l="es">Texturas, skybox, luces focales y sombras proyectadas.</span>
+              <span data-l="en">Textures, skybox, focal lights &amp; cast shadows.</span>
+            </div>
+            <div class="demo-open">Open ↗</div>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -432,8 +473,31 @@
         <span data-l="es">FENOBOT — un robot de agricultura de precisión</span>
         <span data-l="en">FENOBOT — a precision-agriculture robot</span>
       </h2>
-      <p data-l="es">El proyecto final lleva todo lo aprendido a una escena más ambiciosa: <strong>FENOBOT</strong>, un robot de agricultura de precisión renderizado en three.js. A diferencia de las prácticas del brazo —construidas con geometría primitiva—, el proyecto carga modelos 3D externos, con una barra de progreso mientras los recursos se descargan antes de mostrar la escena.</p>
-      <p data-l="en">The final project takes everything learned into a more ambitious scene: <strong>FENOBOT</strong>, a precision-agriculture robot rendered in three.js. Unlike the arm practicals — built from primitive geometry — the project loads external 3D models, showing a progress bar while assets download before the scene is revealed.</p>
+
+      <div class="feature">
+        <div class="feature-media">
+          <img src="https://jaramilloh.github.io/GPC-3D-figures/images/screenshots/fenobot.webp" alt="FENOBOT autonomous phenotyping robot in a corn field" loading="lazy">
+          <span class="feature-tag">FENOBOT</span>
+        </div>
+        <div class="feature-body">
+          <h3>
+            <span data-l="es">El capstone de la asignatura</span>
+            <span data-l="en">The capstone of the course</span>
+          </h3>
+          <p data-l="es">Un robot de fenotipado autónomo modelado en 3D en tiempo real, pensado para recorrer los surcos del cultivo y capturar datos de las plantas para agricultura de precisión. Reúne geometría, articulación, materiales y control de cámara en una sola escena.</p>
+          <p data-l="en">An autonomous phenotyping robot modelled in real-time 3D, built to navigate crop rows and capture plant data for precision agriculture. It brings together geometry, articulation, materials and camera control into one scene.</p>
+          <p style="margin-top:22px">
+            <a href="https://jaramilloh.github.io/GPC-3D-figures/proyecto.html" target="_blank" rel="noopener" class="btn btn-primary">
+              <span data-l="es">Lanzar demo</span>
+              <span data-l="en">Launch demo</span>
+              <span style="font-family:'JetBrains Mono',monospace">→</span>
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <p data-l="es">A diferencia de las prácticas del brazo —construidas con geometría primitiva—, el proyecto carga modelos 3D externos, con una barra de progreso mientras los recursos se descargan antes de mostrar la escena.</p>
+      <p data-l="en">Unlike the arm practicals — built from primitive geometry — the project loads external 3D models, showing a progress bar while assets download before the scene is revealed.</p>
 
       <div class="callout">
         <p data-l="es"><strong>Heads-up:</strong> FENOBOT carga modelos 3D, así que tarda unos segundos en aparecer (vas a ver <code>Cargando…</code>). Dale tiempo y usá un equipo de escritorio para la mejor experiencia.</p>
