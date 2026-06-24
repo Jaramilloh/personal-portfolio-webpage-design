@@ -58,6 +58,7 @@ jobs:
           mkdir -p _site/writing
           cp writing/protocolo.html "_site/writing/protocolo.html"
           cp writing/lytro-lightfield.html "_site/writing/lytro-lightfield.html"
+          cp writing/gpc-3d-figures.html "_site/writing/gpc-3d-figures.html"
 
           # Pages serves index.html at the subpath root; the repo's canonical
           # entry keeps its original name, so mirror it as index.html here.
