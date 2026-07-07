@@ -12,29 +12,29 @@ const html = readFileSync(join(root, 'Juan Felipe Jaramillo.dc.html'), 'utf8');
 const blogStart = html.indexOf('<section id="blog"');
 const blog = html.slice(blogStart, html.indexOf('</section>', blogStart));
 
-describe('section 09 — published Protocolo guide', () => {
+describe('section 09 — published DevEnvSetup guide', () => {
   it('ships the self-contained guide asset under writing/', () => {
-    const asset = join(root, 'writing', 'protocolo.html');
+    const asset = join(root, 'writing', 'dev-env-setup.html');
     expect(existsSync(asset)).toBe(true);
     // The guide is a fully-inlined, self-contained document — never an empty stub.
     expect(statSync(asset).size).toBeGreaterThan(100_000);
   });
 
   it('turns the first card into a live link to the guide', () => {
-    expect(blog).toContain('href="writing/protocolo.html"');
+    expect(blog).toContain('href="writing/dev-env-setup.html"');
     expect(blog).toContain('Armá tu entorno de desarrollo con IA — Windows + WSL2');
   });
 
   it('opens the guide in a new tab without leaking the opener', () => {
-    const anchor = blog.slice(blog.indexOf('href="writing/protocolo.html"'));
+    const anchor = blog.slice(blog.indexOf('href="writing/dev-env-setup.html"'));
     expect(anchor).toContain('target="_blank"');
     expect(anchor).toContain('rel="noopener"');
   });
 
   it('marks the entry published as the first card', () => {
-    const linkIdx = blog.indexOf('href="writing/protocolo.html"');
+    const linkIdx = blog.indexOf('href="writing/dev-env-setup.html"');
     expect(linkIdx).toBeGreaterThan(-1);
-    // Protocolo is the first card — it precedes every other note card in the grid.
+    // DevEnvSetup is the first card — it precedes every other note card in the grid.
     expect(blog.indexOf('href="writing/lytro-lightfield.html"')).toBeGreaterThan(linkIdx);
     expect(blog).toContain('publicado · ~30 min · 9 etapas');
   });
@@ -67,8 +67,8 @@ describe('section 09 — published Lytro note', () => {
     expect(blog).toContain('publicado · ~10 min · 6 secciones');
   });
 
-  it('Lytro card appears after Protocolo card', () => {
-    const protocoloIdx = blog.indexOf('href="writing/protocolo.html"');
+  it('Lytro card appears after DevEnvSetup card', () => {
+    const protocoloIdx = blog.indexOf('href="writing/dev-env-setup.html"');
     const lytroIdx = blog.indexOf('href="writing/lytro-lightfield.html"');
     expect(protocoloIdx).toBeGreaterThan(-1);
     expect(lytroIdx).toBeGreaterThan(protocoloIdx);
@@ -103,8 +103,8 @@ describe('section 09 — published ablation note', () => {
     expect(blog).toContain('publicado · ~6 min · 6 secciones');
   });
 
-  it('ablation card sits between Protocolo and Lytro cards', () => {
-    const protocoloIdx = blog.indexOf('href="writing/protocolo.html"');
+  it('ablation card sits between DevEnvSetup and Lytro cards', () => {
+    const protocoloIdx = blog.indexOf('href="writing/dev-env-setup.html"');
     const ablationIdx = blog.indexOf('href="writing/ablation-driven-detector.html"');
     const lytroIdx = blog.indexOf('href="writing/lytro-lightfield.html"');
     expect(ablationIdx).toBeGreaterThan(protocoloIdx);
