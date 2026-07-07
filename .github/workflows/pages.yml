@@ -54,9 +54,9 @@ jobs:
           # Publish the standalone "writing/" guides: self-contained HTML served
           # as-is (like the entry). This assembler is an allowlist — files not
           # copied here are NOT deployed, so new writing/ assets must be added.
-          # The editable .dc.html source (writing/Protocolo.dc.html) stays unpublished.
+          # The editable .dc.html source (writing/DevEnvSetup.dc.html) stays unpublished.
           mkdir -p _site/writing
-          cp writing/protocolo.html "_site/writing/protocolo.html"
+          cp writing/dev-env-setup.html "_site/writing/dev-env-setup.html"
           cp writing/lytro-lightfield.html "_site/writing/lytro-lightfield.html"
           cp writing/gpc-3d-figures.html "_site/writing/gpc-3d-figures.html"
           cp writing/ablation-driven-detector.html "_site/writing/ablation-driven-detector.html"
