@@ -63,7 +63,35 @@ describe('bundled page integrity', () => {
       
       expect(matches).toBeNull();
     });
-    
+
+    it('does not contain a literal </x-dc> that the runtime re-parse would mis-extract', () => {
+      const jsonStr = extractTemplateJson(html);
+
+      // The dc-runtime boot() renders the clean DOM first, then runs
+      // `fetch(location.href)` on the raw bundle file and calls parseDcText()
+      // on the text. parseDcText slices between `<x-dc...>` and the LAST
+      // literal `</x-dc>`. In the raw file the template lives JSON-encoded,
+      // so a literal `</x-dc>` lets parseDcText extract the *escaped* template
+      // (quotes as \", newlines as \n) and updateHtml() overwrites the good
+      // render with that garbage — the page shows literal \n and \" everywhere.
+      //
+      // Encoding every `</` as `<\/` (valid JSON escape for `</`, decoded back
+      // to `</` by the loader's JSON.parse) removes the literal closing tag, so
+      // lastIndexOf('</x-dc>') returns -1 and the re-parse is a no-op.
+      expect(jsonStr).not.toContain('</x-dc>');
+    });
+
+    it('escapes every closing tag so no literal </ leaks into the raw file', () => {
+      const jsonStr = extractTemplateJson(html);
+
+      // Any literal `</tag>` in the encoded template line is a latent hazard:
+      // `</script>` truncates the host <script> tag, `</x-dc>` derails the
+      // runtime re-parse. The canonical bundler encoding escapes them all as
+      // `<\/tag>`. Assert there is no unescaped `</` left on the template line.
+      const unescaped = (jsonStr.match(/(^|[^\\])<\//g) || []).length;
+      expect(unescaped).toBe(0);
+    });
+
     it('template has matching opening and closing script tags', () => {
       const jsonStr = extractTemplateJson(html);
       const template = JSON.parse(jsonStr);
