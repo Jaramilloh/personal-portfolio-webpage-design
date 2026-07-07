@@ -64,6 +64,17 @@ describe('bundled page integrity', () => {
       expect(matches).toBeNull();
     });
     
+    it('template has matching opening and closing script tags', () => {
+      const jsonStr = extractTemplateJson(html);
+      const template = JSON.parse(jsonStr);
+      
+      const openScripts = (template.match(/<script/g) || []).length;
+      const closeScripts = (template.match(/<\/script>/g) || []).length;
+      
+      expect(openScripts).toBe(closeScripts);
+      expect(openScripts).toBeGreaterThan(0);
+    });
+    
     it('escapes closing script tags as <\\/script>', () => {
       const jsonStr = extractTemplateJson(html);
       
@@ -78,8 +89,15 @@ describe('bundled page integrity', () => {
       // All script closing tags should be escaped
       expect(unescaped).toBe(0);
       
-      // If there are any script tags, they should be escaped
-      if (escaped > 0 || unescaped > 0) {
+      // Parse and verify the template has proper closing tags
+      const template = JSON.parse(jsonStr);
+      const openScripts = (template.match(/<script/g) || []).length;
+      const closeScripts = (template.match(/<\/script>/g) || []).length;
+      
+      // If there are open script tags, there must be matching close tags
+      if (openScripts > 0) {
+        expect(closeScripts).toBe(openScripts);
+        // And the JSON must have had escaped closing tags
         expect(escaped).toBeGreaterThan(0);
       }
     });
